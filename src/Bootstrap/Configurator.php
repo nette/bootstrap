@@ -85,7 +85,7 @@ class Configurator extends Object
 			}
 
 		case 'debug':
-			// determines if the debugger is active
+			// Determines whether the debugger is active
 			if (defined('DEBUG_MODE')) {
 				return (bool) DEBUG_MODE;
 
@@ -206,7 +206,7 @@ class Configurator extends Object
 						set_time_limit($value);
 						break;
 					default:
-						throw new /*::*/NotSupportedException('Function ini_set() is not enabled.');
+						throw new /*::*/NotSupportedException('Required function ini_set() is disabled.');
 					}
 				}
 			}
