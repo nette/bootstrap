@@ -37,6 +37,12 @@ class Configurator extends Object
 		'extensions' => 'Nette\DI\Extensions\ExtensionsExtension',
 	);
 
+	/** @var string[] of classes which shouldn't be autowired */
+	public $autowireExcludedClasses = array(
+		'Nette\Application\UI\Control',
+		'stdClass',
+	);
+
 	/** @var array */
 	protected $parameters;
 
@@ -193,6 +199,8 @@ class Configurator extends Object
 
 		$me = $this;
 		$factory->onCompile[] = function(DI\ContainerFactory $factory, DI\Compiler $compiler, $config) use ($me) {
+			$compiler->getContainerBuilder()->addExcludedClasses($me->autowireExcludedClasses);
+
 			foreach ($me->defaultExtensions as $name => $class) {
 				if (class_exists($class)) {
 					$compiler->addExtension($name, new $class);
