@@ -52,7 +52,7 @@ Assert::type( 'Nette\Application\PresenterFactory', $container->getService('nett
 Assert::type( 'Nette\Mail\SendmailMailer', $container->getService('nette.mailer') );
 
 Assert::type( 'Nette\Latte\Engine', $container->createService('nette.latte') );
-Assert::type( 'Nette\Templating\FileTemplate', $container->createService('nette.template') );
+Assert::type( 'Nette\Bridges\ApplicationLatte\TemplateFactory', $container->createService('nette.template') );
 
 if (PHP_SAPI !== 'cli') {
 	$headers = headers_list();

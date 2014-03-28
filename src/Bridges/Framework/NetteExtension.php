@@ -287,14 +287,11 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			->setAutowired(FALSE);
 
 		if ($config['xhtml']) {
-			$latte->addSetup('$service->getCompiler()->defaultContentType = ?', array(Nette\Latte\Compiler::CONTENT_XHTML));
+			$latte->addSetup('setContentType', array(Nette\Latte\Compiler::CONTENT_XHTML));
 		}
 
 		$container->addDefinition($this->prefix('template'))
-			->setClass('Nette\Templating\FileTemplate')
-			->addSetup('registerFilter', array($latte))
-			->addSetup('registerHelperLoader', array('Nette\Latte\Runtime\Filters::loader'))
-			->setAutowired(FALSE);
+			->setClass('Nette\Bridges\ApplicationLatte\TemplateFactory');
 
 		foreach ($config['macros'] as $macro) {
 			if (strpos($macro, '::') === FALSE && class_exists($macro)) {
