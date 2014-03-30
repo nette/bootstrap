@@ -1,0 +1,41 @@
+{
+	"name": "nette/bootstrap",
+	"description": "Nette Bootstrap",
+	"homepage": "http://nette.org",
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "David Grudl",
+			"homepage": "http://davidgrudl.com"
+		},
+		{
+			"name": "Nette Community",
+			"homepage": "http://nette.org/contributors"
+		}
+	],
+	"require": {
+		"php": ">=5.3.1",
+		"nette/di": "~2.2",
+		"nette/utils": "~2.2"
+	},
+	"require-dev": {
+		"nette/application": "~2.2",
+		"nette/database": "~2.2",
+		"nette/mail": "~2.2",
+		"nette/robot-loader": "~2.2",
+		"nette/safe-stream": "~2.2",
+		"nette/security": "~2.2",
+		"latte/latte": "~2.2",
+		"tracy/tracy": "~2.2",
+		"nette/tester": "~1.0"
+	},
+	"autoload": {
+		"classmap": ["src/"]
+	},
+	"minimum-stability": "dev",
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.2-dev"
+		}
+	}
+}
