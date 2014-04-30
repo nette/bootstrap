@@ -117,10 +117,12 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		$container->addDefinition('cacheStorage') // no namespace for back compatibility
 			->setClass('Nette\Caching\Storages\FileStorage', array($container->expand('%tempDir%/cache')));
 
-		$container->addDefinition($this->prefix('templateCacheStorage'))
-			->setClass('Nette\Caching\Storages\PhpFileStorage', array($container->expand('%tempDir%/cache')))
-			->addSetup('::trigger_error', array('Service templateCacheStorage is deprecated.', E_USER_DEPRECATED))
-			->setAutowired(FALSE);
+		if (class_exists('Nette\Caching\Storages\PhpFileStorage')) {
+			$container->addDefinition($this->prefix('templateCacheStorage'))
+				->setClass('Nette\Caching\Storages\PhpFileStorage', array($container->expand('%tempDir%/cache')))
+				->addSetup('::trigger_error', array('Service templateCacheStorage is deprecated.', E_USER_DEPRECATED))
+				->setAutowired(FALSE);
+		}
 
 		$container->addDefinition($this->prefix('cache'))
 			->setClass('Nette\Caching\Cache', array(1 => $container::literal('$namespace')))
@@ -271,15 +273,32 @@ class NetteExtension extends Nette\DI\CompilerExtension
 	{
 		$this->validate($config, $this->defaults['latte'], 'nette.latte');
 
-		$latte = $container->addDefinition($this->prefix('latte'))
+		$latteFactory = $container->addDefinition($this->prefix('latteFactory'))
 			->setClass('Latte\Engine')
 			->addSetup('setTempDirectory', array($container->expand('%tempDir%/cache/latte')))
 			->addSetup('setAutoRefresh', array($container->parameters['debugMode']))
 			->addSetup('setContentType', array($config['xhtml'] ? Latte\Compiler::CONTENT_XHTML : Latte\Compiler::CONTENT_HTML))
 			->setImplement('Nette\Bridges\Framework\ILatteFactory');
 
-		$container->addDefinition($this->prefix('template'))
+		$container->addDefinition($this->prefix('templateFactory'))
 			->setClass('Nette\Bridges\ApplicationLatte\TemplateFactory');
+
+		$container->addDefinition($this->prefix('latte'))
+			->setClass('Latte\Engine')
+			->addSetup('::trigger_error', array('Service nette.template is deprecated.', E_USER_DEPRECATED))
+			->addSetup('setTempDirectory', array($container->expand('%tempDir%/cache/latte')))
+			->addSetup('setAutoRefresh', array($container->parameters['debugMode']))
+			->addSetup('setContentType', array($config['xhtml'] ? Latte\Compiler::CONTENT_XHTML : Latte\Compiler::CONTENT_HTML))
+			->setAutowired(FALSE);
+
+		if (class_exists('Nette\Templating\FileTemplate')) {
+			$container->addDefinition($this->prefix('template'))
+				->setClass('Nette\Templating\FileTemplate')
+				->addSetup('::trigger_error', array('Service nette.template is deprecated.', E_USER_DEPRECATED))
+				->addSetup('registerFilter', array(new Nette\DI\Statement(array($latteFactory, 'create'))))
+				->addSetup('registerHelperLoader', array('Nette\Templating\Helpers::loader'))
+				->setAutowired(FALSE);
+		}
 	}
 
 
