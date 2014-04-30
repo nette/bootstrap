@@ -22,12 +22,13 @@ class TracyBridge
 
 	public static function initialize()
 	{
-		$bar = Tracy\Debugger::getBar();
-		$bar->info[] = 'Nette Framework ' . Nette\Framework::VERSION . ' (' . substr(Nette\Framework::REVISION, 8) . ')';
-
 		$blueScreen = Tracy\Debugger::getBlueScreen();
 		$blueScreen->collapsePaths[] = dirname(dirname(__DIR__));
-		$blueScreen->info[] = 'Nette Framework ' . Nette\Framework::VERSION . ' (revision ' . Nette\Framework::REVISION . ')';
+
+		if (class_exists('Nette\Framework')) {
+			$bar = Tracy\Debugger::getBar();
+			$bar->info[] = $blueScreen->info[] = 'Nette Framework ' . Nette\Framework::VERSION . ' (' . substr(Nette\Framework::REVISION, 8) . ')';
+		}
 
 		$blueScreen->addPanel(function($e) {
 			if ($e instanceof Latte\CompileException) {

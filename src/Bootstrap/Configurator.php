@@ -168,7 +168,9 @@ class Configurator extends Object
 	{
 		$container = $this->createContainerFactory()->create();
 		$container->initialize();
-		Nette\Environment::setContext($container); // back compatibility
+		if (class_exists('Nette\Environment')) {
+			Nette\Environment::setContext($container); // back compatibility
+		}
 		return $container;
 	}
 
