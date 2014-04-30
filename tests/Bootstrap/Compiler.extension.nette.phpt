@@ -56,8 +56,8 @@ require TEMP_DIR . '/code.php';
 $container = new Container;
 
 
-Assert::type( 'Nette\Bridges\ApplicationLatte\ILatteFactory', $container->getService('nette.latteFactory') );
-$container->getService('nette.latteFactory')->create()->setLoader(new Latte\Loaders\StringLoader)->compile('');
+Assert::type( 'Latte\Engine', $container->createService('nette.latte') );
+$container->createService('nette.latte')->setLoader(new Latte\Loaders\StringLoader)->compile('');
 
 Assert::same(array(
 	'LoremIpsumMacros',
