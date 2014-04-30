@@ -95,6 +95,7 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			$config['latte']['xhtml'] = $config['xhtml'];
 			unset($config['xhtml']);
 		}
+		$container->addDefinition('nette')->setClass('Nette\Bridges\Framework\NetteAccessor', array('@container'));
 
 		$this->validate($config, $this->defaults, 'nette');
 

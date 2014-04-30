@@ -22,7 +22,11 @@ use Nette,
  */
 class Configurator extends Object
 {
-	const AUTO = TRUE,
+	const AUTO = TRUE;
+
+	/** @deprecated */
+	const DEVELOPMENT = 'development',
+		PRODUCTION = 'production',
 		NONE = FALSE;
 
 	/** @var array of function(Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
@@ -205,7 +209,7 @@ class Configurator extends Object
 	protected function getCacheDirectory()
 	{
 		if (empty($this->parameters['tempDir'])) {
-			throw new Nette\InvalidStateException("Set path to temporary directory using setTempDirectory().");
+			throw new Nette\InvalidStateException('Set path to temporary directory using setTempDirectory().');
 		}
 		$dir = $this->parameters['tempDir'] . '/cache';
 		if (!is_dir($dir)) {
