@@ -30,7 +30,7 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		),
 		'session' => array(
 			'debugger' => FALSE,
-			'autoStart' => 'smart',  // true|false|smart
+			'autoStart' => 'smart', // true|false|smart
 			'expiration' => NULL,
 		),
 		'application' => array(
@@ -65,6 +65,7 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		),
 		'latte' => array(
 			'xhtml' => FALSE,
+			'macros' => array(),
 		),
 		'container' => array(
 			'debugger' => FALSE,
@@ -283,13 +284,23 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		$container->addDefinition($this->prefix('templateFactory'))
 			->setClass('Nette\Bridges\ApplicationLatte\TemplateFactory');
 
-		$container->addDefinition($this->prefix('latte'))
+		$latte = $container->addDefinition($this->prefix('latte'))
 			->setClass('Latte\Engine')
-			->addSetup('::trigger_error', array('Service nette.template is deprecated.', E_USER_DEPRECATED))
+			->addSetup('::trigger_error', array('Service nette.latte is deprecated, implement Nette\Bridges\Framework\ILatteFactory.', E_USER_DEPRECATED))
 			->addSetup('setTempDirectory', array($container->expand('%tempDir%/cache/latte')))
 			->addSetup('setAutoRefresh', array($container->parameters['debugMode']))
 			->addSetup('setContentType', array($config['xhtml'] ? Latte\Compiler::CONTENT_XHTML : Latte\Compiler::CONTENT_HTML))
 			->setAutowired(FALSE);
+
+		foreach ($config['macros'] as $macro) {
+			if (strpos($macro, '::') === FALSE && class_exists($macro)) {
+				$macro .= '::install';
+			} else {
+				Validators::assert($macro, 'callable');
+			}
+			$latte->addSetup('?->onCompile[] = function($engine) { ' . $macro . '($engine->getCompiler()); }', array('@self'));
+			$latteFactory->addSetup('?->onCompile[] = function($engine) { ' . $macro . '($engine->getCompiler()); }', array('@self'));
+		}
 
 		if (class_exists('Nette\Templating\FileTemplate')) {
 			$container->addDefinition($this->prefix('template'))
