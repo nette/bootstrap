@@ -56,4 +56,4 @@ That's it.
 
 -----
 
-[![Build Status](https://secure.travis-ci.org/nette/bootstrap.png?branch=master)](http://travis-ci.org/nette/bootstrap)
+[![Build Status](https://secure.travis-ci.org/nette/bootstrap.png?branch=v2.2)](http://travis-ci.org/nette/bootstrap)
