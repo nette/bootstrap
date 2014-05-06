@@ -150,7 +150,8 @@ class Configurator extends Object
 	{
 		if ($section === NULL && $this->parameters['debugMode']) { // back compatibility
 			try {
-				$this->createLoader()->load($file, $this->parameters['environment']);
+				$loader = new DI\Config\Loader;
+				$loader->load($file, $this->parameters['environment']);
 				trigger_error("Config file '$file' has sections, call addConfig() with second parameter Configurator::AUTO.", E_USER_WARNING);
 				$section = $this->parameters['environment'];
 			} catch (\Exception $e) {}
