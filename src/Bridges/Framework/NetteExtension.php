@@ -129,7 +129,8 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		$container->addDefinition($this->prefix('cache'))
 			->setClass('Nette\Caching\Cache', array(1 => $container::literal('$namespace')))
 			->addSetup('::trigger_error', array('Service cache is deprecated.', E_USER_DEPRECATED))
-			->setParameters(array('namespace' => NULL));
+			->setParameters(array('namespace' => NULL))
+			->setAutowired(FALSE);
 	}
 
 
