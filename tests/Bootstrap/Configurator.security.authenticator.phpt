@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Configurator and SimpleAuthenticator
- *
- * @author     David Matejka
  */
 
 use Nette\Configurator,
