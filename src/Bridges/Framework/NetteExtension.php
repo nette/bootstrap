@@ -229,9 +229,7 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		}
 
 		$presenterFactory = $container->addDefinition($this->prefix('presenterFactory'))
-			->setClass('Nette\Application\PresenterFactory', array(
-				isset($container->parameters['appDir']) ? $container->parameters['appDir'] : NULL
-			));
+			->setClass('Nette\Application\PresenterFactory');
 		if ($config['mapping']) {
 			$presenterFactory->addSetup('setMapping', array($config['mapping']));
 		}
