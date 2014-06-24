@@ -19,7 +19,7 @@
 		"nette/utils": "~2.2"
 	},
 	"require-dev": {
-		"nette/application": "~2.2",
+		"nette/application": "~2.2.0",
 		"nette/database": "~2.2",
 		"nette/mail": "~2.2",
 		"nette/robot-loader": "~2.2",
