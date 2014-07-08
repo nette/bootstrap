@@ -47,6 +47,9 @@ Assert::type( 'Nette\Application\Application', $container->getService('applicati
 Assert::type( 'Nette\Application\Routers\RouteList', $container->getService('router') );
 Assert::type( 'Nette\Application\PresenterFactory', $container->getService('nette.presenterFactory') );
 Assert::type( 'Nette\Mail\SendmailMailer', $container->getService('nette.mailer') );
+Assert::type( 'Tracy\Logger', $container->getService('nette.logger') );
+Assert::type( 'Tracy\BlueScreen', $container->getService('nette.blueScreen') );
+Assert::type( 'Tracy\Bar', $container->getService('nette.bar') );
 
 Assert::type( 'Nette\Bridges\ApplicationLatte\ILatteFactory', $container->createService('nette.latteFactory') );
 Assert::type( 'Nette\Bridges\ApplicationLatte\TemplateFactory', $container->createService('nette.templateFactory') );

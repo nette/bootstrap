@@ -100,6 +100,7 @@ class NetteExtension extends Nette\DI\CompilerExtension
 
 		$this->setupCache($container);
 		$this->setupHttp($container, $config['http']);
+		$this->setupTracy($container, $config['debugger']);
 		$this->setupSession($container, $config['session']);
 		$this->setupSecurity($container, $config['security']);
 		$this->setupApplication($container, $config['application']);
@@ -153,6 +154,19 @@ class NetteExtension extends Nette\DI\CompilerExtension
 	}
 
 
+	private function setupTracy(ContainerBuilder $container, array $config)
+	{
+		$container->addDefinition($this->prefix('logger'))
+			->setFactory('Tracy\Debugger::getLogger');
+
+		$container->addDefinition($this->prefix('blueScreen'))
+			->setFactory('Tracy\Debugger::getBlueScreen');
+
+		$container->addDefinition($this->prefix('bar'))
+			->setFactory('Tracy\Debugger::getBar');
+	}
+
+
 	private function setupSession(ContainerBuilder $container, array $config)
 	{
 		$session = $container->addDefinition('session') // no namespace for back compatibility
@@ -163,7 +177,7 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		}
 
 		if ($container->parameters['debugMode'] && $config['debugger']) {
-			$session->addSetup('Tracy\Debugger::getBar()->addPanel(?)', array(
+			$session->addSetup($this->prefix('@bar::addPanel'), array(
 				new Nette\DI\Statement('Nette\Bridges\HttpTracy\SessionPanel')
 			));
 		}
@@ -186,7 +200,7 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			->setClass('Nette\Security\User');
 
 		if ($container->parameters['debugMode'] && $config['debugger']) {
-			$user->addSetup('Tracy\Debugger::getBar()->addPanel(?)', array(
+			$user->addSetup($this->prefix('@bar::addPanel'), array(
 				new Nette\DI\Statement('Nette\Bridges\SecurityTracy\UserPanel')
 			));
 		}
@@ -248,7 +262,7 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		}
 
 		if ($container->parameters['debugMode'] && $config['debugger']) {
-			$container->getDefinition('application')->addSetup('Tracy\Debugger::getBar()->addPanel(?)', array(
+			$container->getDefinition('application')->addSetup($this->prefix('@bar::addPanel'), array(
 				new Nette\DI\Statement('Nette\Bridges\ApplicationTracy\RoutingPanel')
 			));
 		}
@@ -344,16 +358,16 @@ class NetteExtension extends Nette\DI\CompilerExtension
 
 			foreach ((array) $config['debugger']['bar'] as $item) {
 				$initialize->addBody($container->formatPhp(
-					'Tracy\Debugger::getBar()->addPanel(?);',
-					Nette\DI\Compiler::filterArguments(array(is_string($item) ? new Nette\DI\Statement($item) : $item))
+					'$this->getService(?)->addPanel(?);',
+					Nette\DI\Compiler::filterArguments(array($this->prefix('bar'), is_string($item) ? new Nette\DI\Statement($item) : $item))
 				));
 			}
 		}
 
 		foreach ((array) $config['debugger']['blueScreen'] as $item) {
 			$initialize->addBody($container->formatPhp(
-					'Tracy\Debugger::getBlueScreen()->addPanel(?);',
-				Nette\DI\Compiler::filterArguments(array($item))
+				'$this->getService(?)->addPanel(?);',
+				Nette\DI\Compiler::filterArguments(array($this->prefix('blueScreen'), $item))
 			));
 		}
 
