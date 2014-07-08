@@ -65,6 +65,7 @@ class Configurator extends Object
 	{
 		$this->parameters['debugMode'] = is_string($value) || is_array($value) ? static::detectDebugMode($value) : (bool) $value;
 		$this->parameters['productionMode'] = !$this->parameters['debugMode']; // compatibility
+		$this->parameters['environment'] = $this->parameters['debugMode'] ? 'development' : 'production';
 		return $this;
 	}
 
