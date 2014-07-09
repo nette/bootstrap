@@ -314,7 +314,10 @@ class Configurator extends Object
 			: NULL;
 		$local = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? array() : array('127.0.0.1', '::1');
 
-		if (is_bool($value)) {
+		if ($value === TRUE && isset($_SERVER['REMOTE_ADDR']) && !in_array($addr, $local, TRUE)) {
+			echo __CLASS__ . '::setDebugMode(TRUE) is forbidden on production.';
+			return FALSE;
+		} elseif (is_bool($value)) {
 			return $value;
 		} elseif (!is_array($value)) {
 			$value = preg_split('#[,\s]+#', $value);

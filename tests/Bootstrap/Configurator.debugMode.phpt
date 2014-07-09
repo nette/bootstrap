@@ -19,8 +19,8 @@ test(function(){
 	$configurator = new Configurator;
 	Assert::false( $configurator->isDebugMode() );
 
-	$configurator->setDebugMode(TRUE);
-	Assert::true( $configurator->isDebugMode() );
+	$configurator->setDebugMode(TRUE); // error
+	Assert::false( $configurator->isDebugMode() );
 
 	$configurator->setDebugMode(FALSE);
 	Assert::false( $configurator->isDebugMode() );
@@ -48,7 +48,7 @@ test(function(){ // localhost
 	Assert::true( Configurator::detectDebugMode('192.168.1.1') );
 	Assert::true( Configurator::detectDebugMode('a,192.168.1.1,b') );
 	Assert::true( Configurator::detectDebugMode('a 192.168.1.1 b') );
-	Assert::true( Configurator::detectDebugMode(TRUE) );
+	Assert::false( Configurator::detectDebugMode(TRUE) ); // error
 	Assert::false( Configurator::detectDebugMode(FALSE) );
 
 	Assert::false( Configurator::detectDebugMode(array()) );
