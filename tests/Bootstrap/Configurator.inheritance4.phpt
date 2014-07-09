@@ -14,8 +14,11 @@ require __DIR__ . '/../bootstrap.php';
 $configurator = new Configurator;
 $configurator->setDebugMode(FALSE);
 $configurator->setTempDirectory(TEMP_DIR);
-$container = $configurator->addConfig('files/configurator.inheritance4.neon')
-	->createContainer();
+$configurator->addConfig(Tester\FileMock::create('
+services:
+	application:
+', 'neon'));
+$container = $configurator->createContainer();
 
 
 Assert::type( 'Nette\Application\Application', $container->getService('application') );

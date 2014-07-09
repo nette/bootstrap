@@ -17,8 +17,14 @@ if (PHP_SAPI === 'cli') {
 
 $configurator = new Configurator;
 $configurator->setTempDirectory(TEMP_DIR);
-$container = $configurator->addConfig('files/configurator.headers.neon')
-	->createContainer();
+$configurator->addConfig(Tester\FileMock::create('
+nette:
+	http:
+		headers:
+			A: b
+			C:
+', 'neon'));
+$container = $configurator->createContainer();
 
 
 $headers = headers_list();

@@ -19,8 +19,18 @@ class MyApp extends Nette\Application\Application
 $configurator = new Configurator;
 $configurator->setDebugMode(FALSE);
 $configurator->setTempDirectory(TEMP_DIR);
-$container = $configurator->addConfig('files/configurator.inheritance2.neon')
-	->createContainer();
+$configurator->addConfig(Tester\FileMock::create('
+services:
+	app2 < application: # inherits from overwritten application
+		autowired: no
+		setup!: # overwrites inherited setup
+
+	application!: # overwrites original application
+		class: MyApp
+		setup:
+			- $errorPresenter(Error)
+', 'neon'));
+$container = $configurator->createContainer();
 
 
 Assert::type( 'MyApp', $container->getService('application') );
