@@ -319,6 +319,8 @@ class Configurator extends Object
 			return FALSE;
 		} elseif (is_bool($value)) {
 			return $value;
+		} elseif ($value === 'FORCE') {
+			return TRUE;
 		} elseif (!is_array($value)) {
 			$value = preg_split('#[,\s]+#', $value);
 		}

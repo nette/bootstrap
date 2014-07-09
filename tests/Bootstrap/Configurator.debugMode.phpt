@@ -22,6 +22,9 @@ test(function(){
 	$configurator->setDebugMode(TRUE); // error
 	Assert::false( $configurator->isDebugMode() );
 
+	$configurator->setDebugMode('FORCE');
+	Assert::true( $configurator->isDebugMode() );
+
 	$configurator->setDebugMode(FALSE);
 	Assert::false( $configurator->isDebugMode() );
 
@@ -50,6 +53,7 @@ test(function(){ // localhost
 	Assert::true( Configurator::detectDebugMode('a 192.168.1.1 b') );
 	Assert::false( Configurator::detectDebugMode(TRUE) ); // error
 	Assert::false( Configurator::detectDebugMode(FALSE) );
+	Assert::true( Configurator::detectDebugMode('FORCE') );
 
 	Assert::false( Configurator::detectDebugMode(array()) );
 	Assert::true( Configurator::detectDebugMode(array('192.168.1.1')) );
