@@ -36,6 +36,8 @@ test(function(){ // localhost
 	$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 	Assert::true( Configurator::detectDebugMode() );
 	Assert::true( Configurator::detectDebugMode('192.168.1.1') );
+	Assert::true( Configurator::detectDebugMode(TRUE) );
+	Assert::false( Configurator::detectDebugMode(FALSE) );
 
 	$_SERVER['REMOTE_ADDR'] = '::1';
 	Assert::true( Configurator::detectDebugMode() );
@@ -46,6 +48,8 @@ test(function(){ // localhost
 	Assert::true( Configurator::detectDebugMode('192.168.1.1') );
 	Assert::true( Configurator::detectDebugMode('a,192.168.1.1,b') );
 	Assert::true( Configurator::detectDebugMode('a 192.168.1.1 b') );
+	Assert::true( Configurator::detectDebugMode(TRUE) );
+	Assert::false( Configurator::detectDebugMode(FALSE) );
 
 	Assert::false( Configurator::detectDebugMode(array()) );
 	Assert::true( Configurator::detectDebugMode(array('192.168.1.1')) );

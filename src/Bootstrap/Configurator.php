@@ -75,7 +75,7 @@ class Configurator extends Object
 	 */
 	public function setDebugMode($value)
 	{
-		$this->parameters['debugMode'] = is_string($value) || is_array($value) ? static::detectDebugMode($value) : (bool) $value;
+		$this->parameters['debugMode'] = static::detectDebugMode($value);
 		$this->parameters['productionMode'] = !$this->parameters['debugMode']; // compatibility
 		$this->parameters['environment'] = $this->parameters['debugMode'] ? 'development' : 'production';
 		return $this;
@@ -301,10 +301,10 @@ class Configurator extends Object
 
 	/**
 	 * Detects debug mode by IP address.
-	 * @param  string|array  IP addresses or computer names whitelist detection
+	 * @param  bool|string|array  IP addresses or computer names whitelist
 	 * @return bool
 	 */
-	public static function detectDebugMode($list = NULL)
+	public static function detectDebugMode($value = NULL)
 	{
 		$addr = isset($_SERVER['REMOTE_ADDR'])
 			? $_SERVER['REMOTE_ADDR']
@@ -312,14 +312,15 @@ class Configurator extends Object
 		$secret = isset($_COOKIE[self::COOKIE_SECRET]) && is_string($_COOKIE[self::COOKIE_SECRET])
 			? $_COOKIE[self::COOKIE_SECRET]
 			: NULL;
-		$list = is_string($list)
-			? preg_split('#[,\s]+#', $list)
-			: (array) $list;
-		if (!isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-			$list[] = '127.0.0.1';
-			$list[] = '::1';
+		$local = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? array() : array('127.0.0.1', '::1');
+
+		if (is_bool($value)) {
+			return $value;
+		} elseif (!is_array($value)) {
+			$value = preg_split('#[,\s]+#', $value);
 		}
-		return in_array($addr, $list, TRUE) || in_array("$secret@$addr", $list, TRUE);
+		$list = array_flip(array_merge($local, $value));
+		return isset($list[$addr]) || isset($list["$secret@$addr"]);
 	}
 
 }
