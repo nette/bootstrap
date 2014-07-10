@@ -76,3 +76,15 @@ test(function(){ // missing $_SERVER['REMOTE_ADDR']
 	Assert::true( Configurator::detectDebugMode(php_uname('n')) );
 	Assert::true( Configurator::detectDebugMode(array(php_uname('n'))) );
 });
+
+
+test(function(){ // secret
+	unset($_SERVER['HTTP_X_FORWARDED_FOR']);
+	$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
+	$_COOKIE['nette-debug'] = '*secret*';
+
+	Assert::false( Configurator::detectDebugMode() );
+	Assert::true( Configurator::detectDebugMode('192.168.1.1') );
+	Assert::false( Configurator::detectDebugMode('abc@192.168.1.1') );
+	Assert::true( Configurator::detectDebugMode('*secret*@192.168.1.1') );
+});
