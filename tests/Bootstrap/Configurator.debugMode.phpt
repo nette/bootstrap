@@ -87,4 +87,7 @@ test(function(){ // secret
 	Assert::true( Configurator::detectDebugMode('192.168.1.1') );
 	Assert::false( Configurator::detectDebugMode('abc@192.168.1.1') );
 	Assert::true( Configurator::detectDebugMode('*secret*@192.168.1.1') );
+
+	$_COOKIE['nette-debug'] = array('*secret*');
+	Assert::false( Configurator::detectDebugMode('*secret*@192.168.1.1') );
 });
