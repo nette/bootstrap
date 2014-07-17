@@ -81,13 +81,13 @@ test(function(){ // missing $_SERVER['REMOTE_ADDR']
 test(function(){ // secret
 	unset($_SERVER['HTTP_X_FORWARDED_FOR']);
 	$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
-	$_COOKIE['nette-debug'] = '*secret*';
+	$_COOKIE[Configurator::COOKIE_SECRET] = '*secret*';
 
 	Assert::false( Configurator::detectDebugMode() );
 	Assert::true( Configurator::detectDebugMode('192.168.1.1') );
 	Assert::false( Configurator::detectDebugMode('abc@192.168.1.1') );
 	Assert::true( Configurator::detectDebugMode('*secret*@192.168.1.1') );
 
-	$_COOKIE['nette-debug'] = array('*secret*');
+	$_COOKIE[Configurator::COOKIE_SECRET] = array('*secret*');
 	Assert::false( Configurator::detectDebugMode('*secret*@192.168.1.1') );
 });
