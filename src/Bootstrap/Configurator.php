@@ -238,7 +238,7 @@ class Configurator extends Object
 	public static function detectDebugMode($list = NULL)
 	{
 		$addr = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : php_uname('n');
-		$secret = isset($_COOKIE['nette-debug']) ? $_COOKIE['nette-debug'] : NULL;
+		$secret = isset($_COOKIE['nette-debug']) && is_string($_COOKIE['nette-debug']) ? $_COOKIE['nette-debug'] : NULL;
 		$list = is_string($list) ? preg_split('#[,\s]+#', $list) : (array) $list;
 		if (!isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 			$list[] = '127.0.0.1';
