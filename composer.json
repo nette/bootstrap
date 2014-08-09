@@ -17,14 +17,17 @@
 		"php": ">=5.3.1",
 		"latte/latte": "~2.2",
 		"nette/di": "~2.2",
-		"nette/robot-loader": "~2.2",
 		"nette/utils": "~2.2",
 		"tracy/tracy": "~2.2"
+	},
+	"suggest": {
+		"nette/robot-loader": "to use Configurator::createRobotLoader()"
 	},
 	"require-dev": {
 		"nette/application": "~2.2.0",
 		"nette/database": "~2.2",
 		"nette/mail": "~2.2",
+		"nette/robot-loader": "~2.2",
 		"nette/safe-stream": "~2.2",
 		"nette/security": "~2.2",
 		"nette/tester": "~1.0"

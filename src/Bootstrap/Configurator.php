@@ -138,9 +138,14 @@ class Configurator extends Object
 
 	/**
 	 * @return Nette\Loaders\RobotLoader
+	 * @throws Nette\NotSupportedException if RobotLoader is not available
 	 */
 	public function createRobotLoader()
 	{
+		if (!class_exists('Nette\Loaders\RobotLoader')) {
+			throw new Nette\NotSupportedException('RobotLoader not found, do you have `nette/robot-loader` package installed?');
+		}
+
 		$loader = new Nette\Loaders\RobotLoader;
 		$loader->setCacheStorage(new Nette\Caching\Storages\FileStorage($this->getCacheDirectory()));
 		$loader->autoRebuild = $this->parameters['debugMode'];
