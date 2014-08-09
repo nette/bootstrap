@@ -36,6 +36,7 @@ class Configurator extends Object
 		'constants' => 'Nette\DI\Extensions\ConstantsExtension',
 		'nette' => 'Nette\Bridges\Framework\NetteExtension',
 		'database' => 'Nette\Bridges\DatabaseDI\DatabaseExtension',
+		'mail' => 'Nette\Bridges\MailDI\MailExtension',
 		'extensions' => 'Nette\DI\Extensions\ExtensionsExtension',
 	);
 
