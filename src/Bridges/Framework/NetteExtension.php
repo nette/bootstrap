@@ -8,9 +8,7 @@
 namespace Nette\Bridges\Framework;
 
 use Nette,
-	Nette\DI\ContainerBuilder,
-	Nette\Utils\Validators,
-	Latte;
+	Nette\DI\ContainerBuilder;
 
 
 /**
@@ -63,10 +61,7 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		'forms' => array(
 			'messages' => array(),
 		),
-		'latte' => array(
-			'xhtml' => FALSE,
-			'macros' => array(),
-		),
+		'latte' => array(), // BC
 		'container' => array(
 			'debugger' => FALSE,
 			'accessors' => FALSE,
@@ -91,11 +86,7 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		$container = $this->getContainerBuilder();
 		$config = $this->getConfig($this->defaults);
 
-		if (isset($config['xhtml'])) {
-			$config['latte']['xhtml'] = $config['xhtml'];
-			unset($config['xhtml']);
-		}
-
+		unset($config['xhtml']);
 		$this->validate($config, $this->defaults, 'nette');
 
 		$this->setupCache($container);
@@ -106,7 +97,6 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		$this->setupApplication($container, $config['application']);
 		$this->setupRouting($container, $config['routing']);
 		$this->setupMailer($container, $config['mailer']);
-		$this->setupLatte($container, $config['latte']);
 		$this->setupContainer($container, $config['container']);
 	}
 
@@ -283,49 +273,6 @@ class NetteExtension extends Nette\DI\CompilerExtension
 	}
 
 
-	private function setupLatte(ContainerBuilder $container, array $config)
-	{
-		$this->validate($config, $this->defaults['latte'], 'nette.latte');
-
-		$latteFactory = $container->addDefinition($this->prefix('latteFactory'))
-			->setClass('Latte\Engine')
-			->addSetup('setTempDirectory', array($container->expand('%tempDir%/cache/latte')))
-			->addSetup('setAutoRefresh', array($container->parameters['debugMode']))
-			->addSetup('setContentType', array($config['xhtml'] ? Latte\Compiler::CONTENT_XHTML : Latte\Compiler::CONTENT_HTML))
-			->setImplement('Nette\Bridges\ApplicationLatte\ILatteFactory');
-
-		$container->addDefinition($this->prefix('templateFactory'))
-			->setClass('Nette\Bridges\ApplicationLatte\TemplateFactory');
-
-		$latte = $container->addDefinition($this->prefix('latte'))
-			->setClass('Latte\Engine')
-			->addSetup('::trigger_error', array('Service nette.latte is deprecated, implement Nette\Bridges\ApplicationLatte\ILatteFactory.', E_USER_DEPRECATED))
-			->addSetup('setTempDirectory', array($container->expand('%tempDir%/cache/latte')))
-			->addSetup('setAutoRefresh', array($container->parameters['debugMode']))
-			->addSetup('setContentType', array($config['xhtml'] ? Latte\Compiler::CONTENT_XHTML : Latte\Compiler::CONTENT_HTML))
-			->setAutowired(FALSE);
-
-		foreach ($config['macros'] as $macro) {
-			if (strpos($macro, '::') === FALSE && class_exists($macro)) {
-				$macro .= '::install';
-			} else {
-				Validators::assert($macro, 'callable');
-			}
-			$latte->addSetup('?->onCompile[] = function($engine) { ' . $macro . '($engine->getCompiler()); }', array('@self'));
-			$latteFactory->addSetup('?->onCompile[] = function($engine) { ' . $macro . '($engine->getCompiler()); }', array('@self'));
-		}
-
-		if (class_exists('Nette\Templating\FileTemplate')) {
-			$container->addDefinition($this->prefix('template'))
-				->setClass('Nette\Templating\FileTemplate')
-				->addSetup('::trigger_error', array('Service nette.template is deprecated.', E_USER_DEPRECATED))
-				->addSetup('registerFilter', array(new Nette\DI\Statement(array($latteFactory, 'create'))))
-				->addSetup('registerHelperLoader', array('Nette\Templating\Helpers::loader'))
-				->setAutowired(FALSE);
-		}
-	}
-
-
 	private function setupContainer(ContainerBuilder $container, array $config)
 	{
 		$this->validate($config, $this->defaults['container'], 'nette.container');
@@ -383,10 +330,6 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			$initialize->addBody('$this->getByType("Nette\Http\Session")->exists() && $this->getByType("Nette\Http\Session")->start();');
 		} elseif ($config['session']['autoStart']) {
 			$initialize->addBody('$this->getByType("Nette\Http\Session")->start();');
-		}
-
-		if ($config['latte']['xhtml']) {
-			$initialize->addBody('Nette\Utils\Html::$xhtml = ?;', array(TRUE));
 		}
 
 		if (isset($config['security']['frames']) && $config['security']['frames'] !== TRUE) {
