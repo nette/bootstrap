@@ -50,15 +50,7 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			'roles' => array(), // of [role => parents]
 			'resources' => array(), // of [resource => parents]
 		),
-		'mailer' => array(
-			'smtp' => FALSE,
-			'host' => NULL,
-			'port' => NULL,
-			'username' => NULL,
-			'password' => NULL,
-			'secure' => NULL,
-			'timeout' => NULL,
-		),
+		'mailer' => array(), // BC
 		'database' => array(), // BC
 		'forms' => array(
 			'messages' => array(),
@@ -105,7 +97,6 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		$this->setupSecurity($container, $config['security']);
 		$this->setupApplication($container, $config['application']);
 		$this->setupRouting($container, $config['routing']);
-		$this->setupMailer($container, $config['mailer']);
 		$this->setupLatte($container, $config['latte']);
 		$this->setupContainer($container, $config['container']);
 	}
@@ -265,20 +256,6 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			$container->getDefinition('application')->addSetup($this->prefix('@bar::addPanel'), array(
 				new Nette\DI\Statement('Nette\Bridges\ApplicationTracy\RoutingPanel')
 			));
-		}
-	}
-
-
-	private function setupMailer(ContainerBuilder $container, array $config)
-	{
-		$this->validate($config, $this->defaults['mailer'], 'nette.mailer');
-
-		if (empty($config['smtp'])) {
-			$container->addDefinition($this->prefix('mailer'))
-				->setClass('Nette\Mail\SendmailMailer');
-		} else {
-			$container->addDefinition($this->prefix('mailer'))
-				->setClass('Nette\Mail\SmtpMailer', array($config));
 		}
 	}
 
