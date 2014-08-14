@@ -19,6 +19,7 @@ use Nette,
 class NetteExtension extends Nette\DI\CompilerExtension
 {
 	public $defaults = array(
+		'xhtml' => FALSE,
 		'http' => array(
 			'proxy' => array(),
 			'headers' => array(
@@ -86,7 +87,12 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		$container = $this->getContainerBuilder();
 		$config = $this->getConfig($this->defaults);
 
-		unset($config['xhtml']);
+		if (isset($config['latte']['xhtml'])) {
+			$config['xhtml'] = $config['latte']['xhtml'];
+			trigger_error('nette.latte.xhtml directive is deprecated, use nette.xhtml instead.', E_USER_DEPRECATED);
+			unset($config['latte']['xhtml']);
+		}
+
 		$this->validate($config, $this->defaults, 'nette');
 
 		$this->setupCache($container);
@@ -330,6 +336,10 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			$initialize->addBody('$this->getByType("Nette\Http\Session")->exists() && $this->getByType("Nette\Http\Session")->start();');
 		} elseif ($config['session']['autoStart']) {
 			$initialize->addBody('$this->getByType("Nette\Http\Session")->start();');
+		}
+
+		if ($config['xhtml'] || !empty($config['latte']['xhtml'])) {
+			$initialize->addBody('Nette\Utils\Html::$xhtml = ?;', array(TRUE));
 		}
 
 		if (isset($config['security']['frames']) && $config['security']['frames'] !== TRUE) {
