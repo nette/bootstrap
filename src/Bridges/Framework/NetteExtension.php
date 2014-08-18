@@ -242,11 +242,14 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			$application->addSetup('Nette\Bridges\ApplicationTracy\RoutingPanel::initializePanel');
 		}
 
-		$presenterFactory = $container->addDefinition($this->prefix('presenterFactory'))
-			->setClass('Nette\Application\PresenterFactory');
+		$presenterMapper = $container->addDefinition($this->prefix('presenterMapper'))
+			->setClass('Nette\Application\PresenterMapper');
 		if ($config['mapping']) {
-			$presenterFactory->addSetup('setMapping', array($config['mapping']));
+			$presenterMapper->addSetup('setMapping', array($config['mapping']));
 		}
+
+		$container->addDefinition($this->prefix('presenterFactory'))
+			->setClass('Nette\Application\PresenterFactory');
 	}
 
 
