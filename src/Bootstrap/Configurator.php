@@ -39,6 +39,7 @@ class Configurator extends Object
 		'application' => 'Nette\Bridges\ApplicationDI\ApplicationExtension',
 		'routing' => 'Nette\Bridges\ApplicationDI\RoutingExtension',
 		'latte' => 'Nette\Bridges\ApplicationDI\LatteExtension',
+		'cache' => 'Nette\Bridges\CacheDI\CacheExtension',
 		'database' => 'Nette\Bridges\DatabaseDI\DatabaseExtension',
 		'mail' => 'Nette\Bridges\MailDI\MailExtension',
 	);
