@@ -114,10 +114,12 @@ class NetteExtension extends Nette\DI\CompilerExtension
 	private function setupCache(ContainerBuilder $container)
 	{
 		$container->addDefinition($this->prefix('cacheJournal'))
-			->setClass('Nette\Caching\Storages\FileJournal', array($container->expand('%tempDir%')));
+			->setClass('Nette\Caching\Storages\IJournal')
+			->setFactory('Nette\Caching\Storages\FileJournal', array($container->expand('%tempDir%')));
 
 		$container->addDefinition('cacheStorage') // no namespace for back compatibility
-			->setClass('Nette\Caching\Storages\FileStorage', array($container->expand('%tempDir%/cache')));
+			->setClass('Nette\Caching\IStorage')
+			->setFactory('Nette\Caching\Storages\FileStorage', array($container->expand('%tempDir%/cache')));
 
 		if (class_exists('Nette\Caching\Storages\PhpFileStorage')) {
 			$container->addDefinition($this->prefix('templateCacheStorage'))
@@ -143,11 +145,12 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			->addSetup('setProxy', array($config['proxy']));
 
 		$container->addDefinition('httpRequest') // no namespace for back compatibility
-			->setClass('Nette\Http\Request')
+			->setClass('Nette\Http\IRequest')
 			->setFactory('@Nette\Http\RequestFactory::createHttpRequest');
 
 		$container->addDefinition('httpResponse') // no namespace for back compatibility
-			->setClass('Nette\Http\Response');
+			->setClass('Nette\Http\IResponse')
+			->setFactory('Nette\Http\Response');
 
 		$container->addDefinition($this->prefix('httpContext'))
 			->setClass('Nette\Http\Context');
@@ -157,6 +160,7 @@ class NetteExtension extends Nette\DI\CompilerExtension
 	private function setupTracy(ContainerBuilder $container, array $config)
 	{
 		$container->addDefinition($this->prefix('logger'))
+			->setClass('Tracy\ILogger')
 			->setFactory('Tracy\Debugger::getLogger');
 
 		$container->addDefinition($this->prefix('blueScreen'))
@@ -194,7 +198,8 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		$this->validate($config, $this->defaults['security'], 'nette.security');
 
 		$container->addDefinition($this->prefix('userStorage'))
-			->setClass('Nette\Http\UserStorage');
+			->setClass('Nette\Security\IUserStorage')
+			->setFactory('Nette\Http\UserStorage');
 
 		$user = $container->addDefinition('user') // no namespace for back compatibility
 			->setClass('Nette\Security\User');
@@ -213,12 +218,15 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			}
 
 			$container->addDefinition($this->prefix('authenticator'))
-				->setClass('Nette\Security\SimpleAuthenticator', array($usersList, $usersRoles));
+				->setClass('Nette\Security\IAuthenticator')
+				->setFactory('Nette\Security\SimpleAuthenticator', array($usersList, $usersRoles));
 		}
 
 		if ($config['roles'] || $config['resources']) {
 			$authorizator = $container->addDefinition($this->prefix('authorizator'))
-				->setClass('Nette\Security\Permission');
+				->setClass('Nette\Security\IAuthorizator')
+				->setFactory('Nette\Security\Permission');
+
 			foreach ($config['roles'] as $role => $parents) {
 				$authorizator->addSetup('addRole', array($role, $parents));
 			}
@@ -243,7 +251,9 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		}
 
 		$presenterFactory = $container->addDefinition($this->prefix('presenterFactory'))
-			->setClass('Nette\Application\PresenterFactory');
+			->setClass('Nette\Application\IPresenterFactory')
+			->setFactory('Nette\Application\PresenterFactory');
+
 		if ($config['mapping']) {
 			$presenterFactory->addSetup('setMapping', array($config['mapping']));
 		}
@@ -255,7 +265,8 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		$this->validate($config, $this->defaults['routing'], 'nette.routing');
 
 		$router = $container->addDefinition('router') // no namespace for back compatibility
-			->setClass('Nette\Application\Routers\RouteList');
+			->setClass('Nette\Application\IRouter')
+			->setFactory('Nette\Application\Routers\RouteList');
 
 		foreach ($config['routes'] as $mask => $action) {
 			$router->addSetup('$service[] = new Nette\Application\Routers\Route(?, ?);', array($mask, $action));
@@ -273,12 +284,13 @@ class NetteExtension extends Nette\DI\CompilerExtension
 	{
 		$this->validate($config, $this->defaults['mailer'], 'nette.mailer');
 
+		$mailer = $container->addDefinition($this->prefix('mailer'))
+			->setClass('Nette\Mail\IMailer');
+
 		if (empty($config['smtp'])) {
-			$container->addDefinition($this->prefix('mailer'))
-				->setClass('Nette\Mail\SendmailMailer');
+			$mailer->setFactory('Nette\Mail\SendmailMailer');
 		} else {
-			$container->addDefinition($this->prefix('mailer'))
-				->setClass('Nette\Mail\SmtpMailer', array($config));
+			$mailer->setFactory('Nette\Mail\SmtpMailer', array($config));
 		}
 	}
 
@@ -295,7 +307,8 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			->setImplement('Nette\Bridges\ApplicationLatte\ILatteFactory');
 
 		$container->addDefinition($this->prefix('templateFactory'))
-			->setClass('Nette\Bridges\ApplicationLatte\TemplateFactory');
+			->setClass('Nette\Application\UI\ITemplateFactory')
+			->setFactory('Nette\Bridges\ApplicationLatte\TemplateFactory');
 
 		$latte = $container->addDefinition($this->prefix('latte'))
 			->setClass('Latte\Engine')
@@ -317,7 +330,8 @@ class NetteExtension extends Nette\DI\CompilerExtension
 
 		if (class_exists('Nette\Templating\FileTemplate')) {
 			$container->addDefinition($this->prefix('template'))
-				->setClass('Nette\Templating\FileTemplate')
+				->setClass('Nette\Templating\ITemplate')
+				->setFactory('Nette\Templating\FileTemplate')
 				->addSetup('::trigger_error', array('Service nette.template is deprecated.', E_USER_DEPRECATED))
 				->addSetup('registerFilter', array(new Nette\DI\Statement(array($latteFactory, 'create'))))
 				->addSetup('registerHelperLoader', array('Nette\Templating\Helpers::loader'))
