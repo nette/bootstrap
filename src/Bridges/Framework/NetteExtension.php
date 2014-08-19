@@ -89,12 +89,11 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			->addSetup('setProxy', array($config['proxy']));
 
 		$container->addDefinition('httpRequest') // no namespace for back compatibility
-			->setClass('Nette\Http\IRequest')
+			->setClass('Nette\Http\Request')
 			->setFactory('@Nette\Http\RequestFactory::createHttpRequest');
 
 		$container->addDefinition('httpResponse') // no namespace for back compatibility
-			->setClass('Nette\Http\IResponse')
-			->setFactory('Nette\Http\Response');
+			->setClass('Nette\Http\Response');
 
 		$container->addDefinition($this->prefix('httpContext'))
 			->setClass('Nette\Http\Context');
