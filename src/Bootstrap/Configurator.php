@@ -36,10 +36,10 @@ class Configurator extends Object
 		'constants' => 'Nette\DI\Extensions\ConstantsExtension',
 		'extensions' => 'Nette\DI\Extensions\ExtensionsExtension',
 		'nette' => 'Nette\Bridges\Framework\NetteExtension',
-		'application' => 'Nette\Bridges\ApplicationDI\ApplicationExtension',
-		'routing' => 'Nette\Bridges\ApplicationDI\RoutingExtension',
-		'latte' => 'Nette\Bridges\ApplicationDI\LatteExtension',
-		'cache' => 'Nette\Bridges\CacheDI\CacheExtension',
+		'application' => array('Nette\Bridges\ApplicationDI\ApplicationExtension', array('%debugMode%')),
+		'routing' => array('Nette\Bridges\ApplicationDI\RoutingExtension', array('%debugMode%')),
+		'latte' => array('Nette\Bridges\ApplicationDI\LatteExtension', array('%tempDir%/cache/latte', '%debugMode%')),
+		'cache' => array('Nette\Bridges\CacheDI\CacheExtension', array('%tempDir%')),
 		'database' => 'Nette\Bridges\DatabaseDI\DatabaseExtension',
 		'mail' => 'Nette\Bridges\MailDI\MailExtension',
 	);
@@ -212,11 +212,15 @@ class Configurator extends Object
 
 		$me = $this;
 		$factory->onCompile[] = function(DI\ContainerFactory $factory, DI\Compiler $compiler, $config) use ($me) {
-			$compiler->getContainerBuilder()->addExcludedClasses($me->autowireExcludedClasses);
+			$builder = $compiler->getContainerBuilder();
+			$builder->addExcludedClasses($me->autowireExcludedClasses);
 
-			foreach ($me->defaultExtensions as $name => $class) {
+			foreach ($me->defaultExtensions as $name => $extension) {
+				list($class, $args) = is_string($extension) ? array($extension, array()) : $extension;
 				if (class_exists($class)) {
-					$compiler->addExtension($name, new $class);
+					$rc = new \ReflectionClass($class);
+					$args = DI\Helpers::expand($args, $config['parameters'], TRUE);
+					$compiler->addExtension($name, $rc->newInstanceArgs($args));
 				}
 			}
 			$factory->parentClass = $config['parameters']['container']['parent'];
