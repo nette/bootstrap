@@ -34,11 +34,13 @@ class Configurator extends Object
 	public $defaultExtensions = array(
 		'php' => 'Nette\DI\Extensions\PhpExtension',
 		'constants' => 'Nette\DI\Extensions\ConstantsExtension',
+		'extensions' => 'Nette\DI\Extensions\ExtensionsExtension',
 		'nette' => 'Nette\Bridges\Framework\NetteExtension',
+		'application' => 'Nette\Bridges\ApplicationDI\ApplicationExtension',
+		'routing' => 'Nette\Bridges\ApplicationDI\RoutingExtension',
 		'latte' => 'Nette\Bridges\ApplicationDI\LatteExtension',
 		'database' => 'Nette\Bridges\DatabaseDI\DatabaseExtension',
 		'mail' => 'Nette\Bridges\MailDI\MailExtension',
-		'extensions' => 'Nette\DI\Extensions\ExtensionsExtension',
 	);
 
 	/** @var string[] of classes which shouldn't be autowired */

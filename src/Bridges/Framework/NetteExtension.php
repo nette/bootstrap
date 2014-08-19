@@ -31,16 +31,8 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			'autoStart' => 'smart', // true|false|smart
 			'expiration' => NULL,
 		),
-		'application' => array(
-			'debugger' => TRUE,
-			'errorPresenter' => 'Nette:Error',
-			'catchExceptions' => '%productionMode%',
-			'mapping' => NULL
-		),
-		'routing' => array(
-			'debugger' => TRUE,
-			'routes' => array(), // of [mask => action]
-		),
+		'application' => array(),
+		'routing' => array(),
 		'security' => array(
 			'debugger' => TRUE,
 			'frames' => 'SAMEORIGIN', // X-Frame-Options
@@ -85,8 +77,6 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		$this->setupTracy($container, $config['debugger']);
 		$this->setupSession($container, $config['session']);
 		$this->setupSecurity($container, $config['security']);
-		$this->setupApplication($container, $config['application']);
-		$this->setupRouting($container, $config['routing']);
 		$this->setupContainer($container, $config['container']);
 	}
 
@@ -213,49 +203,6 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			foreach ($config['resources'] as $resource => $parents) {
 				$authorizator->addSetup('addResource', array($resource, $parents));
 			}
-		}
-	}
-
-
-	private function setupApplication(ContainerBuilder $container, array $config)
-	{
-		$this->validate($config, $this->defaults['application'], 'nette.application');
-
-		$application = $container->addDefinition('application') // no namespace for back compatibility
-			->setClass('Nette\Application\Application')
-			->addSetup('$catchExceptions', array($config['catchExceptions']))
-			->addSetup('$errorPresenter', array($config['errorPresenter']));
-
-		if ($config['debugger']) {
-			$application->addSetup('Nette\Bridges\ApplicationTracy\RoutingPanel::initializePanel');
-		}
-
-		$presenterFactory = $container->addDefinition($this->prefix('presenterFactory'))
-			->setClass('Nette\Application\IPresenterFactory')
-			->setFactory('Nette\Application\PresenterFactory');
-
-		if ($config['mapping']) {
-			$presenterFactory->addSetup('setMapping', array($config['mapping']));
-		}
-	}
-
-
-	private function setupRouting(ContainerBuilder $container, array $config)
-	{
-		$this->validate($config, $this->defaults['routing'], 'nette.routing');
-
-		$router = $container->addDefinition('router') // no namespace for back compatibility
-			->setClass('Nette\Application\IRouter')
-			->setFactory('Nette\Application\Routers\RouteList');
-
-		foreach ($config['routes'] as $mask => $action) {
-			$router->addSetup('$service[] = new Nette\Application\Routers\Route(?, ?);', array($mask, $action));
-		}
-
-		if ($container->parameters['debugMode'] && $config['debugger']) {
-			$container->getDefinition('application')->addSetup('@Tracy\Bar::addPanel', array(
-				new Nette\DI\Statement('Nette\Bridges\ApplicationTracy\RoutingPanel')
-			));
 		}
 	}
 
