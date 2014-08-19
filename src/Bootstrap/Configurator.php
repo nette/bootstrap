@@ -55,7 +55,7 @@ class Configurator extends Object
 	/** @var array */
 	protected $parameters;
 
-	/** @var array */
+	/** @var array [file|array, section] */
 	protected $files = array();
 
 
@@ -188,7 +188,16 @@ class Configurator extends Object
 	 */
 	public function createContainer()
 	{
-		$container = $this->createContainerFactory()->create();
+		$loader = new DI\ContainerLoader(
+			$this->getCacheDirectory() . '/Nette.Configurator',
+			$this->parameters['debugMode']
+		);
+		$class = $loader->load(
+			array($this->parameters, $this->files),
+			array($this, 'generateContainer')
+		);
+
+		$container = new $class;
 		$container->initialize();
 		if (class_exists('Nette\Environment')) {
 			Nette\Environment::setContext($container); // back compatibility
@@ -198,37 +207,59 @@ class Configurator extends Object
 
 
 	/**
-	 * @return DI\ContainerFactory
+	 * @return array [string, array]
+	 * @internal
 	 */
-	protected function createContainerFactory()
+	public function generateContainer($className)
 	{
-		$factory = new DI\ContainerFactory(NULL);
-		$factory->autoRebuild = $this->parameters['debugMode'];
-		$factory->class = $this->parameters['container']['class'];
-		$factory->config = array('parameters' => $this->parameters);
-		$factory->configFiles = $this->files;
-		$factory->tempDirectory = $this->getCacheDirectory() . '/Nette.Configurator';
-		if (!is_dir($factory->tempDirectory)) {
-			@mkdir($factory->tempDirectory); // @ - directory may already exist
+		$loader = $this->createLoader();
+		$config = array();
+		$code = '';
+		foreach ($this->files as $info) {
+			if (is_scalar($info[0])) {
+				$code .= "// source: $info[0] $info[1]\n";
+				$info[0] = $loader->load($info[0], $info[1]);
+			}
+			$config = DI\Config\Helpers::merge($info[0], $config);
+		}
+		$config = DI\Config\Helpers::merge($config, array('parameters' => $this->parameters));
+
+		$compiler = $this->createCompiler();
+		$compiler->getContainerBuilder()->addExcludedClasses($this->autowireExcludedClasses);
+
+		foreach ($this->defaultExtensions as $name => $extension) {
+			list($class, $args) = is_string($extension) ? array($extension, array()) : $extension;
+			if (class_exists($class)) {
+				$rc = new \ReflectionClass($class);
+				$args = DI\Helpers::expand($args, $config['parameters'], TRUE);
+				$compiler->addExtension($name, $args ? $rc->newInstanceArgs($args) : $rc->newInstance());
+			}
 		}
 
-		$me = $this;
-		$factory->onCompile[] = function(DI\ContainerFactory $factory, DI\Compiler $compiler, $config) use ($me) {
-			$builder = $compiler->getContainerBuilder();
-			$builder->addExcludedClasses($me->autowireExcludedClasses);
+		$this->onCompile($this, $compiler);
+		return array(
+			$code . $compiler->compile($config, $className, $config['parameters']['container']['parent'])
+			. "\nclass {$config['parameters']['container']['class']} extends $className {}\n",
+			array_merge($loader->getDependencies(), $compiler->getContainerBuilder()->getDependencies())
+		);
+	}
 
-			foreach ($me->defaultExtensions as $name => $extension) {
-				list($class, $args) = is_string($extension) ? array($extension, array()) : $extension;
-				if (class_exists($class)) {
-					$rc = new \ReflectionClass($class);
-					$args = DI\Helpers::expand($args, $config['parameters'], TRUE);
-					$compiler->addExtension($name, $args ? $rc->newInstanceArgs($args) : $rc->newInstance());
-				}
-			}
-			$factory->parentClass = $config['parameters']['container']['parent'];
-			$me->onCompile($me, $compiler);
-		};
-		return $factory;
+
+	/**
+	 * @return DI\Compiler
+	 */
+	protected function createCompiler()
+	{
+		return new DI\Compiler;
+	}
+
+
+	/**
+	 * @return DI\Config\Loader
+	 */
+	protected function createLoader()
+	{
+		return new DI\Config\Loader;
 	}
 
 

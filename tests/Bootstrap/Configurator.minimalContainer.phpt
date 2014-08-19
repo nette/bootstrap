@@ -18,7 +18,7 @@ $configurator->addParameters(array(
 ));
 $container = $configurator->createContainer();
 
-Assert::type( 'SystemContainer', $container );
+Assert::type( 'Nette\DI\Container', $container );
 
 Assert::same( array(
 	'appDir' => __DIR__,
