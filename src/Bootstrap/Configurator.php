@@ -220,7 +220,7 @@ class Configurator extends Object
 				if (class_exists($class)) {
 					$rc = new \ReflectionClass($class);
 					$args = DI\Helpers::expand($args, $config['parameters'], TRUE);
-					$compiler->addExtension($name, $rc->newInstanceArgs($args));
+					$compiler->addExtension($name, $args ? $rc->newInstanceArgs($args) : $rc->newInstance());
 				}
 			}
 			$factory->parentClass = $config['parameters']['container']['parent'];
