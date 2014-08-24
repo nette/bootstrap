@@ -174,7 +174,7 @@ class Configurator extends Object
 
 	/**
 	 * Returns system DI container.
-	 * @return \SystemContainer
+	 * @return \SystemContainer|DI\Container
 	 */
 	public function createContainer()
 	{
