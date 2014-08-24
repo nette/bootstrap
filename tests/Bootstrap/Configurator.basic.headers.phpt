@@ -17,8 +17,14 @@ if (PHP_SAPI === 'cli') {
 
 $configurator = new Configurator;
 $configurator->setTempDirectory(TEMP_DIR);
-$container = $configurator->addConfig('files/configurator.headers.neon')
-	->createContainer();
+$configurator->addConfig(Tester\FileMock::create('
+nette:
+	http:
+		headers:
+			A: b
+			C:
+', 'neon'));
+$container = $configurator->createContainer();
 
 
 $headers = headers_list();
@@ -37,7 +43,14 @@ Assert::true( headers_sent() );
 Assert::error(function(){
 	$configurator = new Configurator;
 	$configurator->setTempDirectory(TEMP_DIR);
-	$container = $configurator->addConfig('files/configurator.headers.neon')
+	$configurator->addParameters(array('container' => array('class' => 'Container2')));
+	$container = $configurator->addConfig(Tester\FileMock::create('
+		nette:
+			http:
+				headers:
+					A: b
+					C:
+		', 'neon'))
 		->createContainer();
 }, array(
 	array(E_WARNING, 'Cannot modify header information - headers already sent %a%'),

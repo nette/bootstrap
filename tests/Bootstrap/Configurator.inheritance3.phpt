@@ -14,7 +14,10 @@ require __DIR__ . '/../bootstrap.php';
 $configurator = new Configurator;
 $configurator->setDebugMode(FALSE);
 $configurator->setTempDirectory(TEMP_DIR);
-$configurator->addConfig('files/configurator.inheritance3.neon');
+$configurator->addConfig(Tester\FileMock::create('
+services:
+	application < application:
+', 'neon'));
 
 
 Assert::exception(function() use ($configurator) {
