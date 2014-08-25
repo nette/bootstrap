@@ -29,7 +29,7 @@ Setup directory for temporary files
 $configurator->setTempDirectory(__DIR__ . '/../temp');
 ```
 
-Activate [autoloading | auto-loading#nette-loaders-robotloader], that will automatically load all the files with our classes:
+Activate [autoloading](http://doc.nette.org/en/auto-loading#toc-nette-loaders-robotloader), that will automatically load all the files with our classes:
 
 ```php
 $configurator->createRobotLoader()
