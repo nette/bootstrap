@@ -199,7 +199,7 @@ class Configurator extends Object
 		$factory->configFiles = $this->files;
 		$factory->tempDirectory = $this->getCacheDirectory() . '/Nette.Configurator';
 		if (!is_dir($factory->tempDirectory)) {
-			mkdir($factory->tempDirectory);
+			@mkdir($factory->tempDirectory); // @ - directory may already exist
 		}
 
 		$me = $this;
@@ -223,7 +223,7 @@ class Configurator extends Object
 		}
 		$dir = $this->parameters['tempDir'] . '/cache';
 		if (!is_dir($dir)) {
-			mkdir($dir);
+			@mkdir($dir); // @ - directory may already exist
 		}
 		return $dir;
 	}
