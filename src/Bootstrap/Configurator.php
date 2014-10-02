@@ -117,7 +117,7 @@ class Configurator extends Object
 		$debugMode = static::detectDebugMode();
 		return array(
 			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : NULL,
-			'wwwDir' => isset($_SERVER['SCRIPT_FILENAME'])
+			'wwwDir' => isset($_SERVER['SCRIPT_FILENAME']) && PHP_SAPI !== 'cli'
 				? dirname(realpath($_SERVER['SCRIPT_FILENAME']))
 				: NULL,
 			'debugMode' => $debugMode,
