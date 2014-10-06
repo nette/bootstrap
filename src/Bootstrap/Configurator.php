@@ -35,6 +35,8 @@ class Configurator extends Object
 		'php' => 'Nette\DI\Extensions\PhpExtension',
 		'constants' => 'Nette\DI\Extensions\ConstantsExtension',
 		'extensions' => 'Nette\DI\Extensions\ExtensionsExtension',
+		'inject' => 'Nette\DI\Extensions\InjectExtension',
+		'decorator' => 'Nette\DI\Extensions\DecoratorExtension',
 		'nette' => 'Nette\Bridges\Framework\NetteExtension',
 		'application' => array('Nette\Bridges\ApplicationDI\ApplicationExtension', array('%debugMode%')),
 		'routing' => array('Nette\Bridges\ApplicationDI\RoutingExtension', array('%debugMode%')),
