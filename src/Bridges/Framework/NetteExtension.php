@@ -156,8 +156,10 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		if ($config['users']) {
 			$usersList = $usersRoles = array();
 			foreach ($config['users'] as $username => $data) {
-				$usersList[$username] = is_array($data) ? $data['password'] : $data;
-				$usersRoles[$username] = is_array($data) && isset($data['roles']) ? $data['roles'] : NULL;
+				$data = is_array($data) ? $data : array('password' => $data);
+				$this->validate($data, array('password' => NULL, 'roles' => NULL), $this->prefix("security.users.$username"));
+				$usersList[$username] = $data['password'];
+				$usersRoles[$username] = isset($data['roles']) ? $data['roles'] : NULL;
 			}
 
 			$container->addDefinition($this->prefix('authenticator'))
