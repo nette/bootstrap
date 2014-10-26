@@ -23,15 +23,6 @@ class TracyBridge
 	public static function initialize()
 	{
 		$blueScreen = Tracy\Debugger::getBlueScreen();
-		if (preg_match('#(.+)/Bridges/Framework$#', strtr(__DIR__, '\\', '/'), $m)) {
-			if (preg_match('#(.+)/nette/bootstrap/src$#', $m[1], $m2)) {
-				$blueScreen->collapsePaths[] = "$m2[1]/nette";
-				$blueScreen->collapsePaths[] = "$m2[1]/latte";
-			} else {
-				$blueScreen->collapsePaths[] = $m[1];
-			}
-		}
-
 		if (class_exists('Nette\Framework')) {
 			$bar = Tracy\Debugger::getBar();
 			$bar->info[] = $blueScreen->info[] = 'Nette Framework ' . Nette\Framework::VERSION . ' (' . Nette\Framework::REVISION . ')';
