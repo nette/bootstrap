@@ -32,8 +32,14 @@ class TracyBridge
 			if ($e instanceof Latte\CompileException) {
 				return array(
 					'tab' => 'Template',
-					'panel' => '<p>' . (is_file($e->sourceName) ? '<b>File:</b> ' . Helpers::editorLink($e->sourceName, $e->sourceLine) : htmlspecialchars($e->sourceName)) . '</p>'
-						. ($e->sourceCode ? '<pre>' . BlueScreen::highlightLine(htmlspecialchars($e->sourceCode), $e->sourceLine) . '</pre>' : ''),
+					'panel' => '<p>'
+						. (is_file($e->sourceName)
+							? '<b>File:</b> ' . Helpers::editorLink($e->sourceName, $e->sourceLine)
+							: htmlspecialchars($e->sourceName))
+						. '</p>'
+						. ($e->sourceCode
+							? '<pre>' . BlueScreen::highlightLine(htmlspecialchars($e->sourceCode), $e->sourceLine) . '</pre>'
+							: ''),
 				);
 			} elseif ($e instanceof Nette\Neon\Exception && preg_match('#line (\d+)#', $e->getMessage(), $m)) {
 				if ($item = Helpers::findTrace($e->getTrace(), 'Nette\DI\Config\Adapters\NeonAdapter::load')) {
@@ -45,7 +51,7 @@ class TracyBridge
 				} elseif ($item = Helpers::findTrace($e->getTrace(), 'Nette\Neon\Decoder::decode')) {
 					return array(
 						'tab' => 'NEON',
-						'panel' => BlueScreen::highlightPhp($item['args'][0], $m[1])
+						'panel' => BlueScreen::highlightFile($item['args'][0], $m[1])
 					);
 				}
 			}
