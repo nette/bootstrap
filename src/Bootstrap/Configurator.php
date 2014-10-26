@@ -62,6 +62,7 @@ class Configurator extends Object
 	public function __construct()
 	{
 		$this->parameters = $this->getDefaultParameters();
+		Nette\Bridges\Framework\TracyBridge::initialize();
 	}
 
 
