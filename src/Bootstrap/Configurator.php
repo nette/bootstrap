@@ -118,11 +118,20 @@ class Configurator extends Object
 	{
 		$trace = debug_backtrace(PHP_VERSION_ID >= 50306 ? DEBUG_BACKTRACE_IGNORE_ARGS : FALSE);
 		$debugMode = static::detectDebugMode();
+
+		if (isset($_SERVER['SCRIPT_FILENAME'])) {
+			$wwwDir = dirname(realpath($_SERVER['SCRIPT_FILENAME']));
+
+		} elseif (isset($_SERVER['argv'][0])) {
+			$wwwDir = dirname(realpath($_SERVER['argv'][0])) ?: NULL;
+
+		} else {
+			$wwwDir = NULL;
+		}
+
 		return array(
 			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : NULL,
-			'wwwDir' => isset($_SERVER['SCRIPT_FILENAME']) && PHP_SAPI !== 'cli'
-				? dirname(realpath($_SERVER['SCRIPT_FILENAME']))
-				: NULL,
+			'wwwDir' => $wwwDir,
 			'debugMode' => $debugMode,
 			'productionMode' => !$debugMode,
 			'environment' => $debugMode ? 'development' : 'production',

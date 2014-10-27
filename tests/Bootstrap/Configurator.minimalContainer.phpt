@@ -22,7 +22,7 @@ Assert::type( 'SystemContainer', $container );
 
 Assert::same( array(
 	'appDir' => __DIR__,
-	'wwwDir' => NULL,
+	'wwwDir' => __DIR__,
 	'debugMode' => FALSE,
 	'productionMode' => TRUE,
 	'environment' => 'production',
