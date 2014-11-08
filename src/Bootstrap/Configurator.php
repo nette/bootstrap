@@ -160,7 +160,7 @@ class Configurator extends Object
 	 */
 	public function addConfig($file, $section = NULL)
 	{
-		if ($section === NULL && $this->parameters['debugMode']) { // back compatibility
+		if ($section === NULL && is_string($file) && $this->parameters['debugMode']) { // back compatibility
 			try {
 				$loader = new DI\Config\Loader;
 				$loader->load($file, $this->parameters['environment']);
