@@ -30,6 +30,9 @@ class Configurator extends Object
 	/** @var array of function(Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
 	public $onCompile;
 
+	/** @var int enumeration of DI\ContainerFactory::PRIORITY_[FILES|PARAMETERS] */
+	public $configPriority = 0; //DI\ContainerFactory::PRIORITY_* constant not used for backwards compatibility
+
 	/** @var array */
 	public $defaultExtensions = array(
 		'php' => 'Nette\DI\Extensions\PhpExtension',
@@ -208,6 +211,9 @@ class Configurator extends Object
 		$factory->class = $this->parameters['container']['class'];
 		$factory->config = array('parameters' => $this->parameters);
 		$factory->configFiles = $this->files;
+		if (isset($factory->configPriority)) { //backwards compatibility with nette/di
+			$factory->configPriority = $this->configPriority;
+		}
 		$factory->tempDirectory = $this->getCacheDirectory() . '/Nette.Configurator';
 		if (!is_dir($factory->tempDirectory)) {
 			@mkdir($factory->tempDirectory); // @ - directory may already exist
