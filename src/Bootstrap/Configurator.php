@@ -35,7 +35,6 @@ class Configurator extends Object
 		'php' => 'Nette\DI\Extensions\PhpExtension',
 		'constants' => 'Nette\DI\Extensions\ConstantsExtension',
 		'extensions' => 'Nette\DI\Extensions\ExtensionsExtension',
-		'inject' => 'Nette\DI\Extensions\InjectExtension',
 		'decorator' => 'Nette\DI\Extensions\DecoratorExtension',
 		'nette' => 'Nette\Bridges\Framework\NetteExtension',
 		'application' => array('Nette\Bridges\ApplicationDI\ApplicationExtension', array('%debugMode%')),
@@ -44,6 +43,7 @@ class Configurator extends Object
 		'cache' => array('Nette\Bridges\CacheDI\CacheExtension', array('%tempDir%')),
 		'database' => 'Nette\Bridges\DatabaseDI\DatabaseExtension',
 		'mail' => 'Nette\Bridges\MailDI\MailExtension',
+		'inject' => 'Nette\DI\Extensions\InjectExtension',
 	);
 
 	/** @var string[] of classes which shouldn't be autowired */
