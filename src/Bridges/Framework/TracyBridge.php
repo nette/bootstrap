@@ -51,7 +51,7 @@ class TracyBridge
 				} elseif ($item = Helpers::findTrace($e->getTrace(), 'Nette\Neon\Decoder::decode')) {
 					return array(
 						'tab' => 'NEON',
-						'panel' => BlueScreen::highlightFile($item['args'][0], $m[1])
+						'panel' => BlueScreen::highlightPhp($item['args'][0], $m[1])
 					);
 				}
 			}
