@@ -22,7 +22,7 @@ Assert::type( 'SystemContainer', $container );
 
 Assert::same( array(
 	'appDir' => __DIR__,
-	'wwwDir' => NULL,
+	'wwwDir' => PHP_SAPI === 'cli' ? __DIR__ : NULL,
 	'debugMode' => FALSE,
 	'productionMode' => TRUE,
 	'environment' => 'production',
