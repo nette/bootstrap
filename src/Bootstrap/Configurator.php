@@ -203,7 +203,7 @@ class Configurator extends Object
 	protected function createContainerFactory()
 	{
 		$factory = new DI\ContainerFactory(NULL);
-		$factory->autoRebuild = $this->parameters['debugMode'] ? TRUE : 'compat';
+		$factory->autoRebuild = $this->parameters['debugMode'];
 		$factory->class = $this->parameters['container']['class'];
 		$factory->config = array('parameters' => $this->parameters);
 		$factory->configFiles = $this->files;
