@@ -140,7 +140,7 @@ class Configurator extends Object
 			'environment' => $debugMode ? 'development' : 'production',
 			'consoleMode' => PHP_SAPI === 'cli',
 			'container' => array(
-				'class' => 'SystemContainer',
+				'class' => NULL,
 				'parent' => 'Nette\DI\Container',
 			)
 		);
@@ -198,7 +198,7 @@ class Configurator extends Object
 
 	/**
 	 * Returns system DI container.
-	 * @return \SystemContainer|DI\Container
+	 * @return DI\Container
 	 */
 	public function createContainer()
 	{
