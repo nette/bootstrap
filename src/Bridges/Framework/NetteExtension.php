@@ -226,7 +226,13 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		}
 
 		foreach ((array) $config['forms']['messages'] as $name => $text) {
-			$initialize->addBody('Nette\Forms\Rules::$defaultMessages[Nette\Forms\Form::?] = ?;', array($name, $text));
+			if (defined('Nette\Forms\Form::' . $name)) {
+				$initialize->addBody('Nette\Forms\Validator::$messages[Nette\Forms\Form::?] = ?;', array($name, $text));
+			} elseif (defined($name)) {
+				$initialize->addBody('Nette\Forms\Validator::$messages[' . $name . '] = ?;', array($text));
+			} else {
+				throw new Nette\InvalidArgumentException('Constant Nette\Forms\Form::' . $name . ' or constant ' . $name . ' does not exist.');
+			}
 		}
 
 		if ($config['session']['autoStart'] === 'smart') {
