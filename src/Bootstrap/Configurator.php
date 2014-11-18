@@ -32,9 +32,9 @@ class Configurator extends Object
 
 	/** @var array */
 	public $defaultExtensions = array(
+		'extensions' => 'Nette\DI\Extensions\ExtensionsExtension',
 		'php' => 'Nette\DI\Extensions\PhpExtension',
 		'constants' => 'Nette\DI\Extensions\ConstantsExtension',
-		'extensions' => 'Nette\DI\Extensions\ExtensionsExtension',
 		'decorator' => 'Nette\DI\Extensions\DecoratorExtension',
 		'nette' => 'Nette\Bridges\Framework\NetteExtension',
 		'application' => array('Nette\Bridges\ApplicationDI\ApplicationExtension', array('%debugMode%')),
@@ -227,13 +227,22 @@ class Configurator extends Object
 		$compiler = $this->createCompiler();
 		$compiler->getContainerBuilder()->addExcludedClasses($this->autowireExcludedClasses);
 
+		$extensionsExtension = array_search('Nette\DI\Extensions\ExtensionsExtension', $this->defaultExtensions);
+		$extensions = array();
 		foreach ($this->defaultExtensions as $name => $extension) {
 			list($class, $args) = is_string($extension) ? array($extension, array()) : $extension;
 			if (class_exists($class)) {
-				$rc = new \ReflectionClass($class);
-				$args = DI\Helpers::expand($args, $config['parameters'], TRUE);
-				$compiler->addExtension($name, $args ? $rc->newInstanceArgs($args) : $rc->newInstance());
+				if ($extensionsExtension === $name || $extensionsExtension === false) {
+					$rc = new \ReflectionClass($class);
+					$args = DI\Helpers::expand($args, $config['parameters'], TRUE);
+					$compiler->addExtension($name, $args ? $rc->newInstanceArgs($args) : $rc->newInstance());
+				} elseif (!isset($config[$extensionsExtension][$name])) {
+					$extensions[$name] = $args ? new DI\Statement($class, $args) : $class;
+				}
 			}
+		}
+		if ($extensions) {
+			$config[$extensionsExtension] = isset($config[$extensionsExtension]) ? array_merge($extensions, $config[$extensionsExtension]) : $extensions;
 		}
 
 		$this->onCompile($this, $compiler);
