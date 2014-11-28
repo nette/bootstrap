@@ -54,6 +54,7 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			'email' => NULL,
 			'editor' => NULL,
 			'browser' => NULL,
+			'errorTemplate' => NULL,
 			'strictMode' => NULL,
 			'maxLen' => NULL,
 			'maxDepth' => NULL,
@@ -199,7 +200,7 @@ class NetteExtension extends Nette\DI\CompilerExtension
 		$config = $this->getConfig($this->defaults);
 
 		// debugger
-		foreach (array('email', 'editor', 'browser', 'strictMode', 'maxLen', 'maxDepth', 'showLocation', 'scream') as $key) {
+		foreach (array('email', 'editor', 'browser', 'errorTemplate', 'strictMode', 'maxLen', 'maxDepth', 'showLocation', 'scream') as $key) {
 			if (isset($config['debugger'][$key])) {
 				$initialize->addBody('Tracy\Debugger::$? = ?;', array($key, $config['debugger'][$key]));
 			}
