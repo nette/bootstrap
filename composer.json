@@ -26,6 +26,7 @@
 	"require-dev": {
 		"nette/application": "~2.2.0",
 		"nette/database": "~2.2",
+		"nette/di": "~2.2, >=2.2.1",
 		"nette/mail": "~2.2",
 		"nette/robot-loader": "~2.2",
 		"nette/safe-stream": "~2.2",
