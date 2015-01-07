@@ -35,10 +35,10 @@ class TracyBridge
 					'panel' => '<p>'
 						. (is_file($e->sourceName)
 							? '<b>File:</b> ' . Helpers::editorLink($e->sourceName, $e->sourceLine)
-							: htmlspecialchars($e->sourceName))
+							: htmlspecialchars($e->sourceName, ENT_IGNORE, 'UTF-8'))
 						. '</p>'
 						. ($e->sourceCode
-							? '<pre>' . BlueScreen::highlightLine(htmlspecialchars($e->sourceCode), $e->sourceLine) . '</pre>'
+							? '<pre>' . BlueScreen::highlightLine(htmlspecialchars($e->sourceCode, ENT_IGNORE, 'UTF-8'), $e->sourceLine) . '</pre>'
 							: ''),
 				);
 			} elseif ($e instanceof Nette\Neon\Exception && preg_match('#line (\d+)#', $e->getMessage(), $m)) {
