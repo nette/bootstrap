@@ -237,9 +237,12 @@ class Configurator extends Object
 		}
 
 		$this->onCompile($this, $compiler);
+
+		$code .= $compiler->compile($config, $className, $config['parameters']['container']['parent'])
+			. (($parent = $config['parameters']['container']['class']) ? "\nclass $parent extends $className {}\n" : '');
+
 		return array(
-			$code . $compiler->compile($config, $className, $config['parameters']['container']['parent'])
-			. "\nclass {$config['parameters']['container']['class']} extends $className {}\n",
+			$code,
 			array_merge($loader->getDependencies(), $compiler->getContainerBuilder()->getDependencies())
 		);
 	}
