@@ -259,6 +259,8 @@ class Configurator extends Object
 			}
 		}
 
+		$this->fixCompatibility($config);
+
 		$this->onCompile($this, $compiler);
 
 		$code .= $compiler->compile($config, $className, $config['parameters']['container']['parent'])
@@ -299,6 +301,39 @@ class Configurator extends Object
 			@mkdir($dir); // @ - directory may already exist
 		}
 		return $dir;
+	}
+
+
+	/**
+	 * Back compatiblity with < v2.3
+	 * @return void
+	 */
+	protected function fixCompatibility(& $config)
+	{
+		if (isset($config['nette']['security']['frames'])) {
+			$config['nette']['http']['frames'] = $config['nette']['security']['frames'];
+			unset($config['nette']['security']['frames']);
+		}
+		foreach (array('application', 'cache', 'database', 'di' => 'container', 'forms', 'http',
+			'latte', 'mail' => 'mailer', 'routing', 'session', 'tracy' => 'debugger') as $new => $old) {
+			if (isset($config['nette'][$old])) {
+				$new = is_int($new) ? $old : $new;
+				if (isset($config[$new])) {
+					throw new Nette\DeprecatedException("Configuration section 'nette.$old' is deprecated, move it to section '$new'.");
+				}
+				$config[$new] = $config['nette'][$old];
+				unset($config['nette'][$old]);
+			}
+		}
+		if (isset($config['nette']['xhtml'])) {
+			trigger_error("Configuration option 'nette.xhtml' is deprecated, use section 'latte.xhtml' instead.", E_USER_DEPRECATED);
+			$config['latte']['xhtml'] = $config['nette']['xhtml'];
+			unset($config['nette']['xhtml']);
+		}
+
+		if (empty($config['nette'])) {
+			unset($config['nette']);
+		}
 	}
 
 
