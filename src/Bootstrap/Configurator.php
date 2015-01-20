@@ -55,6 +55,9 @@ class Configurator extends Object
 	/** @var array */
 	protected $parameters;
 
+	/** @var array */
+	protected $services = array();
+
 	/** @var array [file|array, section] */
 	protected $files = array();
 
@@ -107,6 +110,17 @@ class Configurator extends Object
 	public function addParameters(array $params)
 	{
 		$this->parameters = DI\Config\Helpers::merge($params, $this->parameters);
+		return $this;
+	}
+
+
+	/**
+	 * Add instances of services.
+	 * @return self
+	 */
+	public function addServices(array $services)
+	{
+		$this->services = $services + $this->services;
 		return $this;
 	}
 
@@ -198,6 +212,9 @@ class Configurator extends Object
 		);
 
 		$container = new $class;
+		foreach ($this->services as $name => $service) {
+			$container->addService($name, $service);
+		}
 		$container->initialize();
 		if (class_exists('Nette\Environment')) {
 			Nette\Environment::setContext($container); // back compatibility
