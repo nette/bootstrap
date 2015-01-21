@@ -43,7 +43,6 @@ Assert::true( headers_sent() );
 Assert::error(function(){
 	$configurator = new Configurator;
 	$configurator->setTempDirectory(TEMP_DIR);
-	$configurator->addParameters(array('container' => array('class' => 'Container2')));
 	$container = $configurator->addConfig(Tester\FileMock::create('
 		nette:
 			http:
