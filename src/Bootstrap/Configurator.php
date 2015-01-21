@@ -53,7 +53,6 @@ class Configurator extends Object
 	public function __construct()
 	{
 		$this->parameters = $this->getDefaultParameters();
-		Nette\Bridges\Framework\TracyBridge::initialize();
 	}
 
 
@@ -134,6 +133,7 @@ class Configurator extends Object
 	{
 		Tracy\Debugger::$strictMode = TRUE;
 		Tracy\Debugger::enable(!$this->parameters['debugMode'], $logDirectory, $email);
+		Nette\Bridges\Framework\TracyBridge::initialize();
 	}
 
 
