@@ -36,13 +36,19 @@ class Configurator extends Object
 		'constants' => 'Nette\DI\Extensions\ConstantsExtension',
 		'extensions' => 'Nette\DI\Extensions\ExtensionsExtension',
 		'decorator' => 'Nette\DI\Extensions\DecoratorExtension',
-		'nette' => 'Nette\Bridges\Framework\NetteExtension',
 		'application' => array('Nette\Bridges\ApplicationDI\ApplicationExtension', array('%debugMode%')),
-		'routing' => array('Nette\Bridges\ApplicationDI\RoutingExtension', array('%debugMode%')),
-		'latte' => array('Nette\Bridges\ApplicationDI\LatteExtension', array('%tempDir%/cache/latte', '%debugMode%')),
 		'cache' => array('Nette\Bridges\CacheDI\CacheExtension', array('%tempDir%')),
 		'database' => 'Nette\Bridges\DatabaseDI\DatabaseExtension',
+		'di' => array('Nette\DI\Extensions\DIExtension', array('%debugMode%')),
+		'forms' => 'Nette\Bridges\FormsDI\FormsExtension',
+		'http' => 'Nette\Bridges\HttpDI\HttpExtension',
+		'latte' => array('Nette\Bridges\ApplicationDI\LatteExtension', array('%tempDir%/cache/latte', '%debugMode%')),
 		'mail' => 'Nette\Bridges\MailDI\MailExtension',
+		'reflection' => array('Nette\Bridges\ReflectionDI\ReflectionExtension', array('%debugMode%')),
+		'routing' => array('Nette\Bridges\ApplicationDI\RoutingExtension', array('%debugMode%')),
+		'security' => array('Nette\Bridges\SecurityDI\SecurityExtension', array('%debugMode%')),
+		'session' => array('Nette\Bridges\HttpDI\SessionExtension', array('%debugMode%')),
+		'tracy' => array('Tracy\Bridges\DI\TracyExtension', array('%debugMode%')),
 		'inject' => 'Nette\DI\Extensions\InjectExtension',
 	);
 
@@ -253,6 +259,8 @@ class Configurator extends Object
 			}
 		}
 
+		$this->fixCompatibility($config);
+
 		$this->onCompile($this, $compiler);
 
 		$code .= $compiler->compile($config, $className, $config['parameters']['container']['parent'])
@@ -293,6 +301,39 @@ class Configurator extends Object
 			@mkdir($dir); // @ - directory may already exist
 		}
 		return $dir;
+	}
+
+
+	/**
+	 * Back compatiblity with < v2.3
+	 * @return void
+	 */
+	protected function fixCompatibility(& $config)
+	{
+		if (isset($config['nette']['security']['frames'])) {
+			$config['nette']['http']['frames'] = $config['nette']['security']['frames'];
+			unset($config['nette']['security']['frames']);
+		}
+		foreach (array('application', 'cache', 'database', 'di' => 'container', 'forms', 'http',
+			'latte', 'mail' => 'mailer', 'routing', 'session', 'tracy' => 'debugger') as $new => $old) {
+			if (isset($config['nette'][$old])) {
+				$new = is_int($new) ? $old : $new;
+				if (isset($config[$new])) {
+					throw new Nette\DeprecatedException("Configuration section 'nette.$old' is deprecated, move it to section '$new'.");
+				}
+				$config[$new] = $config['nette'][$old];
+				unset($config['nette'][$old]);
+			}
+		}
+		if (isset($config['nette']['xhtml'])) {
+			trigger_error("Configuration option 'nette.xhtml' is deprecated, use section 'latte.xhtml' instead.", E_USER_DEPRECATED);
+			$config['latte']['xhtml'] = $config['nette']['xhtml'];
+			unset($config['nette']['xhtml']);
+		}
+
+		if (empty($config['nette'])) {
+			unset($config['nette']);
+		}
 	}
 
 
