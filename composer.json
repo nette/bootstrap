@@ -20,7 +20,8 @@
 		"nette/utils": "~2.2"
 	},
 	"suggest": {
-		"nette/robot-loader": "to use Configurator::createRobotLoader()"
+		"nette/robot-loader": "to use Configurator::createRobotLoader()",
+		"tracy/tracy": "to use Configurator::enableDebugger()"
 	},
 	"require-dev": {
 		"nette/application": "~2.2.0",
