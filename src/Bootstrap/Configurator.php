@@ -54,7 +54,6 @@ class Configurator extends Object
 
 	/** @var string[] of classes which shouldn't be autowired */
 	public $autowireExcludedClasses = array(
-		'Nette\Application\UI\Control',
 		'stdClass',
 	);
 
