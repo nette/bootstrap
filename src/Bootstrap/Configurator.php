@@ -38,7 +38,7 @@ class Configurator extends Object
 		'decorator' => 'Nette\DI\Extensions\DecoratorExtension',
 		'application' => array('Nette\Bridges\ApplicationDI\ApplicationExtension', array('%debugMode%')),
 		'cache' => array('Nette\Bridges\CacheDI\CacheExtension', array('%tempDir%')),
-		'database' => 'Nette\Bridges\DatabaseDI\DatabaseExtension',
+		'database' => ('Nette\Bridges\DatabaseDI\DatabaseExtension', array('%debugMode%')),
 		'di' => array('Nette\DI\Extensions\DIExtension', array('%debugMode%')),
 		'forms' => 'Nette\Bridges\FormsDI\FormsExtension',
 		'http' => 'Nette\Bridges\HttpDI\HttpExtension',
