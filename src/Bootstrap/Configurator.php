@@ -27,7 +27,7 @@ class Configurator extends Object
 
 	const COOKIE_SECRET = 'nette-debug';
 
-	/** @var array of function(Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
+	/** @var callable[]  function(Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
 	public $onCompile;
 
 	/** @var array */
@@ -247,7 +247,8 @@ class Configurator extends Object
 		$config = DI\Config\Helpers::merge($config, array('parameters' => $this->parameters));
 
 		$compiler = $this->createCompiler();
-		$compiler->getContainerBuilder()->addExcludedClasses($this->autowireExcludedClasses);
+		$builder = $compiler->getContainerBuilder();
+		$builder->addExcludedClasses($this->autowireExcludedClasses);
 
 		foreach ($this->defaultExtensions as $name => $extension) {
 			list($class, $args) = is_string($extension) ? array($extension, array()) : $extension;
@@ -265,10 +266,7 @@ class Configurator extends Object
 		$code .= $compiler->compile($config, $className, $config['parameters']['container']['parent'])
 			. (($parent = $config['parameters']['container']['class']) ? "\nclass $parent extends $className {}\n" : '');
 
-		return array(
-			$code,
-			array_merge($loader->getDependencies(), $compiler->getContainerBuilder()->getDependencies())
-		);
+		return array($code, array_merge($loader->getDependencies(), $builder->getDependencies()));
 	}
 
 
