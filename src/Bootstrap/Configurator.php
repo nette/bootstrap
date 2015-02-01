@@ -48,7 +48,7 @@ class Configurator extends Object
 		'routing' => array('Nette\Bridges\ApplicationDI\RoutingExtension', array('%debugMode%')),
 		'security' => array('Nette\Bridges\SecurityDI\SecurityExtension', array('%debugMode%')),
 		'session' => array('Nette\Bridges\HttpDI\SessionExtension', array('%debugMode%')),
-		'tracy' => array('Tracy\Bridges\DI\TracyExtension', array('%debugMode%')),
+		'tracy' => array('Tracy\Bridges\Nette\TracyExtension', array('%debugMode%')),
 		'inject' => 'Nette\DI\Extensions\InjectExtension',
 	);
 
