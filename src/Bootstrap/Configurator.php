@@ -317,7 +317,7 @@ class Configurator extends Object
 			unset($config['nette']['security']['frames']);
 		}
 		foreach (array('application', 'cache', 'database', 'di' => 'container', 'forms', 'http',
-			'latte', 'mail' => 'mailer', 'routing', 'session', 'tracy' => 'debugger') as $new => $old) {
+			'latte', 'mail' => 'mailer', 'routing', 'security', 'session', 'tracy' => 'debugger') as $new => $old) {
 			if (isset($config['nette'][$old])) {
 				$new = is_int($new) ? $old : $new;
 				if (isset($config[$new])) {
