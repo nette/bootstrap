@@ -321,7 +321,7 @@ class Configurator extends Object
 			if (isset($config['nette'][$old])) {
 				$new = is_int($new) ? $old : $new;
 				if (isset($config[$new])) {
-					throw new Nette\DeprecatedException("Configuration section 'nette.$old' is deprecated, move it to section '$new'.");
+					throw new Nette\DeprecatedException("You can use (deprecated) section 'nette.$old' or new section '$new', but not both of them.");
 				}
 				$config[$new] = $config['nette'][$old];
 				unset($config['nette'][$old]);

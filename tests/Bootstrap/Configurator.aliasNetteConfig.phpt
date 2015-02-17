@@ -50,4 +50,4 @@ Assert::exception(function() {
 		item: 20
 	', 'neon'));
 	$container = $configurator->createContainer();
-}, 'Nette\DeprecatedException', "Configuration section 'nette.database' is deprecated, move it to section 'database'.");
+}, 'Nette\DeprecatedException', "You can use (deprecated) section 'nette.database' or new section 'database', but not both of them.");
