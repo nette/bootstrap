@@ -13,6 +13,10 @@ require __DIR__ . '/../bootstrap.php';
 
 class DatabaseExtension extends Nette\DI\CompilerExtension
 {
+	public function loadConfiguration()
+	{
+		Assert::same( array('foo' => 'hello'), $this->config );
+	}
 }
 
 
@@ -27,13 +31,5 @@ parameters:
 
 database:
 	foo: %bar%
-
-	services:
-		foo: stdClass
-
-services:
-	alias: @database.foo
 ', 'neon'));
 $container = $configurator->createContainer();
-
-Assert::type( 'stdClass', $container->getService('database.foo') );
