@@ -272,16 +272,7 @@ class Configurator extends Object
 		}
 
 		return implode("\n", $fileInfo) . "\n\n" . implode("\n\n\n", $classes)
-			. (($tmp = $builder->parameters['container']['class']) ? "\nclass $tmp extends $compiler->className {}\n" : '');
-	}
-
-
-	/**
-	 * @deprecated
-	 */
-	protected function createCompiler()
-	{
-		return new DI\Compiler;
+			. (($tmp = $builder->parameters['container']['class']) ? "\nclass $tmp extends {$builder->getClassName()} {}\n" : '');
 	}
 
 
