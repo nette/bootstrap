@@ -151,7 +151,7 @@ class Configurator extends Object
 			'consoleMode' => PHP_SAPI === 'cli',
 			'container' => array(
 				'class' => NULL,
-				'parent' => 'Nette\DI\Container',
+				'parent' => NULL,
 			)
 		);
 	}
@@ -234,24 +234,23 @@ class Configurator extends Object
 
 
 	/**
-	 * @return array [string, array]
+	 * @return string
 	 * @internal
 	 */
-	public function generateContainer($className)
+	public function generateContainer(DI\Compiler $compiler)
 	{
 		$loader = $this->createLoader();
-		$config = array();
-		$code = '';
+		$compiler->addConfig(array('parameters' => $this->parameters));
+		$fileInfo = array();
 		foreach ($this->files as $info) {
 			if (is_scalar($info[0])) {
-				$code .= "// source: $info[0] $info[1]\n";
+				$fileInfo[] = "// source: $info[0] $info[1]";
 				$info[0] = $loader->load($info[0], $info[1]);
 			}
-			$config = DI\Config\Helpers::merge($info[0], $config);
+			$compiler->addConfig($this->fixCompatibility($info[0]));
 		}
-		$config = DI\Config\Helpers::merge($config, array('parameters' => $this->parameters));
+		$compiler->addDependencies($loader->getDependencies());
 
-		$compiler = $this->createCompiler();
 		$builder = $compiler->getContainerBuilder();
 		$builder->addExcludedClasses($this->autowireExcludedClasses);
 
@@ -259,24 +258,26 @@ class Configurator extends Object
 			list($class, $args) = is_string($extension) ? array($extension, array()) : $extension;
 			if (class_exists($class)) {
 				$rc = new \ReflectionClass($class);
-				$args = DI\Helpers::expand($args, $config['parameters'], TRUE);
+				$args = DI\Helpers::expand($args, $this->parameters, TRUE);
 				$compiler->addExtension($name, $args ? $rc->newInstanceArgs($args) : $rc->newInstance());
 			}
 		}
 
-		$this->fixCompatibility($config);
-
 		$this->onCompile($this, $compiler);
 
-		$code .= $compiler->compile($config, $className, $config['parameters']['container']['parent'])
-			. (($parent = $config['parameters']['container']['class']) ? "\nclass $parent extends $className {}\n" : '');
+		$classes = $compiler->compile();
 
-		return array($code, array_merge($loader->getDependencies(), $builder->getDependencies()));
+		if (!empty($builder->parameters['container']['parent'])) {
+			$classes[0]->setExtends($builder->parameters['container']['parent']);
+		}
+
+		return implode("\n", $fileInfo) . "\n\n" . implode("\n\n\n", $classes)
+			. (($tmp = $builder->parameters['container']['class']) ? "\nclass $tmp extends $compiler->className {}\n" : '');
 	}
 
 
 	/**
-	 * @return DI\Compiler
+	 * @deprecated
 	 */
 	protected function createCompiler()
 	{
@@ -308,9 +309,9 @@ class Configurator extends Object
 
 	/**
 	 * Back compatiblity with < v2.3
-	 * @return void
+	 * @return array
 	 */
-	protected function fixCompatibility(& $config)
+	protected function fixCompatibility($config)
 	{
 		if (isset($config['nette']['security']['frames'])) {
 			$config['nette']['http']['frames'] = $config['nette']['security']['frames'];
@@ -336,6 +337,7 @@ class Configurator extends Object
 		if (empty($config['nette'])) {
 			unset($config['nette']);
 		}
+		return $config;
 	}
 
 

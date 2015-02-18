@@ -29,7 +29,7 @@ Assert::same( array(
 	'consoleMode' => PHP_SAPI === 'cli',
 	'container' => array(
 		'class' => NULL,
-		'parent' => 'Nette\\DI\\Container',
+		'parent' => NULL,
 	),
 	'tempDir' => TEMP_DIR,
 	'hello' => 'world',
