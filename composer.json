@@ -16,7 +16,7 @@
 	"require": {
 		"php": ">=5.3.1",
 		"latte/latte": "~2.2",
-		"nette/di": "~2.2, >=2.2.1",
+		"nette/di": ">=2.2.1 <2.3",
 		"nette/utils": "~2.2"
 	},
 	"suggest": {
