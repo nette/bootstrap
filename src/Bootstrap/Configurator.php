@@ -31,7 +31,7 @@ class Configurator extends Object
 
 	const COOKIE_SECRET = 'nette-debug';
 
-	/** @var array of function(Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
+	/** @var callable[]  function(Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
 	public $onCompile;
 
 	/** @var array */
