@@ -36,7 +36,7 @@ class Configurator extends Object
 		'constants' => 'Nette\DI\Extensions\ConstantsExtension',
 		'extensions' => 'Nette\DI\Extensions\ExtensionsExtension',
 		'decorator' => 'Nette\DI\Extensions\DecoratorExtension',
-		'application' => array('Nette\Bridges\ApplicationDI\ApplicationExtension', array('%debugMode%', array('%appDir%'))),
+		'application' => array('Nette\Bridges\ApplicationDI\ApplicationExtension', array('%debugMode%', array('%appDir%'), '%tempDir%/cache')),
 		'cache' => array('Nette\Bridges\CacheDI\CacheExtension', array('%tempDir%')),
 		'database' => array('Nette\Bridges\DatabaseDI\DatabaseExtension', array('%debugMode%')),
 		'di' => array('Nette\DI\Extensions\DIExtension', array('%debugMode%')),
