@@ -366,24 +366,32 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			$initialize->addBody('Nette\Forms\Rules::$defaultMessages[Nette\Forms\Form::?] = ?;', array($name, $text));
 		}
 
-		if ($config['session']['autoStart'] === 'smart') {
-			$initialize->addBody('$this->getByType("Nette\Http\Session")->exists() && $this->getByType("Nette\Http\Session")->start();');
-		} elseif ($config['session']['autoStart']) {
-			$initialize->addBody('$this->getByType("Nette\Http\Session")->start();');
-		}
-
 		if ($config['latte']['xhtml']) {
 			$initialize->addBody('Nette\Utils\Html::$xhtml = ?;', array(TRUE));
 		}
 
-		if (isset($config['security']['frames']) && $config['security']['frames'] !== TRUE) {
-			$frames = $config['security']['frames'];
-			if ($frames === FALSE) {
-				$frames = 'DENY';
-			} elseif (preg_match('#^https?:#', $frames)) {
-				$frames = "ALLOW-FROM $frames";
+		if (PHP_SAPI !== 'cli') {
+			if ($config['session']['autoStart'] === 'smart') {
+				$initialize->addBody('$this->getByType("Nette\Http\Session")->exists() && $this->getByType("Nette\Http\Session")->start();');
+			} elseif ($config['session']['autoStart']) {
+				$initialize->addBody('$this->getByType("Nette\Http\Session")->start();');
 			}
-			$initialize->addBody('header(?);', array("X-Frame-Options: $frames"));
+
+			if (isset($config['security']['frames']) && $config['security']['frames'] !== TRUE) {
+				$frames = $config['security']['frames'];
+				if ($frames === FALSE) {
+					$frames = 'DENY';
+				} elseif (preg_match('#^https?:#', $frames)) {
+					$frames = "ALLOW-FROM $frames";
+				}
+				$initialize->addBody('header(?);', array("X-Frame-Options: $frames"));
+			}
+
+			foreach ($config['http']['headers'] as $key => $value) {
+				if ($value != NULL) { // intentionally ==
+					$initialize->addBody('header(?);', array("$key: $value"));
+				}
+			}
 		}
 
 		foreach ($container->findByTag('run') as $name => $on) {
@@ -400,12 +408,6 @@ class NetteExtension extends Nette\DI\CompilerExtension
 					$type = $def->implement ?: $def->class;
 					$class->addDocument("@property $type \$$name");
 				}
-			}
-		}
-
-		foreach ($config['http']['headers'] as $key => $value) {
-			if ($value != NULL) { // intentionally ==
-				$initialize->addBody('header(?);', array("$key: $value"));
 			}
 		}
 
