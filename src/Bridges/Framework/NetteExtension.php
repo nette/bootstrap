@@ -358,8 +358,8 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			));
 		}
 
-		if (!empty($container->parameters['tempDir'])) {
-			$initialize->addBody('Nette\Caching\Storages\FileStorage::$useDirectories = ?;', array($this->checkTempDir($container->expand('%tempDir%/cache'))));
+		if (!empty($container->parameters['tempDir']) && !$this->checkTempDir($container->expand('%tempDir%/cache'))) {
+			$initialize->addBody('Nette\Caching\Storages\FileStorage::$useDirectories = FALSE;');
 		}
 
 		foreach ((array) $config['forms']['messages'] as $name => $text) {
