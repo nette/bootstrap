@@ -342,9 +342,16 @@ class Configurator extends Object
 	 */
 	public static function detectDebugMode($list = NULL)
 	{
-		$addr = isset($_SERVER['REMOTE_ADDR'])
-			? $_SERVER['REMOTE_ADDR']
-			: php_uname('n');
+		if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])){
+			$addr = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		}
+		elseif(isset($_SERVER['REMOTE_ADDR'])){
+			$addr = $_SERVER['REMOTE_ADDR'];
+		}
+		else{
+			return php_uname('n');
+		}
+		
 		$secret = isset($_COOKIE[self::COOKIE_SECRET]) && is_string($_COOKIE[self::COOKIE_SECRET])
 			? $_COOKIE[self::COOKIE_SECRET]
 			: NULL;
