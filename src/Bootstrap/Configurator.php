@@ -299,7 +299,7 @@ class Configurator extends Object
 
 
 	/**
-	 * Back compatiblity with < v2.3
+	 * Back compatibility with < v2.3
 	 * @return array
 	 */
 	protected function fixCompatibility($config)
