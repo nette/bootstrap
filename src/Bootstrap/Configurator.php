@@ -139,7 +139,7 @@ class Configurator extends Object
 	 */
 	protected function getDefaultParameters()
 	{
-		$trace = debug_backtrace(PHP_VERSION_ID >= 50306 ? DEBUG_BACKTRACE_IGNORE_ARGS : FALSE);
+		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		$last = end($trace);
 		$debugMode = static::detectDebugMode();
 		return [
@@ -257,9 +257,8 @@ class Configurator extends Object
 		foreach ($this->defaultExtensions as $name => $extension) {
 			list($class, $args) = is_string($extension) ? [$extension, []] : $extension;
 			if (class_exists($class)) {
-				$rc = new \ReflectionClass($class);
 				$args = DI\Helpers::expand($args, $this->parameters, TRUE);
-				$compiler->addExtension($name, $args ? $rc->newInstanceArgs($args) : $rc->newInstance());
+				$compiler->addExtension($name, (new \ReflectionClass($class))->newInstanceArgs($args));
 			}
 		}
 
