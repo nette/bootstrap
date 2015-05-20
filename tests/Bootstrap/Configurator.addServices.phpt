@@ -46,17 +46,17 @@ $existingService = new TestExistingService(false);
 $newService = new stdClass();
 $addServiceTwice = new stdClass();
 
-$configurator->addServices(array(
+$configurator->addServices([
 	'existingService' => $existingService,
 	'newService' => $newService,
 	'addServiceTwice' => $addServiceTwice,
-));
+]);
 
 $addServiceTwice = new stdClass();
 
-$configurator->addServices(array(
+$configurator->addServices([
 	'addServiceTwice' => $addServiceTwice,
-));
+]);
 
 $container = $configurator->createContainer();
 

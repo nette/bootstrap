@@ -15,7 +15,7 @@ class FooExtension extends Nette\DI\CompilerExtension
 {
 	public function loadConfiguration()
 	{
-		Assert::same( array('foo' => 'hello'), $this->config );
+		Assert::same( ['foo' => 'hello'], $this->config );
 	}
 }
 

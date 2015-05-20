@@ -31,40 +31,40 @@ class Configurator extends Object
 	public $onCompile;
 
 	/** @var array */
-	public $defaultExtensions = array(
+	public $defaultExtensions = [
 		'php' => 'Nette\DI\Extensions\PhpExtension',
 		'constants' => 'Nette\DI\Extensions\ConstantsExtension',
 		'extensions' => 'Nette\DI\Extensions\ExtensionsExtension',
-		'application' => array('Nette\Bridges\ApplicationDI\ApplicationExtension', array('%debugMode%', array('%appDir%'), '%tempDir%/cache')),
+		'application' => ['Nette\Bridges\ApplicationDI\ApplicationExtension', ['%debugMode%', ['%appDir%'], '%tempDir%/cache']],
 		'decorator' => 'Nette\DI\Extensions\DecoratorExtension',
-		'cache' => array('Nette\Bridges\CacheDI\CacheExtension', array('%tempDir%')),
-		'database' => array('Nette\Bridges\DatabaseDI\DatabaseExtension', array('%debugMode%')),
-		'di' => array('Nette\DI\Extensions\DIExtension', array('%debugMode%')),
+		'cache' => ['Nette\Bridges\CacheDI\CacheExtension', ['%tempDir%']],
+		'database' => ['Nette\Bridges\DatabaseDI\DatabaseExtension', ['%debugMode%']],
+		'di' => ['Nette\DI\Extensions\DIExtension', ['%debugMode%']],
 		'forms' => 'Nette\Bridges\FormsDI\FormsExtension',
 		'http' => 'Nette\Bridges\HttpDI\HttpExtension',
-		'latte' => array('Nette\Bridges\ApplicationDI\LatteExtension', array('%tempDir%/cache/latte', '%debugMode%')),
+		'latte' => ['Nette\Bridges\ApplicationDI\LatteExtension', ['%tempDir%/cache/latte', '%debugMode%']],
 		'mail' => 'Nette\Bridges\MailDI\MailExtension',
-		'reflection' => array('Nette\Bridges\ReflectionDI\ReflectionExtension', array('%debugMode%')),
-		'routing' => array('Nette\Bridges\ApplicationDI\RoutingExtension', array('%debugMode%')),
-		'security' => array('Nette\Bridges\SecurityDI\SecurityExtension', array('%debugMode%')),
-		'session' => array('Nette\Bridges\HttpDI\SessionExtension', array('%debugMode%')),
-		'tracy' => array('Tracy\Bridges\Nette\TracyExtension', array('%debugMode%')),
+		'reflection' => ['Nette\Bridges\ReflectionDI\ReflectionExtension', ['%debugMode%']],
+		'routing' => ['Nette\Bridges\ApplicationDI\RoutingExtension', ['%debugMode%']],
+		'security' => ['Nette\Bridges\SecurityDI\SecurityExtension', ['%debugMode%']],
+		'session' => ['Nette\Bridges\HttpDI\SessionExtension', ['%debugMode%']],
+		'tracy' => ['Tracy\Bridges\Nette\TracyExtension', ['%debugMode%']],
 		'inject' => 'Nette\DI\Extensions\InjectExtension',
-	);
+	];
 
 	/** @var string[] of classes which shouldn't be autowired */
-	public $autowireExcludedClasses = array(
+	public $autowireExcludedClasses = [
 		'stdClass',
-	);
+	];
 
 	/** @var array */
 	protected $parameters;
 
 	/** @var array */
-	protected $services = array();
+	protected $services = [];
 
 	/** @var array [file|array, section] */
-	protected $files = array();
+	protected $files = [];
 
 
 	public function __construct()
@@ -142,18 +142,18 @@ class Configurator extends Object
 		$trace = debug_backtrace(PHP_VERSION_ID >= 50306 ? DEBUG_BACKTRACE_IGNORE_ARGS : FALSE);
 		$last = end($trace);
 		$debugMode = static::detectDebugMode();
-		return array(
+		return [
 			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : NULL,
 			'wwwDir' => isset($last['file']) ? dirname($last['file']) : NULL,
 			'debugMode' => $debugMode,
 			'productionMode' => !$debugMode,
 			'environment' => $debugMode ? 'development' : 'production',
 			'consoleMode' => PHP_SAPI === 'cli',
-			'container' => array(
+			'container' => [
 				'class' => NULL,
 				'parent' => NULL,
-			)
-		);
+			]
+		];
 	}
 
 
@@ -201,7 +201,7 @@ class Configurator extends Object
 				$section = $this->parameters['environment'];
 			} catch (\Exception $e) {}
 		}
-		$this->files[] = array($file, $section === self::AUTO ? $this->parameters['environment'] : $section);
+		$this->files[] = [$file, $section === self::AUTO ? $this->parameters['environment'] : $section];
 		return $this;
 	}
 
@@ -217,8 +217,8 @@ class Configurator extends Object
 			$this->parameters['debugMode']
 		);
 		$class = $loader->load(
-			array($this->parameters, $this->files),
-			array($this, 'generateContainer')
+			[$this->parameters, $this->files],
+			[$this, 'generateContainer']
 		);
 
 		$container = new $class;
@@ -240,8 +240,8 @@ class Configurator extends Object
 	public function generateContainer(DI\Compiler $compiler)
 	{
 		$loader = $this->createLoader();
-		$compiler->addConfig(array('parameters' => $this->parameters));
-		$fileInfo = array();
+		$compiler->addConfig(['parameters' => $this->parameters]);
+		$fileInfo = [];
 		foreach ($this->files as $info) {
 			if (is_scalar($info[0])) {
 				$fileInfo[] = "// source: $info[0] $info[1]";
@@ -255,7 +255,7 @@ class Configurator extends Object
 		$builder->addExcludedClasses($this->autowireExcludedClasses);
 
 		foreach ($this->defaultExtensions as $name => $extension) {
-			list($class, $args) = is_string($extension) ? array($extension, array()) : $extension;
+			list($class, $args) = is_string($extension) ? [$extension, []] : $extension;
 			if (class_exists($class)) {
 				$rc = new \ReflectionClass($class);
 				$args = DI\Helpers::expand($args, $this->parameters, TRUE);
@@ -308,8 +308,8 @@ class Configurator extends Object
 			$config['nette']['http']['frames'] = $config['nette']['security']['frames'];
 			unset($config['nette']['security']['frames']);
 		}
-		foreach (array('application', 'cache', 'database', 'di' => 'container', 'forms', 'http',
-			'latte', 'mail' => 'mailer', 'routing', 'security', 'session', 'tracy' => 'debugger') as $new => $old) {
+		foreach (['application', 'cache', 'database', 'di' => 'container', 'forms', 'http',
+			'latte', 'mail' => 'mailer', 'routing', 'security', 'session', 'tracy' => 'debugger'] as $new => $old) {
 			if (isset($config['nette'][$old])) {
 				$new = is_int($new) ? $old : $new;
 				if (isset($config[$new])) {

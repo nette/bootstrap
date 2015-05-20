@@ -33,7 +33,7 @@ test(function() {
 	', 'neon'));
 	$container = $configurator->createContainer();
 
-	Assert::same(array('item' => 10), TestExtension::$cfg);
+	Assert::same(['item' => 10], TestExtension::$cfg);
 });
 
 

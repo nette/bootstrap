@@ -32,19 +32,19 @@ $container = $configurator->createContainer();
 
 Assert::type( 'Nette\DI\Container', $container );
 
-Assert::same( array(
+Assert::same( [
 	'appDir' => __DIR__,
 	'wwwDir' => __DIR__,
 	'debugMode' => TRUE,
 	'productionMode' => FALSE,
 	'environment' => 'development',
 	'consoleMode' => PHP_SAPI === 'cli',
-	'container' => array(
+	'container' => [
 		'class' => NULL,
 		'parent' => NULL,
-	),
+	],
 	'tempDir' => TEMP_DIR,
-), $container->parameters );
+], $container->parameters );
 
 Assert::true( $container->getService('nette.cacheJournal') instanceof Nette\Caching\Storages\FileJournal || $container->getService('nette.cacheJournal') instanceof Nette\Caching\Storages\SQLiteJournal );
 Assert::type( 'Nette\Caching\Storages\FileStorage', $container->getService('cacheStorage') );

@@ -33,7 +33,7 @@ class TracyBridge
 
 		$blueScreen->addPanel(function($e) {
 			if ($e instanceof Latte\CompileException) {
-				return array(
+				return [
 					'tab' => 'Template',
 					'panel' => (@is_file($e->sourceName) // @ - may trigger error
 							? '<p><b>File:</b> ' . Helpers::editorLink($e->sourceName, $e->sourceLine) . '</p>'
@@ -41,7 +41,7 @@ class TracyBridge
 						. '<pre>'
 						. BlueScreen::highlightLine(htmlspecialchars($e->sourceCode, ENT_IGNORE, 'UTF-8'), $e->sourceLine)
 						. '</pre>'
-				);
+				];
 			}
 		});
 
@@ -49,13 +49,13 @@ class TracyBridge
 			if ($e instanceof Nette\Neon\Exception && preg_match('#line (\d+)#', $e->getMessage(), $m)
 				&& ($trace = Helpers::findTrace($e->getTrace(), 'Nette\Neon\Decoder::decode'))
 			) {
-				return array(
+				return [
 					'tab' => 'NEON',
 					'panel' => ($trace2 = Helpers::findTrace($e->getTrace(), 'Nette\DI\Config\Adapters\NeonAdapter::load'))
 						? '<p><b>File:</b> ' . Helpers::editorLink($trace2['args'][0], $m[1]) . '</p>'
 							. BlueScreen::highlightFile($trace2['args'][0], $m[1])
 						: BlueScreen::highlightPhp($trace['args'][0], $m[1])
-				);
+				];
 			}
 		});
 	}

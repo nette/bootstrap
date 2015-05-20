@@ -13,27 +13,27 @@ require __DIR__ . '/../bootstrap.php';
 
 $configurator = new Configurator;
 $configurator->setTempDirectory(TEMP_DIR);
-$configurator->addParameters(array(
+$configurator->addParameters([
 	'hello' => 'world',
-));
+]);
 $container = $configurator->createContainer();
 
 Assert::type( 'Nette\DI\Container', $container );
 
-Assert::same( array(
+Assert::same( [
 	'appDir' => __DIR__,
 	'wwwDir' => __DIR__,
 	'debugMode' => FALSE,
 	'productionMode' => TRUE,
 	'environment' => 'production',
 	'consoleMode' => PHP_SAPI === 'cli',
-	'container' => array(
+	'container' => [
 		'class' => NULL,
 		'parent' => NULL,
-	),
+	],
 	'tempDir' => TEMP_DIR,
 	'hello' => 'world',
-), $container->parameters );
+], $container->parameters );
 
 Assert::true( $container->getService('nette.cacheJournal') instanceof Nette\Caching\Storages\FileJournal || $container->getService('nette.cacheJournal') instanceof Nette\Caching\Storages\SQLiteJournal );
 Assert::type( 'Nette\Caching\Storages\FileStorage', $container->getService('cacheStorage') );
