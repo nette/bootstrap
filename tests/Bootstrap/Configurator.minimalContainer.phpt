@@ -36,7 +36,7 @@ Assert::same(array(
 	'hello' => 'world',
 ), $container->parameters);
 
-Assert::type('Nette\Caching\Storages\FileJournal', $container->getService('nette.cacheJournal'));
+Assert::true( $container->getService('nette.cacheJournal') instanceof Nette\Caching\Storages\FileJournal || $container->getService('nette.cacheJournal') instanceof Nette\Caching\Storages\SQLiteJournal );
 Assert::type('Nette\Caching\Storages\FileStorage', $container->getService('cacheStorage'));
 Assert::type('Nette\Http\Request', $container->getService('httpRequest'));
 Assert::type('Nette\Http\Response', $container->getService('httpResponse'));
