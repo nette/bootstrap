@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * Test: Nette\Configurator presenters decoration
+ */
+use Nette\Configurator,
+	Tester\Assert;
+require __DIR__ . '/../bootstrap.php';
+require __DIR__ . '/files/MyPresenter.php';
+
+test(function()
+{
+	$configurator = new Configurator;
+	$configurator->setDebugMode(FALSE);
+	$configurator->setTempDirectory(TEMP_DIR);
+	$configurator->addConfig(Tester\FileMock::create('
+		parameters:
+			param: \'test\'
+		decorator:
+			BasePresenter:
+				setup:
+					- setAttr(%param%)
+	', 'neon'));
+
+	$container = $configurator->createContainer();
+	$services = array_keys($container->findByTag('nette.presenter'), 'Presenter1');
+	Assert::count(1, $services);
+	$presenter = $container->createService($services[0]);
+	Assert::same('test', $presenter->getAttr());
+});
+
+
+test(function()
+{
+	$configurator = new Configurator;
+	$configurator->setDebugMode(FALSE);
+	$configurator->setTempDirectory(TEMP_DIR);
+	$configurator->addConfig(Tester\FileMock::create('
+		decorator:
+			BasePresenter:
+				tags: [test.tag]
+	', 'neon'));
+
+	$container = $configurator->createContainer();
+	$services = $container->findByTag('test.tag');
+	Assert::count(1, $services);
+});
