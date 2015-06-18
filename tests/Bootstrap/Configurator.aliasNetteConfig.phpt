@@ -4,8 +4,8 @@
  * Test: Nette\Configurator aliases for nette config
  */
 
-use Nette\Configurator,
-	Tester\Assert;
+use Nette\Configurator;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -22,7 +22,7 @@ class TestExtension extends Nette\DI\CompilerExtension
 }
 
 
-test(function() {
+test(function () {
 	$configurator = new Configurator;
 	$configurator->defaultExtensions['mail'] = 'TestExtension';
 	$configurator->setTempDirectory(TEMP_DIR);
@@ -37,7 +37,7 @@ test(function() {
 });
 
 
-Assert::exception(function() {
+Assert::exception(function () {
 	$configurator = new Configurator;
 	$configurator->defaultExtensions['database'] = 'TestExtension';
 	$configurator->setTempDirectory(TEMP_DIR);

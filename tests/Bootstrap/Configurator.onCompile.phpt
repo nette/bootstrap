@@ -4,8 +4,8 @@
  * Test: Nette\Configurator and user extension.
  */
 
-use Nette\Configurator,
-	Tester\Assert;
+use Nette\Configurator;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -15,14 +15,14 @@ class FooExtension extends Nette\DI\CompilerExtension
 {
 	public function loadConfiguration()
 	{
-		Assert::same( array('foo' => 'hello'), $this->config );
+		Assert::same(array('foo' => 'hello'), $this->config);
 	}
 }
 
 
 $configurator = new Configurator;
 $configurator->setTempDirectory(TEMP_DIR);
-$configurator->onCompile[] = function(Configurator $configurator, Nette\DI\Compiler $compiler) {
+$configurator->onCompile[] = function (Configurator $configurator, Nette\DI\Compiler $compiler) {
 	$compiler->addExtension('foo', new FooExtension);
 };
 $configurator->addConfig(Tester\FileMock::create('
