@@ -4,8 +4,8 @@
  * Test: Nette\Configurator and headers.
  */
 
-use Nette\Configurator,
-	Tester\Assert;
+use Nette\Configurator;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -28,19 +28,19 @@ $container = $configurator->createContainer();
 
 
 $headers = headers_list();
-Assert::contains( 'X-Frame-Options: SAMEORIGIN', $headers );
-Assert::contains( 'Content-Type: text/html; charset=utf-8', $headers );
-Assert::contains( 'X-Powered-By: Nette Framework', $headers );
-Assert::contains( 'A: b', $headers );
-Assert::notContains( 'C:', $headers );
+Assert::contains('X-Frame-Options: SAMEORIGIN', $headers);
+Assert::contains('Content-Type: text/html; charset=utf-8', $headers);
+Assert::contains('X-Powered-By: Nette Framework', $headers);
+Assert::contains('A: b', $headers);
+Assert::notContains('C:', $headers);
 
 
 
 echo ' '; @ob_flush(); flush();
 
-Assert::true( headers_sent() );
+Assert::true(headers_sent());
 
-Assert::error(function(){
+Assert::error(function () {
 	$configurator = new Configurator;
 	$configurator->setTempDirectory(TEMP_DIR);
 	$configurator->addParameters(array('container' => array('class' => 'Container2')));

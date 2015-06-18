@@ -4,8 +4,8 @@
  * Test: Nette\Configurator and autowiring blacklist
  */
 
-use Nette\Configurator,
-	Tester\Assert;
+use Nette\Configurator;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -19,7 +19,7 @@ class Foo extends stdClass
 $configurator = new Configurator;
 $configurator->setTempDirectory(TEMP_DIR);
 
-$configurator->onCompile = function($configurator, $compiler) {
+$configurator->onCompile = function ($configurator, $compiler) {
 	$compiler->getContainerBuilder()->addExcludedClasses(array('stdClass'));
 };
 

@@ -4,8 +4,8 @@
  * Test: Nette\Configurator and SimpleAuthenticator
  */
 
-use Nette\Configurator,
-	Tester\Assert;
+use Nette\Configurator;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';

@@ -7,10 +7,10 @@
 
 namespace Nette\Bridges\Framework;
 
-use Nette,
-	Nette\DI\ContainerBuilder,
-	Nette\Utils\Validators,
-	Latte;
+use Nette;
+use Nette\DI\ContainerBuilder;
+use Nette\Utils\Validators;
+use Latte;
 
 
 /**
@@ -301,8 +301,8 @@ class NetteExtension extends Nette\DI\CompilerExtension
 			} else {
 				Validators::assert($macro, 'callable');
 			}
-			$latte->addSetup('?->onCompile[] = function($engine) { ' . $macro . '($engine->getCompiler()); }', array('@self'));
-			$latteFactory->addSetup('?->onCompile[] = function($engine) { ' . $macro . '($engine->getCompiler()); }', array('@self'));
+			$latte->addSetup('?->onCompile[] = function ($engine) { ' . $macro . '($engine->getCompiler()); }', array('@self'));
+			$latteFactory->addSetup('?->onCompile[] = function ($engine) { ' . $macro . '($engine->getCompiler()); }', array('@self'));
 		}
 
 		if (class_exists('Nette\Templating\FileTemplate')) {
