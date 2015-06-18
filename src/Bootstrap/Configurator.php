@@ -7,9 +7,9 @@
 
 namespace Nette;
 
-use Nette,
-	Nette\DI,
-	Tracy;
+use Nette;
+use Nette\DI;
+use Tracy;
 
 
 /**
@@ -27,7 +27,7 @@ class Configurator extends Object
 
 	const COOKIE_SECRET = 'nette-debug';
 
-	/** @var callable[]  function(Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
+	/** @var callable[]  function (Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
 	public $onCompile;
 
 	/** @var array */
@@ -152,7 +152,7 @@ class Configurator extends Object
 			'container' => [
 				'class' => NULL,
 				'parent' => NULL,
-			]
+			],
 		];
 	}
 
@@ -199,7 +199,8 @@ class Configurator extends Object
 				$loader->load($file, $this->parameters['environment']);
 				trigger_error("Config file '$file' has sections, call addConfig() with second parameter Configurator::AUTO.", E_USER_WARNING);
 				$section = $this->parameters['environment'];
-			} catch (\Exception $e) {}
+			} catch (\Exception $e) {
+			}
 		}
 		$this->files[] = [$file, $section === self::AUTO ? $this->parameters['environment'] : $section];
 		return $this;
@@ -287,7 +288,7 @@ class Configurator extends Object
 	protected function getCacheDirectory()
 	{
 		if (empty($this->parameters['tempDir'])) {
-			throw new Nette\InvalidStateException("Set path to temporary directory using setTempDirectory().");
+			throw new Nette\InvalidStateException('Set path to temporary directory using setTempDirectory().');
 		}
 		$dir = $this->parameters['tempDir'] . '/cache';
 		if (!is_dir($dir)) {

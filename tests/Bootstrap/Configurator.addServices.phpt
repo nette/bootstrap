@@ -4,8 +4,8 @@
  * Test: Nette\Configurator::addServices()
  */
 
-use Nette\Configurator,
-	Tester\Assert;
+use Nette\Configurator;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -16,7 +16,7 @@ class TestExistingService
 
 	private $scream;
 
-	public function __construct($scream = true)
+	public function __construct($scream = TRUE)
 	{
 		$this->scream = $scream;
 	}
@@ -42,7 +42,7 @@ services:
 
 ', 'neon'));
 
-$existingService = new TestExistingService(false);
+$existingService = new TestExistingService(FALSE);
 $newService = new stdClass();
 $addServiceTwice = new stdClass();
 

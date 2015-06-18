@@ -17,5 +17,4 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 
 class Presenter1 extends BasePresenter
 {
-
 }

@@ -4,15 +4,14 @@
  * Test: Nette\Configurator presenters decoration
  */
 
-use Nette\Configurator,
-	Tester\Assert;
+use Nette\Configurator;
+use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 require __DIR__ . '/files/MyPresenter.php';
 
 
-test(function()
-{
+test(function () {
 	$configurator = new Configurator;
 	$configurator->setDebugMode(FALSE);
 	$configurator->setTempDirectory(TEMP_DIR);
@@ -33,8 +32,7 @@ test(function()
 });
 
 
-test(function()
-{
+test(function () {
 	$configurator = new Configurator;
 	$configurator->setDebugMode(FALSE);
 	$configurator->setTempDirectory(TEMP_DIR);
