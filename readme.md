@@ -3,6 +3,8 @@ Nette Bootstrap
 
 [![Downloads this Month](https://img.shields.io/packagist/dm/nette/bootstrap.svg)](https://packagist.org/packages/nette/bootstrap)
 [![Build Status](https://travis-ci.org/nette/bootstrap.svg?branch=master)](https://travis-ci.org/nette/bootstrap)
+[![Latest Stable Version](https://poser.pugx.org/nette/bootstrap/v/stable)](https://github.com/nette/bootstrap/releases)
+[![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/nette/bootstrap/blob/master/license.md)
 
 File `bootstrap.php` loads Nette Framework and all libraries that we depend on:
 
