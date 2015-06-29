@@ -15,8 +15,6 @@ use Tracy;
 /**
  * Initial system DI container generator.
  *
- * @author     David Grudl
- *
  * @property   bool $debugMode
  * @property-write $tempDirectory
  */
