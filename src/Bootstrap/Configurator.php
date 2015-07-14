@@ -64,6 +64,11 @@ class Configurator extends Object
 	/** @var array [file|array, section] */
 	protected $files = [];
 
+	/**
+	* @var array  string => IAdapter|string
+	*/
+	private $adapters = [];
+
 
 	public function __construct()
 	{
@@ -273,16 +278,32 @@ class Configurator extends Object
 			. (($tmp = $builder->parameters['container']['class']) ? "\nclass $tmp extends {$builder->getClassName()} {}\n" : '');
 	}
 
+	/**
+	* @param string $extension
+	* @param string|Nette\DI\Config\IAdapter $adapter
+	* @return self
+	*/
+	public function addAdapter($extension, $adapter) {
+		$this->adapters[strtolower($extension)] = $adapter;
+		return $this;
+	}
 
 	/**
 	 * @return DI\Config\Loader
 	 */
 	protected function createLoader()
 	{
-		return new DI\Config\Loader;
+		$loader = new DI\Config\Loader;
+		foreach($this->adapters as $extension => $adapter) {
+			$loader->addAdapter($extension, $adapter);
+		}
+		return $loader;
 	}
 
-
+	/**
+	 * @return string
+	 * @throws Nette\InvalidStateException if tempDir parameter is not set
+	 */
 	protected function getCacheDirectory()
 	{
 		if (empty($this->parameters['tempDir'])) {
