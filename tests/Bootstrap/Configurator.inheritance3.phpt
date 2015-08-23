@@ -22,4 +22,4 @@ services:
 
 Assert::exception(function () use ($configurator) {
 	$configurator->createContainer();
-}, 'Nette\DI\ServiceCreationException', "Circular reference detected for service 'application'.");
+}, Nette\DI\ServiceCreationException::class, "Circular reference detected for service 'application'.");

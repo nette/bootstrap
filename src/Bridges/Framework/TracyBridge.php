@@ -25,7 +25,7 @@ class TracyBridge
 	{
 		$blueScreen = Tracy\Debugger::getBlueScreen();
 
-		if (class_exists('Nette\Framework')) {
+		if (class_exists(Nette\Framework::class)) {
 			$version = Framework::VERSION . (Framework::REVISION ? ' (' . Framework::REVISION . ')' : '');
 			Tracy\Debugger::getBar()->getPanel('Tracy:info')->data['Nette Framework'] = $version;
 			$blueScreen->info[] = "Nette Framework $version";

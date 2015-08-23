@@ -21,4 +21,4 @@ services:
 $container = $configurator->createContainer();
 
 
-Assert::type('Nette\Application\Application', $container->getService('application'));
+Assert::type(Nette\Application\Application::class, $container->getService('application'));
