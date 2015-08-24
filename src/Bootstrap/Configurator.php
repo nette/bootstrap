@@ -113,7 +113,7 @@ class Configurator extends Object
 	 */
 	protected function getDefaultParameters()
 	{
-		$trace = debug_backtrace(PHP_VERSION_ID >= 50306 ? DEBUG_BACKTRACE_IGNORE_ARGS : FALSE);
+		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		$debugMode = static::detectDebugMode();
 		return array(
 			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : NULL,
