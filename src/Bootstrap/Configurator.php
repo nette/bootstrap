@@ -30,24 +30,24 @@ class Configurator extends Object
 
 	/** @var array */
 	public $defaultExtensions = [
-		'php' => 'Nette\DI\Extensions\PhpExtension',
-		'constants' => 'Nette\DI\Extensions\ConstantsExtension',
-		'extensions' => 'Nette\DI\Extensions\ExtensionsExtension',
-		'application' => ['Nette\Bridges\ApplicationDI\ApplicationExtension', ['%debugMode%', ['%appDir%'], '%tempDir%/cache']],
-		'decorator' => 'Nette\DI\Extensions\DecoratorExtension',
-		'cache' => ['Nette\Bridges\CacheDI\CacheExtension', ['%tempDir%']],
-		'database' => ['Nette\Bridges\DatabaseDI\DatabaseExtension', ['%debugMode%']],
-		'di' => ['Nette\DI\Extensions\DIExtension', ['%debugMode%']],
-		'forms' => 'Nette\Bridges\FormsDI\FormsExtension',
-		'http' => 'Nette\Bridges\HttpDI\HttpExtension',
-		'latte' => ['Nette\Bridges\ApplicationDI\LatteExtension', ['%tempDir%/cache/latte', '%debugMode%']],
-		'mail' => 'Nette\Bridges\MailDI\MailExtension',
-		'reflection' => ['Nette\Bridges\ReflectionDI\ReflectionExtension', ['%debugMode%']],
-		'routing' => ['Nette\Bridges\ApplicationDI\RoutingExtension', ['%debugMode%']],
-		'security' => ['Nette\Bridges\SecurityDI\SecurityExtension', ['%debugMode%']],
-		'session' => ['Nette\Bridges\HttpDI\SessionExtension', ['%debugMode%']],
-		'tracy' => ['Tracy\Bridges\Nette\TracyExtension', ['%debugMode%']],
-		'inject' => 'Nette\DI\Extensions\InjectExtension',
+		'php' => Nette\DI\Extensions\PhpExtension::class,
+		'constants' => Nette\DI\Extensions\ConstantsExtension::class,
+		'extensions' => Nette\DI\Extensions\ExtensionsExtension::class,
+		'application' => [Nette\Bridges\ApplicationDI\ApplicationExtension::class, ['%debugMode%', ['%appDir%'], '%tempDir%/cache']],
+		'decorator' => Nette\DI\Extensions\DecoratorExtension::class,
+		'cache' => [Nette\Bridges\CacheDI\CacheExtension::class, ['%tempDir%']],
+		'database' => [Nette\Bridges\DatabaseDI\DatabaseExtension::class, ['%debugMode%']],
+		'di' => [Nette\DI\Extensions\DIExtension::class, ['%debugMode%']],
+		'forms' => Nette\Bridges\FormsDI\FormsExtension::class,
+		'http' => Nette\Bridges\HttpDI\HttpExtension::class,
+		'latte' => [Nette\Bridges\ApplicationDI\LatteExtension::class, ['%tempDir%/cache/latte', '%debugMode%']],
+		'mail' => Nette\Bridges\MailDI\MailExtension::class,
+		'reflection' => [Nette\Bridges\ReflectionDI\ReflectionExtension::class, ['%debugMode%']],
+		'routing' => [Nette\Bridges\ApplicationDI\RoutingExtension::class, ['%debugMode%']],
+		'security' => [Nette\Bridges\SecurityDI\SecurityExtension::class, ['%debugMode%']],
+		'session' => [Nette\Bridges\HttpDI\SessionExtension::class, ['%debugMode%']],
+		'tracy' => [Tracy\Bridges\Nette\TracyExtension::class, ['%debugMode%']],
+		'inject' => Nette\DI\Extensions\InjectExtension::class,
 	];
 
 	/** @var string[] of classes which shouldn't be autowired */
@@ -174,7 +174,7 @@ class Configurator extends Object
 	 */
 	public function createRobotLoader()
 	{
-		if (!class_exists('Nette\Loaders\RobotLoader')) {
+		if (!class_exists(Nette\Loaders\RobotLoader::class)) {
 			throw new Nette\NotSupportedException('RobotLoader not found, do you have `nette/robot-loader` package installed?');
 		}
 
@@ -225,7 +225,7 @@ class Configurator extends Object
 			$container->addService($name, $service);
 		}
 		$container->initialize();
-		if (class_exists('Nette\Environment')) {
+		if (class_exists(Nette\Environment::class)) {
 			Nette\Environment::setContext($container); // back compatibility
 		}
 		return $container;

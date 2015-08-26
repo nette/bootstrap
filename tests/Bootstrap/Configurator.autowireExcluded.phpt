@@ -30,4 +30,4 @@ Assert::type('Foo', $container->getByType('Foo'));
 
 Assert::exception(function () use ($container) {
 	$container->getByType('stdClass');
-}, '\Nette\DI\MissingServiceException');
+}, Nette\DI\MissingServiceException::class);
