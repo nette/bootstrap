@@ -26,7 +26,7 @@ services:
 $container = $configurator->createContainer();
 
 
-Assert::type('Foo', $container->getByType('Foo'));
+Assert::type(Foo::class, $container->getByType('Foo'));
 
 Assert::exception(function () use ($container) {
 	$container->getByType('stdClass');

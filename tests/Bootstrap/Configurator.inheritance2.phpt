@@ -33,10 +33,10 @@ services:
 $container = $configurator->createContainer();
 
 
-Assert::type('MyApp', $container->getService('application'));
+Assert::type(MyApp::class, $container->getService('application'));
 Assert::null($container->getService('application')->catchExceptions);
 Assert::same('Error', $container->getService('application')->errorPresenter);
 
-Assert::type('MyApp', $container->getService('app2'));
+Assert::type(MyApp::class, $container->getService('app2'));
 Assert::null($container->getService('app2')->catchExceptions);
 Assert::null($container->getService('app2')->errorPresenter);
