@@ -14,9 +14,6 @@ use Tracy;
 
 /**
  * Initial system DI container generator.
- *
- * @property   bool $debugMode
- * @property-write $tempDirectory
  */
 class Configurator extends Object
 {
