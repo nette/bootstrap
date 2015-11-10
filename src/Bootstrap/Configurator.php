@@ -213,7 +213,7 @@ class Configurator extends Object
 			$this->parameters['debugMode']
 		);
 		$class = $loader->load(
-			[$this->parameters, $this->files],
+			[$this->parameters, $this->files, PHP_VERSION_ID - PHP_RELEASE_VERSION],
 			[$this, 'generateContainer']
 		);
 
