@@ -35,9 +35,13 @@ class TracyBridge
 			if ($e instanceof Latte\CompileException) {
 				return [
 					'tab' => 'Template',
-					'panel' => (@is_file($e->sourceName) // @ - may trigger error
-							? '<p><b>File:</b> ' . Helpers::editorLink($e->sourceName, $e->sourceLine) . '</p>'
-							: '')
+					'panel' => (preg_match('#\n|\?#', $e->sourceName)
+							? ''
+							: '<p>'
+								. (@is_file($e->sourceName) // @ - may trigger error
+									? '<b>File:</b> ' . Helpers::editorLink($e->sourceName, $e->sourceLine)
+									: '<b>' . htmlspecialchars($e->sourceName . ($e->sourceLine ? ':' . $e->sourceLine : '')) . '</b>')
+								. '</p>')
 						. '<pre>'
 						. BlueScreen::highlightLine(htmlspecialchars($e->sourceCode, ENT_IGNORE, 'UTF-8'), $e->sourceLine)
 						. '</pre>',
