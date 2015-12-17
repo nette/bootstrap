@@ -20,7 +20,7 @@ class Configurator extends Object
 	const AUTO = TRUE,
 		NONE = FALSE;
 
-	const COOKIE_SECRET = 'nette-debug';
+	const COOKIE_SECRET = 'nette-debug';234234
 
 	/** @var callable[]  function (Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
 	public $onCompile;
