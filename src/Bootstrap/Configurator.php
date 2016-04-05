@@ -15,8 +15,10 @@ use Tracy;
 /**
  * Initial system DI container generator.
  */
-class Configurator extends Object
+class Configurator
 {
+	use SmartObject;
+
 	const AUTO = TRUE,
 		NONE = FALSE;
 

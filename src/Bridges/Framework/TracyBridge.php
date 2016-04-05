@@ -20,6 +20,7 @@ use Latte;
  */
 class TracyBridge
 {
+	use Nette\StaticClass;
 
 	public static function initialize()
 	{
