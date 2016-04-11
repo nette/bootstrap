@@ -146,10 +146,6 @@ class Configurator
 			'productionMode' => !$debugMode,
 			'environment' => $debugMode ? 'development' : 'production',
 			'consoleMode' => PHP_SAPI === 'cli',
-			'container' => [
-				'class' => NULL,
-				'parent' => NULL,
-			],
 		];
 	}
 
@@ -258,13 +254,7 @@ class Configurator
 		$this->onCompile($this, $compiler);
 
 		$classes = $compiler->compile();
-
-		if (!empty($builder->parameters['container']['parent'])) {
-			$classes[0]->setExtends($builder->parameters['container']['parent']);
-		}
-
-		return implode("\n", $fileInfo) . "\n\n" . implode("\n\n\n", $classes)
-			. (($tmp = $builder->parameters['container']['class']) ? "\nclass $tmp extends {$builder->getClassName()} {}\n" : '');
+		return implode("\n", $fileInfo) . "\n\n" . implode("\n\n\n", $classes);
 	}
 
 
