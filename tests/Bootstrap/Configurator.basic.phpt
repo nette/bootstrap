@@ -20,7 +20,7 @@ $configurator->addParameters([
 	'foo2' => '%foo%',         // uses parameter from config file
 	'foo3' => '%foo%',         // will be overwritten by config file
 ]);
-$container = $configurator->addConfig('files/configurator.basic.neon', 'production')
+$container = @$configurator->addConfig('files/configurator.basic.neon', 'production')
 	->createContainer();
 
 Assert::same('overwritten', $container->parameters['wwwDir']);
