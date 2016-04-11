@@ -25,7 +25,6 @@ Assert::same([
 	'wwwDir' => __DIR__,
 	'debugMode' => FALSE,
 	'productionMode' => TRUE,
-	'environment' => 'production',
 	'consoleMode' => PHP_SAPI === 'cli',
 	'tempDir' => TEMP_DIR,
 	'hello' => 'world',

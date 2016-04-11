@@ -84,7 +84,6 @@ class Configurator
 		}
 		$this->parameters['debugMode'] = $value;
 		$this->parameters['productionMode'] = !$this->parameters['debugMode']; // compatibility
-		$this->parameters['environment'] = $this->parameters['debugMode'] ? 'development' : 'production';
 		return $this;
 	}
 
@@ -144,7 +143,6 @@ class Configurator
 			'wwwDir' => isset($last['file']) ? dirname($last['file']) : NULL,
 			'debugMode' => $debugMode,
 			'productionMode' => !$debugMode,
-			'environment' => $debugMode ? 'development' : 'production',
 			'consoleMode' => PHP_SAPI === 'cli',
 		];
 	}
@@ -190,7 +188,7 @@ class Configurator
 		if ($section !== NULL) {
 			trigger_error('Sections in config file are deprecated.', E_USER_DEPRECATED);
 		}
-		$this->files[] = [$file, $section === self::AUTO ? $this->parameters['environment'] : $section];
+		$this->files[] = [$file, $section === self::AUTO ? ($this->parameters['debugMode'] ? 'development' : 'production') : $section];
 		return $this;
 	}
 
