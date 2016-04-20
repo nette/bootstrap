@@ -32,7 +32,7 @@
 		"nette/robot-loader": "~2.2",
 		"nette/safe-stream": "~2.2",
 		"nette/security": "~2.3",
-		"nette/tester": "~1.3",
+		"nette/tester": "~1.7",
 		"latte/latte": "~2.2",
 		"tracy/tracy": "^2.3"
 	},
