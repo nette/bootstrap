@@ -25,12 +25,7 @@ Assert::same([
 	'wwwDir' => __DIR__,
 	'debugMode' => FALSE,
 	'productionMode' => TRUE,
-	'environment' => 'production',
 	'consoleMode' => PHP_SAPI === 'cli',
-	'container' => [
-		'class' => NULL,
-		'parent' => NULL,
-	],
 	'tempDir' => TEMP_DIR,
 	'hello' => 'world',
 ], $container->parameters);

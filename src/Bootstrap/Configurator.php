@@ -84,7 +84,6 @@ class Configurator
 		}
 		$this->parameters['debugMode'] = $value;
 		$this->parameters['productionMode'] = !$this->parameters['debugMode']; // compatibility
-		$this->parameters['environment'] = $this->parameters['debugMode'] ? 'development' : 'production';
 		return $this;
 	}
 
@@ -144,12 +143,7 @@ class Configurator
 			'wwwDir' => isset($last['file']) ? dirname($last['file']) : NULL,
 			'debugMode' => $debugMode,
 			'productionMode' => !$debugMode,
-			'environment' => $debugMode ? 'development' : 'production',
 			'consoleMode' => PHP_SAPI === 'cli',
-			'container' => [
-				'class' => NULL,
-				'parent' => NULL,
-			],
 		];
 	}
 
@@ -188,18 +182,13 @@ class Configurator
 	 * Adds configuration file.
 	 * @return self
 	 */
-	public function addConfig($file, $section = NULL)
+	public function addConfig($file)
 	{
-		if ($section === NULL && is_string($file) && $this->parameters['debugMode']) { // back compatibility
-			try {
-				$loader = new DI\Config\Loader;
-				$loader->load($file, $this->parameters['environment']);
-				trigger_error("Config file '$file' has sections, call addConfig() with second parameter Configurator::AUTO.", E_USER_WARNING);
-				$section = $this->parameters['environment'];
-			} catch (\Exception $e) {
-			}
+		$section = func_num_args() > 1 ? func_get_arg(1) : NULL;
+		if ($section !== NULL) {
+			trigger_error('Sections in config file are deprecated.', E_USER_DEPRECATED);
 		}
-		$this->files[] = [$file, $section === self::AUTO ? $this->parameters['environment'] : $section];
+		$this->files[] = [$file, $section === self::AUTO ? ($this->parameters['debugMode'] ? 'development' : 'production') : $section];
 		return $this;
 	}
 
@@ -263,13 +252,7 @@ class Configurator
 		$this->onCompile($this, $compiler);
 
 		$classes = $compiler->compile();
-
-		if (!empty($builder->parameters['container']['parent'])) {
-			$classes[0]->setExtends($builder->parameters['container']['parent']);
-		}
-
-		return implode("\n", $fileInfo) . "\n\n" . implode("\n\n\n", $classes)
-			. (($tmp = $builder->parameters['container']['class']) ? "\nclass $tmp extends {$builder->getClassName()} {}\n" : '');
+		return implode("\n", $fileInfo) . "\n\n" . implode("\n\n\n", $classes);
 	}
 
 
