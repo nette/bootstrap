@@ -31,7 +31,7 @@ test(function () {
 		mailer:
 			item: 10
 	', 'neon'));
-	$container = $configurator->createContainer();
+	$container = @$configurator->createContainer();
 
 	Assert::same(['item' => 10], TestExtension::$cfg);
 });

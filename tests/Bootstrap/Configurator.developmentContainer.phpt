@@ -28,7 +28,7 @@ nette:
 			- Nette\Bridges\HttpTracy\SessionPanel
 
 ', 'neon'));
-$container = $configurator->createContainer();
+$container = @$configurator->createContainer();
 
 Assert::type(Nette\DI\Container::class, $container);
 

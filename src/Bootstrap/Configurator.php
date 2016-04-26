@@ -294,6 +294,8 @@ class Configurator
 				$new = is_int($new) ? $old : $new;
 				if (isset($config[$new])) {
 					throw new Nette\DeprecatedException("You can use (deprecated) section 'nette.$old' or new section '$new', but not both of them.");
+				} else {
+					trigger_error("Configuration section 'nette.$old' is deprecated, use section '$new' (without 'nette')", E_USER_DEPRECATED);
 				}
 				$config[$new] = $config['nette'][$old];
 				unset($config['nette'][$old]);
