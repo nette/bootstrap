@@ -199,16 +199,8 @@ class Configurator
 	 */
 	public function createContainer()
 	{
-		$loader = new DI\ContainerLoader(
-			$this->getCacheDirectory() . '/Nette.Configurator',
-			$this->parameters['debugMode']
-		);
-		$class = $loader->load(
-			[$this->parameters, $this->files, PHP_VERSION_ID - PHP_RELEASE_VERSION],
-			[$this, 'generateContainer']
-		);
-
-		$container = new $class;
+		$class = $this->loadContainer();
+		$container = new $class();
 		foreach ($this->services as $name => $service) {
 			$container->addService($name, $service);
 		}
@@ -217,6 +209,24 @@ class Configurator
 			Nette\Environment::setContext($container); // back compatibility
 		}
 		return $container;
+	}
+
+
+	/**
+	 * Loads system DI container class and returns its name.
+	 * @return string
+	 */
+	public function loadContainer()
+	{
+		$loader = new DI\ContainerLoader(
+			$this->getCacheDirectory() . '/Nette.Configurator',
+			$this->parameters['debugMode']
+		);
+		$class = $loader->load(
+			[$this->parameters, $this->files, PHP_VERSION_ID - PHP_RELEASE_VERSION],
+			[$this, 'generateContainer']
+		);
+		return $class;
 	}
 
 
