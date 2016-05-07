@@ -41,7 +41,6 @@ class Configurator
 		'http' => Nette\Bridges\HttpDI\HttpExtension::class,
 		'latte' => [Nette\Bridges\ApplicationDI\LatteExtension::class, ['%tempDir%/cache/latte', '%debugMode%']],
 		'mail' => Nette\Bridges\MailDI\MailExtension::class,
-		'reflection' => [Nette\Bridges\ReflectionDI\ReflectionExtension::class, ['%debugMode%']],
 		'routing' => [Nette\Bridges\ApplicationDI\RoutingExtension::class, ['%debugMode%']],
 		'security' => [Nette\Bridges\SecurityDI\SecurityExtension::class, ['%debugMode%']],
 		'session' => [Nette\Bridges\HttpDI\SessionExtension::class, ['%debugMode%']],
