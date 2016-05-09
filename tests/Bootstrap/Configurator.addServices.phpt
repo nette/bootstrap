@@ -36,7 +36,7 @@ $configurator->addConfig(Tester\FileMock::create('
 services:
 	existingService:
 		class: TestExistingService
-		run: yes
+		tags: [run]
 		setup:
 			- run
 

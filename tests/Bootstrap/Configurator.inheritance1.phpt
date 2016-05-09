@@ -29,7 +29,7 @@ services:
 		setup: # extends original setup
 			- $errorPresenter(Error)
 ', 'neon'));
-$container = $configurator->createContainer();
+$container = @$configurator->createContainer(); // @ inheritance is deprecated
 
 
 Assert::type(MyApp::class, $container->getService('application'));
