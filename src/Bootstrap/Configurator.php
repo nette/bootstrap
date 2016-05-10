@@ -222,8 +222,8 @@ class Configurator
 			$this->parameters['debugMode']
 		);
 		$class = $loader->load(
-			[$this->parameters, $this->files, PHP_VERSION_ID - PHP_RELEASE_VERSION],
-			[$this, 'generateContainer']
+			[$this, 'generateContainer'],
+			[$this->parameters, $this->files, PHP_VERSION_ID - PHP_RELEASE_VERSION]
 		);
 		return $class;
 	}
@@ -261,7 +261,7 @@ class Configurator
 		$this->onCompile($this, $compiler);
 
 		$classes = $compiler->compile();
-		return implode("\n", $fileInfo) . "\n\n" . implode("\n\n\n", $classes);
+		return implode("\n", $fileInfo) . "\n\n" . $classes;
 	}
 
 
