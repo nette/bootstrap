@@ -43,9 +43,9 @@ class TracyBridge
 									? '<b>File:</b> ' . Helpers::editorLink($e->sourceName, $e->sourceLine)
 									: '<b>' . htmlspecialchars($e->sourceName . ($e->sourceLine ? ':' . $e->sourceLine : '')) . '</b>')
 								. '</p>')
-						. '<pre>'
+						. '<pre class=code><div>'
 						. BlueScreen::highlightLine(htmlspecialchars($e->sourceCode, ENT_IGNORE, 'UTF-8'), $e->sourceLine)
-						. '</pre>',
+						. '</div></pre>',
 				];
 			}
 		});
