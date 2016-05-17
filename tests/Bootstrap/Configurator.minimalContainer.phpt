@@ -39,7 +39,7 @@ Assert::true($container->getService('nette.cacheJournal') instanceof Nette\Cachi
 Assert::type('Nette\Caching\Storages\FileStorage', $container->getService('cacheStorage'));
 Assert::type('Nette\Http\Request', $container->getService('httpRequest'));
 Assert::type('Nette\Http\Response', $container->getService('httpResponse'));
-Assert::type('Nette\Http\Context', $container->getService('nette.httpContext'));
+Assert::type('Nette\Http\Context', @$container->getService('nette.httpContext')); // @ service is deprecated in 2.4
 Assert::type('Nette\Http\Session', $container->getService('session'));
 Assert::type('Nette\Security\User', $container->getService('user'));
 Assert::type('Nette\Http\UserStorage', $container->getService('nette.userStorage'));
