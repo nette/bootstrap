@@ -15,7 +15,7 @@
 	],
 	"require": {
 		"php": ">=5.6.0",
-		"nette/di": "~2.3",
+		"nette/di": "~2.4.0",
 		"nette/utils": "~2.4"
 	},
 	"suggest": {
