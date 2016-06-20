@@ -38,13 +38,13 @@ class Configurator
 		'database' => [Nette\Bridges\DatabaseDI\DatabaseExtension::class, ['%debugMode%']],
 		'di' => [Nette\DI\Extensions\DIExtension::class, ['%debugMode%']],
 		'forms' => Nette\Bridges\FormsDI\FormsExtension::class,
-		'http' => Nette\Bridges\HttpDI\HttpExtension::class,
+		'http' => [Nette\Bridges\HttpDI\HttpExtension::class, ['%consoleMode%']],
 		'latte' => [Nette\Bridges\ApplicationDI\LatteExtension::class, ['%tempDir%/cache/latte', '%debugMode%']],
 		'mail' => Nette\Bridges\MailDI\MailExtension::class,
 		'routing' => [Nette\Bridges\ApplicationDI\RoutingExtension::class, ['%debugMode%']],
 		'security' => [Nette\Bridges\SecurityDI\SecurityExtension::class, ['%debugMode%']],
-		'session' => [Nette\Bridges\HttpDI\SessionExtension::class, ['%debugMode%']],
-		'tracy' => [Tracy\Bridges\Nette\TracyExtension::class, ['%debugMode%']],
+		'session' => [Nette\Bridges\HttpDI\SessionExtension::class, ['%debugMode%', '%consoleMode%']],
+		'tracy' => [Tracy\Bridges\Nette\TracyExtension::class, ['%debugMode%', '%consoleMode%']],
 		'inject' => Nette\DI\Extensions\InjectExtension::class,
 	];
 
