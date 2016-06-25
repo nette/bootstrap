@@ -108,6 +108,18 @@ class Configurator
 
 
 	/**
+	 * Sets the default timezone.
+	 * @return self
+	 */
+	public function setTimeZone($timezone)
+	{
+		date_default_timezone_set($timezone);
+		@ini_set('date.timezone', $timezone); // @ - function may be disabled
+		return $this;
+	}
+
+
+	/**
 	 * Adds new parameters. The %params% will be expanded.
 	 * @return self
 	 */
