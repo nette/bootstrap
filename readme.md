@@ -23,7 +23,7 @@ Activates Tracy in strict mode:
 
 ```php
 //$configurator->setDebugMode(TRUE);
-$configurator->enableDebugger(__DIR__ . '/../log');
+$configurator->enableTracy(__DIR__ . '/../log');
 ```
 
 Setup directory for temporary files

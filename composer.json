@@ -20,7 +20,7 @@
 	},
 	"suggest": {
 		"nette/robot-loader": "to use Configurator::createRobotLoader()",
-		"tracy/tracy": "to use Configurator::enableDebugger()"
+		"tracy/tracy": "to use Configurator::enableTracy()"
 	},
 	"require-dev": {
 		"nette/application": "~2.3",

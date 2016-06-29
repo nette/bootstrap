@@ -160,9 +160,18 @@ class Configurator
 
 
 	/**
-	 * @param  string        error log directory
-	 * @param  string        administrator email
+	 * @param  string  error log directory
+	 * @param  string  administrator email
 	 * @return void
+	 */
+	public function enableTracy($logDirectory = NULL, $email = NULL)
+	{
+		$this->enableDebugger($logDirectory, $email);
+	}
+
+
+	/**
+	 * Alias for enableTracy()
 	 */
 	public function enableDebugger($logDirectory = NULL, $email = NULL)
 	{
