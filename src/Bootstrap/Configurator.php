@@ -160,15 +160,24 @@ class Configurator
 
 
 	/**
-	 * @param  string        error log directory
-	 * @param  string        administrator email
+	 * @param  string  error log directory
+	 * @param  string  administrator email
 	 * @return void
 	 */
-	public function enableDebugger($logDirectory = NULL, $email = NULL)
+	public function enableTracy($logDirectory = NULL, $email = NULL)
 	{
 		Tracy\Debugger::$strictMode = TRUE;
 		Tracy\Debugger::enable(!$this->parameters['debugMode'], $logDirectory, $email);
 		Nette\Bridges\Framework\TracyBridge::initialize();
+	}
+
+
+	/**
+	 * Alias for enableTracy()
+	 */
+	public function enableDebugger($logDirectory = NULL, $email = NULL)
+	{
+		$this->enableTracy($logDirectory, $email);
 	}
 
 
