@@ -22,4 +22,3 @@ $configurator->setTempDirectory(TEMP_DIR);
 $loader = $configurator->createRobotLoader();
 
 Assert::type(Nette\Loaders\RobotLoader::class, $loader);
-Assert::type(Nette\Caching\Storages\FileStorage::class, $loader->getCacheStorage());
