@@ -72,7 +72,7 @@ class Configurator
 	/**
 	 * Set parameter %debugMode%.
 	 * @param  bool|string|array
-	 * @return self
+	 * @return static
 	 */
 	public function setDebugMode($value)
 	{
@@ -98,7 +98,7 @@ class Configurator
 
 	/**
 	 * Sets path to temporary directory.
-	 * @return self
+	 * @return static
 	 */
 	public function setTempDirectory($path)
 	{
@@ -109,7 +109,7 @@ class Configurator
 
 	/**
 	 * Sets the default timezone.
-	 * @return self
+	 * @return static
 	 */
 	public function setTimeZone($timezone)
 	{
@@ -121,7 +121,7 @@ class Configurator
 
 	/**
 	 * Adds new parameters. The %params% will be expanded.
-	 * @return self
+	 * @return static
 	 */
 	public function addParameters(array $params)
 	{
@@ -132,7 +132,7 @@ class Configurator
 
 	/**
 	 * Add instances of services.
-	 * @return self
+	 * @return static
 	 */
 	public function addServices(array $services)
 	{
@@ -191,7 +191,7 @@ class Configurator
 
 	/**
 	 * Adds configuration file.
-	 * @return self
+	 * @return static
 	 */
 	public function addConfig($file)
 	{
