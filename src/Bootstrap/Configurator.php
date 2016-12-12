@@ -71,7 +71,7 @@ class Configurator extends Object
 	/**
 	 * Set parameter %debugMode%.
 	 * @param  bool|string|array
-	 * @return self
+	 * @return static
 	 */
 	public function setDebugMode($value)
 	{
@@ -98,7 +98,7 @@ class Configurator extends Object
 
 	/**
 	 * Sets path to temporary directory.
-	 * @return self
+	 * @return static
 	 */
 	public function setTempDirectory($path)
 	{
@@ -109,7 +109,7 @@ class Configurator extends Object
 
 	/**
 	 * Adds new parameters. The %params% will be expanded.
-	 * @return self
+	 * @return static
 	 */
 	public function addParameters(array $params)
 	{
@@ -120,7 +120,7 @@ class Configurator extends Object
 
 	/**
 	 * Add instances of services.
-	 * @return self
+	 * @return static
 	 */
 	public function addServices(array $services)
 	{
@@ -184,7 +184,7 @@ class Configurator extends Object
 
 	/**
 	 * Adds configuration file.
-	 * @return self
+	 * @return static
 	 */
 	public function addConfig($file, $section = NULL)
 	{
