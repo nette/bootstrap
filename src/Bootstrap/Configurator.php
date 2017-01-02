@@ -197,8 +197,8 @@ class Configurator
 		}
 
 		$loader = new Nette\Loaders\RobotLoader;
-		$loader->setCacheStorage(new Nette\Caching\Storages\FileStorage($this->getCacheDirectory()));
-		$loader->autoRebuild = $this->parameters['debugMode'];
+		$loader->setTempDirectory($this->getCacheDirectory() . '/Nette.RobotLoader');
+		$loader->setAutoRefresh($this->parameters['debugMode']);
 		return $loader;
 	}
 
