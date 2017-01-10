@@ -15,25 +15,25 @@
 	],
 	"require": {
 		"php": ">=7.1",
-		"nette/di": "~2.4.0",
-		"nette/utils": "~2.4"
+		"nette/di": "^2.4 || ^3.0",
+		"nette/utils": "^2.4 || ^3.0"
 	},
 	"suggest": {
 		"nette/robot-loader": "to use Configurator::createRobotLoader()",
 		"tracy/tracy": "to use Configurator::enableTracy()"
 	},
 	"require-dev": {
-		"nette/application": "~2.3",
-		"nette/caching": "~2.3",
-		"nette/database": "~2.3",
-		"nette/forms": "~2.3",
-		"nette/http": "~2.4.0",
-		"nette/mail": "~2.3",
+		"nette/application": "^2.3 || ^3.0",
+		"nette/caching": "^2.3 || ^3.0",
+		"nette/database": "^2.3 || ^3.0",
+		"nette/forms": "^2.3 || ^3.0",
+		"nette/http": "^2.4.0 || ^3.0",
+		"nette/mail": "^2.3 || ^3.0",
 		"nette/robot-loader": "^2.4.2 || ^3.0",
-		"nette/safe-stream": "~2.2",
-		"nette/security": "~2.3",
-		"nette/tester": "~2.0",
-		"latte/latte": "~2.2",
+		"nette/safe-stream": "^2.2",
+		"nette/security": "^2.3 || ^3.0",
+		"nette/tester": "^2.0",
+		"latte/latte": "^2.2",
 		"tracy/tracy": "^2.4.1"
 	},
 	"conflict": {
