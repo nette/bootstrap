@@ -4,6 +4,8 @@
  * Test: Nette\Configurator and production mode.
  */
 
+declare(strict_types=1);
+
 use Nette\Configurator;
 use Tester\Assert;
 
