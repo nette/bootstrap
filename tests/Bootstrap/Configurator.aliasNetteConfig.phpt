@@ -4,6 +4,8 @@
  * Test: Nette\Configurator aliases for nette config
  */
 
+declare(strict_types=1);
+
 use Nette\Configurator;
 use Tester\Assert;
 
