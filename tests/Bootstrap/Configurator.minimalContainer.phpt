@@ -4,6 +4,8 @@
  * Test: Nette\Configurator and minimal container.
  */
 
+declare(strict_types=1);
+
 use Nette\Configurator;
 use Tester\Assert;
 
