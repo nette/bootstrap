@@ -220,9 +220,6 @@ class Configurator
 			$container->addService($name, $service);
 		}
 		$container->initialize();
-		if (class_exists(Nette\Environment::class)) {
-			Nette\Environment::setContext($container); // back compatibility
-		}
 		return $container;
 	}
 
