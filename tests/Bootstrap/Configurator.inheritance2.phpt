@@ -23,22 +23,13 @@ $configurator->setDebugMode(FALSE);
 $configurator->setTempDirectory(TEMP_DIR);
 $configurator->addConfig(Tester\FileMock::create('
 services:
-	app2 < application: # inherits from overwritten application
-		autowired: no
-		setup!: # overwrites inherited setup
-
 	application!: # overwrites original application
 		class: MyApp
 		setup:
 			- $errorPresenter(Error)
 ', 'neon'));
-$container = @$configurator->createContainer(); // @ inheritance is deprecated
-
+$container = @$configurator->createContainer(); // @ triggers notice in nette/di < 2.4.6
 
 Assert::type(MyApp::class, $container->getService('application'));
 Assert::null($container->getService('application')->catchExceptions);
 Assert::same('Error', $container->getService('application')->errorPresenter);
-
-Assert::type(MyApp::class, $container->getService('app2'));
-Assert::null($container->getService('app2')->catchExceptions);
-Assert::null($container->getService('app2')->errorPresenter);
