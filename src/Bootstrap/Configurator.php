@@ -310,10 +310,8 @@ class Configurator
 	 */
 	public static function detectDebugMode($list = NULL)
 	{
-		$addr = isset($_SERVER['REMOTE_ADDR'])
-			? $_SERVER['REMOTE_ADDR']
-			: php_uname('n');
-		$secret = isset($_COOKIE[self::COOKIE_SECRET]) && is_string($_COOKIE[self::COOKIE_SECRET])
+		$addr = $_SERVER['REMOTE_ADDR'] ?? php_uname('n');
+		$secret = is_string($_COOKIE[self::COOKIE_SECRET] ?? NULL)
 			? $_COOKIE[self::COOKIE_SECRET]
 			: NULL;
 		$list = is_string($list)
