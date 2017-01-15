@@ -19,9 +19,6 @@ class Configurator
 {
 	use SmartObject;
 
-	const AUTO = TRUE,
-		NONE = FALSE;
-
 	const COOKIE_SECRET = 'nette-debug';
 
 	/** @var callable[]  function (Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
@@ -59,7 +56,7 @@ class Configurator
 	/** @var array */
 	protected $services = [];
 
-	/** @var array [file|array, section] */
+	/** @var array of string|array */
 	protected $files = [];
 
 
@@ -210,11 +207,7 @@ class Configurator
 	 */
 	public function addConfig($file)
 	{
-		$section = func_num_args() > 1 ? func_get_arg(1) : NULL;
-		if ($section !== NULL) {
-			trigger_error('Sections in config file are deprecated.', E_USER_DEPRECATED);
-		}
-		$this->files[] = [$file, $section === self::AUTO ? ($this->parameters['debugMode'] ? 'development' : 'production') : $section];
+		$this->files[] = $file;
 		return $this;
 	}
 
@@ -265,12 +258,12 @@ class Configurator
 		$loader = $this->createLoader();
 		$compiler->addConfig(['parameters' => $this->parameters]);
 		$fileInfo = [];
-		foreach ($this->files as $info) {
-			if (is_scalar($info[0])) {
-				$fileInfo[] = "// source: $info[0] $info[1]";
-				$info[0] = $loader->load($info[0], $info[1]);
+		foreach ($this->files as $file) {
+			if (is_scalar($file)) {
+				$fileInfo[] = "// source: $file";
+				$file = $loader->load($file);
 			}
-			$compiler->addConfig($this->fixCompatibility($info[0]));
+			$compiler->addConfig($file);
 		}
 		$compiler->addDependencies($loader->getDependencies());
 
@@ -314,42 +307,6 @@ class Configurator
 			@mkdir($dir); // @ - directory may already exist
 		}
 		return $dir;
-	}
-
-
-	/**
-	 * Back compatibility with < v2.3
-	 * @return array
-	 */
-	protected function fixCompatibility($config)
-	{
-		if (isset($config['nette']['security']['frames'])) {
-			$config['nette']['http']['frames'] = $config['nette']['security']['frames'];
-			unset($config['nette']['security']['frames']);
-		}
-		foreach (['application', 'cache', 'database', 'di' => 'container', 'forms', 'http',
-			'latte', 'mail' => 'mailer', 'routing', 'security', 'session', 'tracy' => 'debugger'] as $new => $old) {
-			if (isset($config['nette'][$old])) {
-				$new = is_int($new) ? $old : $new;
-				if (isset($config[$new])) {
-					throw new Nette\DeprecatedException("You can use (deprecated) section 'nette.$old' or new section '$new', but not both of them.");
-				} else {
-					trigger_error("Configuration section 'nette.$old' is deprecated, use section '$new' (without 'nette')", E_USER_DEPRECATED);
-				}
-				$config[$new] = $config['nette'][$old];
-				unset($config['nette'][$old]);
-			}
-		}
-		if (isset($config['nette']['xhtml'])) {
-			trigger_error("Configuration option 'nette.xhtml' is deprecated, use section 'latte.xhtml' instead.", E_USER_DEPRECATED);
-			$config['latte']['xhtml'] = $config['nette']['xhtml'];
-			unset($config['nette']['xhtml']);
-		}
-
-		if (empty($config['nette'])) {
-			unset($config['nette']);
-		}
-		return $config;
 	}
 
 
