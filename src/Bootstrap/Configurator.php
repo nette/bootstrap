@@ -246,21 +246,19 @@ class Configurator
 	/**
 	 * @internal
 	 */
-	public function generateContainer(DI\Compiler $compiler): string
+	public function generateContainer(DI\Compiler $compiler): void
 	{
 		$compiler->addConfig(['parameters' => $this->parameters]);
 		$compiler->setDynamicParameterNames(array_keys($this->dynamicParameters));
 
 		$loader = $this->createLoader();
-		$fileInfo = [];
 		foreach ($this->configs as $config) {
-			if (is_scalar($config)) {
-				$fileInfo[] = "// source: $config";
-				$config = $loader->load($config);
+			if (is_string($config)) {
+				$compiler->loadConfig($config, $loader);
+			} else {
+				$compiler->addConfig($config);
 			}
-			$compiler->addConfig($config);
 		}
-		$compiler->addDependencies($loader->getDependencies());
 
 		$builder = $compiler->getContainerBuilder();
 		$builder->addExcludedClasses($this->autowireExcludedClasses);
@@ -274,9 +272,6 @@ class Configurator
 		}
 
 		$this->onCompile($this, $compiler);
-
-		$classes = $compiler->compile();
-		return implode("\n", $fileInfo) . "\n\n" . $classes;
 	}
 
 
