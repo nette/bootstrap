@@ -99,3 +99,9 @@ test(function () { // secret
 	$_COOKIE[Configurator::COOKIE_SECRET] = ['*secret*'];
 	Assert::false(Configurator::detectDebugMode('*secret*@192.168.1.1'));
 });
+
+
+test(function () { // env
+	putenv('NETTE_DEBUG=1');
+	Assert::true(Configurator::detectDebugMode());
+});

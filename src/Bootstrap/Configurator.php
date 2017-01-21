@@ -22,6 +22,7 @@ class Configurator
 	use SmartObject;
 
 	const COOKIE_SECRET = 'nette-debug';
+	const ENV_VARIABLE = 'NETTE_DEBUG';
 
 	/** @var callable[]  function (Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
 	public $onCompile;
@@ -321,7 +322,7 @@ class Configurator
 			$list[] = '127.0.0.1';
 			$list[] = '::1';
 		}
-		return in_array($addr, $list, TRUE) || in_array("$secret@$addr", $list, TRUE);
+		return in_array($addr, $list, TRUE) || in_array("$secret@$addr", $list, TRUE) || getenv(self::ENV_VARIABLE) === '1';
 	}
 
 }
