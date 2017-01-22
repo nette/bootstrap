@@ -86,10 +86,7 @@ class Configurator
 	}
 
 
-	/**
-	 * @return bool
-	 */
-	public function isDebugMode()
+	public function isDebugMode(): bool
 	{
 		return $this->parameters['debugMode'];
 	}
@@ -97,10 +94,9 @@ class Configurator
 
 	/**
 	 * Sets path to temporary directory.
-	 * @param  string
 	 * @return static
 	 */
-	public function setTempDirectory($path)
+	public function setTempDirectory(string $path)
 	{
 		$this->parameters['tempDir'] = $path;
 		return $this;
@@ -109,10 +105,9 @@ class Configurator
 
 	/**
 	 * Sets the default timezone.
-	 * @param  string
 	 * @return static
 	 */
-	public function setTimeZone($timezone)
+	public function setTimeZone(string $timezone)
 	{
 		date_default_timezone_set($timezone);
 		@ini_set('date.timezone', $timezone); // @ - function may be disabled
@@ -142,10 +137,7 @@ class Configurator
 	}
 
 
-	/**
-	 * @return array
-	 */
-	protected function getDefaultParameters()
+	protected function getDefaultParameters(): array
 	{
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		$last = end($trace);
@@ -161,11 +153,9 @@ class Configurator
 
 
 	/**
-	 * @param  string  error log directory
-	 * @param  string  administrator email
 	 * @return void
 	 */
-	public function enableTracy($logDirectory = NULL, $email = NULL)
+	public function enableTracy(string $logDirectory = NULL, string $email = NULL)
 	{
 		Tracy\Debugger::$strictMode = TRUE;
 		Tracy\Debugger::enable(!$this->parameters['debugMode'], $logDirectory, $email);
@@ -175,21 +165,18 @@ class Configurator
 
 	/**
 	 * Alias for enableTracy()
-	 * @param  string
-	 * @param  string
 	 * @return void
 	 */
-	public function enableDebugger($logDirectory = NULL, $email = NULL)
+	public function enableDebugger(string $logDirectory = NULL, string $email = NULL)
 	{
 		$this->enableTracy($logDirectory, $email);
 	}
 
 
 	/**
-	 * @return Nette\Loaders\RobotLoader
 	 * @throws Nette\NotSupportedException if RobotLoader is not available
 	 */
-	public function createRobotLoader()
+	public function createRobotLoader(): Nette\Loaders\RobotLoader
 	{
 		if (!class_exists(Nette\Loaders\RobotLoader::class)) {
 			throw new Nette\NotSupportedException('RobotLoader not found, do you have `nette/robot-loader` package installed?');
@@ -216,9 +203,8 @@ class Configurator
 
 	/**
 	 * Returns system DI container.
-	 * @return DI\Container
 	 */
-	public function createContainer()
+	public function createContainer(): DI\Container
 	{
 		$class = $this->loadContainer();
 		$container = new $class();
@@ -232,9 +218,8 @@ class Configurator
 
 	/**
 	 * Loads system DI container class and returns its name.
-	 * @return string
 	 */
-	public function loadContainer()
+	public function loadContainer(): string
 	{
 		$loader = new DI\ContainerLoader(
 			$this->getCacheDirectory() . '/Nette.Configurator',
@@ -249,10 +234,9 @@ class Configurator
 
 
 	/**
-	 * @return string
 	 * @internal
 	 */
-	public function generateContainer(DI\Compiler $compiler)
+	public function generateContainer(DI\Compiler $compiler): string
 	{
 		$loader = $this->createLoader();
 		$compiler->addConfig(['parameters' => $this->parameters]);
@@ -284,19 +268,13 @@ class Configurator
 	}
 
 
-	/**
-	 * @return DI\Config\Loader
-	 */
-	protected function createLoader()
+	protected function createLoader(): DI\Config\Loader
 	{
 		return new DI\Config\Loader;
 	}
 
 
-	/**
-	 * @return string
-	 */
-	protected function getCacheDirectory()
+	protected function getCacheDirectory(): string
 	{
 		if (empty($this->parameters['tempDir'])) {
 			throw new Nette\InvalidStateException('Set path to temporary directory using setTempDirectory().');
@@ -315,9 +293,8 @@ class Configurator
 	/**
 	 * Detects debug mode by IP addresses or computer names whitelist detection.
 	 * @param  string|array
-	 * @return bool
 	 */
-	public static function detectDebugMode($list = NULL)
+	public static function detectDebugMode($list = NULL): bool
 	{
 		$addr = $_SERVER['REMOTE_ADDR'] ?? php_uname('n');
 		$secret = is_string($_COOKIE[self::COOKIE_SECRET] ?? NULL)
