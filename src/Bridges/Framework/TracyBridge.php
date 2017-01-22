@@ -24,7 +24,7 @@ class TracyBridge
 {
 	use Nette\StaticClass;
 
-	public static function initialize()
+	public static function initialize(): void
 	{
 		$blueScreen = Tracy\Debugger::getBlueScreen();
 
