@@ -57,6 +57,9 @@ class Configurator
 	protected $parameters;
 
 	/** @var array */
+	protected $dynamicParameters = [];
+
+	/** @var array */
 	protected $services = [];
 
 	/** @var array [file|array, section] */
@@ -128,6 +131,17 @@ class Configurator
 	public function addParameters(array $params)
 	{
 		$this->parameters = DI\Config\Helpers::merge($params, $this->parameters);
+		return $this;
+	}
+
+
+	/**
+	 * Adds new dynamic parameters.
+	 * @return static
+	 */
+	public function addDynamicParameters(array $params)
+	{
+		$this->dynamicParameters = $params + $this->dynamicParameters;
 		return $this;
 	}
 
@@ -226,7 +240,7 @@ class Configurator
 	public function createContainer()
 	{
 		$class = $this->loadContainer();
-		$container = new $class();
+		$container = new $class($this->dynamicParameters);
 		foreach ($this->services as $name => $service) {
 			$container->addService($name, $service);
 		}
@@ -250,7 +264,7 @@ class Configurator
 		);
 		$class = $loader->load(
 			[$this, 'generateContainer'],
-			[$this->parameters, $this->files, PHP_VERSION_ID - PHP_RELEASE_VERSION]
+			[$this->parameters, array_keys($this->dynamicParameters), $this->files, PHP_VERSION_ID - PHP_RELEASE_VERSION]
 		);
 		return $class;
 	}
@@ -262,8 +276,10 @@ class Configurator
 	 */
 	public function generateContainer(DI\Compiler $compiler)
 	{
-		$loader = $this->createLoader();
 		$compiler->addConfig(['parameters' => $this->parameters]);
+		$compiler->setDynamicParameterNames(array_keys($this->dynamicParameters));
+
+		$loader = $this->createLoader();
 		$fileInfo = [];
 		foreach ($this->files as $info) {
 			if (is_scalar($info[0])) {
