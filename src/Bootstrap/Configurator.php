@@ -276,7 +276,7 @@ class Configurator
 		$this->onCompile($this, $compiler);
 
 		$classes = $compiler->compile();
-		return implode("\n", $fileInfo) . "\n\n" . $classes;
+		return implode("\n", $fileInfo) . "\n\n" . (is_array($classes) ? implode("\n\n\n", $classes) : $classes);
 	}
 
 
