@@ -62,7 +62,7 @@ class Configurator
 	protected $services = [];
 
 	/** @var array of string|array */
-	protected $files = [];
+	protected $configs = [];
 
 
 	public function __construct()
@@ -204,9 +204,9 @@ class Configurator
 	 * @param  string|array
 	 * @return static
 	 */
-	public function addConfig($file)
+	public function addConfig($config)
 	{
-		$this->files[] = $file;
+		$this->configs[] = $config;
 		return $this;
 	}
 
@@ -237,7 +237,7 @@ class Configurator
 		);
 		$class = $loader->load(
 			[$this, 'generateContainer'],
-			[$this->parameters, array_keys($this->dynamicParameters), $this->files, PHP_VERSION_ID - PHP_RELEASE_VERSION]
+			[$this->parameters, array_keys($this->dynamicParameters), $this->configs, PHP_VERSION_ID - PHP_RELEASE_VERSION]
 		);
 		return $class;
 	}
@@ -253,12 +253,12 @@ class Configurator
 
 		$loader = $this->createLoader();
 		$fileInfo = [];
-		foreach ($this->files as $file) {
-			if (is_scalar($file)) {
-				$fileInfo[] = "// source: $file";
-				$file = $loader->load($file);
+		foreach ($this->configs as $config) {
+			if (is_scalar($config)) {
+				$fileInfo[] = "// source: $config";
+				$config = $loader->load($config);
 			}
-			$compiler->addConfig($file);
+			$compiler->addConfig($config);
 		}
 		$compiler->addDependencies($loader->getDependencies());
 
