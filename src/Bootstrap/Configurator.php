@@ -21,7 +21,7 @@ class Configurator
 {
 	use SmartObject;
 
-	const COOKIE_SECRET = 'nette-debug';
+	public const COOKIE_SECRET = 'nette-debug';
 
 	/** @var callable[]  function (Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
 	public $onCompile;
