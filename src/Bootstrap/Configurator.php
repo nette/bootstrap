@@ -307,12 +307,20 @@ class Configurator
 		$secret = is_string($_COOKIE[self::COOKIE_SECRET] ?? NULL)
 			? $_COOKIE[self::COOKIE_SECRET]
 			: NULL;
+		$secretGet = isset($_GET[self::COOKIE_SECRET]) && is_string($_GET[self::COOKIE_SECRET])
+			? $_GET[self::COOKIE_SECRET]
+			: NULL;
 		$list = is_string($list)
 			? preg_split('#[,\s]+#', $list)
 			: (array) $list;
 		if (!isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 			$list[] = '127.0.0.1';
 			$list[] = '::1';
+		}
+		if (in_array("$secretGet@$addr", $list, TRUE)) {
+			$https = !empty($_SERVER['HTTPS']) && strcasecmp($_SERVER['HTTPS'], 'off');
+			setCookie(self::COOKIE_SECRET, $secretGet, strtotime('30 days'), '/', '', $https, TRUE);
+			return TRUE;
 		}
 		return in_array($addr, $list, TRUE) || in_array("$secret@$addr", $list, TRUE);
 	}
