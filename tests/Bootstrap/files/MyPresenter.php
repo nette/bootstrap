@@ -1,15 +1,16 @@
 <?php
-
 declare(strict_types=1);
 
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
 	private $attr;
 
+
 	function getAttr()
 	{
 		return $this->attr;
 	}
+
 
 	function setAttr($attr)
 	{

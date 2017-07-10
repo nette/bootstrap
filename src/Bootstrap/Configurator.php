@@ -316,5 +316,4 @@ class Configurator
 		}
 		return in_array($addr, $list, TRUE) || in_array("$secret@$addr", $list, TRUE);
 	}
-
 }

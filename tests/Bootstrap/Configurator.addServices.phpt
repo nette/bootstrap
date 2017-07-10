@@ -15,13 +15,14 @@ require __DIR__ . '/../bootstrap.php';
 
 class TestExistingService
 {
-
 	private $scream;
+
 
 	public function __construct($scream = TRUE)
 	{
 		$this->scream = $scream;
 	}
+
 
 	public function run()
 	{
@@ -29,7 +30,6 @@ class TestExistingService
 			throw new \Exception('This is an instance created by container and should not be called');
 		}
 	}
-
 }
 
 $configurator = new Configurator;
