@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $configurator = new Configurator;
-$configurator->setDebugMode(TRUE);
+$configurator->setDebugMode(true);
 $configurator->setTempDirectory(TEMP_DIR);
 $configurator->addConfig(Tester\FileMock::create('
 session:
@@ -36,8 +36,8 @@ Assert::type(Nette\DI\Container::class, $container);
 Assert::same([
 	'appDir' => __DIR__,
 	'wwwDir' => __DIR__,
-	'debugMode' => TRUE,
-	'productionMode' => FALSE,
+	'debugMode' => true,
+	'productionMode' => false,
 	'consoleMode' => PHP_SAPI === 'cli',
 	'tempDir' => TEMP_DIR,
 ], $container->parameters);

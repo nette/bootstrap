@@ -157,8 +157,8 @@ class Configurator
 		$last = end($trace);
 		$debugMode = static::detectDebugMode();
 		return [
-			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : NULL,
-			'wwwDir' => isset($last['file']) ? dirname($last['file']) : NULL,
+			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : null,
+			'wwwDir' => isset($last['file']) ? dirname($last['file']) : null,
 			'debugMode' => $debugMode,
 			'productionMode' => !$debugMode,
 			'consoleMode' => PHP_SAPI === 'cli',
@@ -166,9 +166,9 @@ class Configurator
 	}
 
 
-	public function enableTracy(string $logDirectory = NULL, string $email = NULL): void
+	public function enableTracy(string $logDirectory = null, string $email = null): void
 	{
-		Tracy\Debugger::$strictMode = TRUE;
+		Tracy\Debugger::$strictMode = true;
 		Tracy\Debugger::enable(!$this->parameters['debugMode'], $logDirectory, $email);
 		Nette\Bridges\Framework\TracyBridge::initialize();
 	}
@@ -177,7 +177,7 @@ class Configurator
 	/**
 	 * Alias for enableTracy()
 	 */
-	public function enableDebugger(string $logDirectory = NULL, string $email = NULL): void
+	public function enableDebugger(string $logDirectory = null, string $email = null): void
 	{
 		$this->enableTracy($logDirectory, $email);
 	}
@@ -266,7 +266,7 @@ class Configurator
 		foreach ($this->defaultExtensions as $name => $extension) {
 			[$class, $args] = is_string($extension) ? [$extension, []] : $extension;
 			if (class_exists($class)) {
-				$args = DI\Helpers::expand($args, $this->parameters, TRUE);
+				$args = DI\Helpers::expand($args, $this->parameters, true);
 				$compiler->addExtension($name, (new \ReflectionClass($class))->newInstanceArgs($args));
 			}
 		}
@@ -301,12 +301,12 @@ class Configurator
 	 * Detects debug mode by IP addresses or computer names whitelist detection.
 	 * @param  string|array
 	 */
-	public static function detectDebugMode($list = NULL): bool
+	public static function detectDebugMode($list = null): bool
 	{
 		$addr = $_SERVER['REMOTE_ADDR'] ?? php_uname('n');
-		$secret = is_string($_COOKIE[self::COOKIE_SECRET] ?? NULL)
+		$secret = is_string($_COOKIE[self::COOKIE_SECRET] ?? null)
 			? $_COOKIE[self::COOKIE_SECRET]
-			: NULL;
+			: null;
 		$list = is_string($list)
 			? preg_split('#[,\s]+#', $list)
 			: (array) $list;
@@ -314,6 +314,6 @@ class Configurator
 			$list[] = '127.0.0.1';
 			$list[] = '::1';
 		}
-		return in_array($addr, $list, TRUE) || in_array("$secret@$addr", $list, TRUE);
+		return in_array($addr, $list, true) || in_array("$secret@$addr", $list, true);
 	}
 }

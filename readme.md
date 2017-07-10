@@ -22,7 +22,7 @@ $configurator = new Nette\Configurator;
 Activates Tracy in strict mode:
 
 ```php
-//$configurator->setDebugMode(TRUE);
+//$configurator->setDebugMode(true);
 $configurator->enableTracy(__DIR__ . '/../log');
 ```
 

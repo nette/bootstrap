@@ -18,7 +18,7 @@ class TestExistingService
 	private $scream;
 
 
-	public function __construct($scream = TRUE)
+	public function __construct($scream = true)
 	{
 		$this->scream = $scream;
 	}
@@ -44,7 +44,7 @@ services:
 
 ', 'neon'));
 
-$existingService = new TestExistingService(FALSE);
+$existingService = new TestExistingService(false);
 $newService = new stdClass();
 $addServiceTwice = new stdClass();
 
