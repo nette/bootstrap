@@ -7,12 +7,12 @@
 
 namespace Nette\Bridges\Framework;
 
+use Latte;
 use Nette;
 use Nette\Framework;
 use Tracy;
-use Tracy\Helpers;
 use Tracy\BlueScreen;
-use Latte;
+use Tracy\Helpers;
 
 
 /**
@@ -64,5 +64,4 @@ class TracyBridge
 			}
 		});
 	}
-
 }

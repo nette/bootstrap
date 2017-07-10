@@ -15,6 +15,7 @@ class TestExtension extends Nette\DI\CompilerExtension
 {
 	static $cfg;
 
+
 	function loadConfiguration()
 	{
 		self::$cfg = $this->getConfig();

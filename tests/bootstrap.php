@@ -30,10 +30,12 @@ class Notes
 {
 	static public $notes = [];
 
+
 	public static function add($message)
 	{
 		self::$notes[] = $message;
 	}
+
 
 	public static function fetch()
 	{
@@ -41,5 +43,4 @@ class Notes
 		self::$notes = [];
 		return $res;
 	}
-
 }
