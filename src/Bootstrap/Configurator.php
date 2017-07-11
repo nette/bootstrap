@@ -19,8 +19,8 @@ class Configurator
 {
 	use SmartObject;
 
-	const AUTO = TRUE,
-		NONE = FALSE;
+	const AUTO = true,
+		NONE = false;
 
 	const COOKIE_SECRET = 'nette-debug';
 
@@ -166,8 +166,8 @@ class Configurator
 		$last = end($trace);
 		$debugMode = static::detectDebugMode();
 		return [
-			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : NULL,
-			'wwwDir' => isset($last['file']) ? dirname($last['file']) : NULL,
+			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : null,
+			'wwwDir' => isset($last['file']) ? dirname($last['file']) : null,
 			'debugMode' => $debugMode,
 			'productionMode' => !$debugMode,
 			'consoleMode' => PHP_SAPI === 'cli',
@@ -180,7 +180,7 @@ class Configurator
 	 * @param  string  administrator email
 	 * @return void
 	 */
-	public function enableTracy($logDirectory = NULL, $email = NULL)
+	public function enableTracy($logDirectory = null, $email = null)
 	{
 		$this->enableDebugger($logDirectory, $email);
 	}
@@ -192,9 +192,9 @@ class Configurator
 	 * @param  string
 	 * @return void
 	 */
-	public function enableDebugger($logDirectory = NULL, $email = NULL)
+	public function enableDebugger($logDirectory = null, $email = null)
 	{
-		Tracy\Debugger::$strictMode = TRUE;
+		Tracy\Debugger::$strictMode = true;
 		Tracy\Debugger::enable(!$this->parameters['debugMode'], $logDirectory, $email);
 		Nette\Bridges\Framework\TracyBridge::initialize();
 	}
@@ -224,8 +224,8 @@ class Configurator
 	 */
 	public function addConfig($file)
 	{
-		$section = func_num_args() > 1 ? func_get_arg(1) : NULL;
-		if ($section !== NULL) {
+		$section = func_num_args() > 1 ? func_get_arg(1) : null;
+		if ($section !== null) {
 			trigger_error('Sections in config file are deprecated.', E_USER_DEPRECATED);
 		}
 		$this->files[] = [$file, $section === self::AUTO ? ($this->parameters['debugMode'] ? 'development' : 'production') : $section];
@@ -296,7 +296,7 @@ class Configurator
 		foreach ($this->defaultExtensions as $name => $extension) {
 			list($class, $args) = is_string($extension) ? [$extension, []] : $extension;
 			if (class_exists($class)) {
-				$args = DI\Helpers::expand($args, $this->parameters, TRUE);
+				$args = DI\Helpers::expand($args, $this->parameters, true);
 				$compiler->addExtension($name, (new \ReflectionClass($class))->newInstanceArgs($args));
 			}
 		}
@@ -377,14 +377,14 @@ class Configurator
 	 * @param  string|array
 	 * @return bool
 	 */
-	public static function detectDebugMode($list = NULL)
+	public static function detectDebugMode($list = null)
 	{
 		$addr = isset($_SERVER['REMOTE_ADDR'])
 			? $_SERVER['REMOTE_ADDR']
 			: php_uname('n');
 		$secret = isset($_COOKIE[self::COOKIE_SECRET]) && is_string($_COOKIE[self::COOKIE_SECRET])
 			? $_COOKIE[self::COOKIE_SECRET]
-			: NULL;
+			: null;
 		$list = is_string($list)
 			? preg_split('#[,\s]+#', $list)
 			: (array) $list;
@@ -392,6 +392,6 @@ class Configurator
 			$list[] = '127.0.0.1';
 			$list[] = '::1';
 		}
-		return in_array($addr, $list, TRUE) || in_array("$secret@$addr", $list, TRUE);
+		return in_array($addr, $list, true) || in_array("$secret@$addr", $list, true);
 	}
 }

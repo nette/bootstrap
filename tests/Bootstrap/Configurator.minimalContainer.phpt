@@ -23,8 +23,8 @@ Assert::type(Nette\DI\Container::class, $container);
 Assert::same([
 	'appDir' => __DIR__,
 	'wwwDir' => __DIR__,
-	'debugMode' => FALSE,
-	'productionMode' => TRUE,
+	'debugMode' => false,
+	'productionMode' => true,
 	'consoleMode' => PHP_SAPI === 'cli',
 	'tempDir' => TEMP_DIR,
 	'hello' => 'world',

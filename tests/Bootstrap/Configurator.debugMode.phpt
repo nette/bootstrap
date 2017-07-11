@@ -19,10 +19,10 @@ test(function () {
 	$configurator = new Configurator;
 	Assert::false($configurator->isDebugMode());
 
-	$configurator->setDebugMode(TRUE);
+	$configurator->setDebugMode(true);
 	Assert::true($configurator->isDebugMode());
 
-	$configurator->setDebugMode(FALSE);
+	$configurator->setDebugMode(false);
 	Assert::false($configurator->isDebugMode());
 
 	$configurator->setDebugMode($_SERVER['REMOTE_ADDR']);
