@@ -13,10 +13,10 @@ require __DIR__ . '/../bootstrap.php';
 
 class TestExtension extends Nette\DI\CompilerExtension
 {
-	static $cfg;
+	public static $cfg;
 
 
-	function loadConfiguration()
+	public function loadConfiguration()
 	{
 		self::$cfg = $this->getConfig();
 	}

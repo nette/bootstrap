@@ -5,13 +5,13 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	private $attr;
 
 
-	function getAttr()
+	public function getAttr()
 	{
 		return $this->attr;
 	}
 
 
-	function setAttr($attr)
+	public function setAttr($attr)
 	{
 		$this->attr = $attr;
 	}
