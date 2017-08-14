@@ -287,9 +287,7 @@ class Configurator
 			throw new Nette\InvalidStateException('Set path to temporary directory using setTempDirectory().');
 		}
 		$dir = $this->parameters['tempDir'] . '/cache';
-		if (!is_dir($dir)) {
-			@mkdir($dir); // @ - directory may already exist
-		}
+		Nette\Utils\FileSystem::createDir($dir);
 		return $dir;
 	}
 
