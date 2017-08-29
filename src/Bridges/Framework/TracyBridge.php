@@ -20,7 +20,7 @@ use Tracy\Helpers;
 /**
  * Initializes Tracy.
  */
-class TracyBridge
+final class TracyBridge
 {
 	use Nette\StaticClass;
 
