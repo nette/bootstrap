@@ -11,7 +11,6 @@ namespace Nette\Bridges\Framework;
 
 use Latte;
 use Nette;
-use Nette\Framework;
 use Tracy;
 use Tracy\BlueScreen;
 use Tracy\Helpers;
@@ -27,12 +26,6 @@ final class TracyBridge
 	public static function initialize(): void
 	{
 		$blueScreen = Tracy\Debugger::getBlueScreen();
-
-		if (class_exists(Nette\Framework::class)) {
-			$version = Framework::VERSION . (Framework::REVISION ? ' (' . Framework::REVISION . ')' : '');
-			Tracy\Debugger::getBar()->getPanel('Tracy:info')->data['Nette Framework'] = $version;
-			$blueScreen->info[] = "Nette Framework $version";
-		}
 
 		$blueScreen->addPanel(function ($e) {
 			if ($e instanceof Latte\CompileException) {
