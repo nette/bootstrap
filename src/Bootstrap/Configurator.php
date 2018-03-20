@@ -74,7 +74,7 @@ class Configurator
 
 	/**
 	 * Set parameter %debugMode%.
-	 * @param  bool|string|array
+	 * @param  bool|string|array  $value
 	 * @return static
 	 */
 	public function setDebugMode($value)
@@ -101,7 +101,7 @@ class Configurator
 
 	/**
 	 * Sets path to temporary directory.
-	 * @param  string
+	 * @param  string  $path
 	 * @return static
 	 */
 	public function setTempDirectory($path)
@@ -113,7 +113,7 @@ class Configurator
 
 	/**
 	 * Sets the default timezone.
-	 * @param  string
+	 * @param  string  $timezone
 	 * @return static
 	 */
 	public function setTimeZone($timezone)
@@ -176,8 +176,8 @@ class Configurator
 
 
 	/**
-	 * @param  string  error log directory
-	 * @param  string  administrator email
+	 * @param  string  $logDirectory
+	 * @param  string  $email
 	 * @return void
 	 */
 	public function enableTracy($logDirectory = null, $email = null)
@@ -188,8 +188,8 @@ class Configurator
 
 	/**
 	 * Alias for enableTracy()
-	 * @param  string
-	 * @param  string
+	 * @param  string  $logDirectory
+	 * @param  string  $email
 	 * @return void
 	 */
 	public function enableDebugger($logDirectory = null, $email = null)
@@ -219,7 +219,7 @@ class Configurator
 
 	/**
 	 * Adds configuration file.
-	 * @param  string|array
+	 * @param  string|array  $file
 	 * @return static
 	 */
 	public function addConfig($file)
@@ -372,7 +372,7 @@ class Configurator
 
 	/**
 	 * Detects debug mode by IP addresses or computer names whitelist detection.
-	 * @param  string|array
+	 * @param  string|array  $list
 	 * @return bool
 	 */
 	public static function detectDebugMode($list = null)
