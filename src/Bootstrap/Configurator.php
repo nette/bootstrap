@@ -73,7 +73,7 @@ class Configurator
 
 	/**
 	 * Set parameter %debugMode%.
-	 * @param  bool|string|array
+	 * @param  bool|string|array  $value
 	 * @return static
 	 */
 	public function setDebugMode($value)
@@ -201,7 +201,7 @@ class Configurator
 
 	/**
 	 * Adds configuration file.
-	 * @param  string|array
+	 * @param  string|array  $config
 	 * @return static
 	 */
 	public function addConfig($config)
@@ -297,7 +297,7 @@ class Configurator
 
 	/**
 	 * Detects debug mode by IP addresses or computer names whitelist detection.
-	 * @param  string|array
+	 * @param  string|array  $list
 	 */
 	public static function detectDebugMode($list = null): bool
 	{
