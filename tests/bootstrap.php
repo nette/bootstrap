@@ -21,7 +21,7 @@ define('TEMP_DIR', __DIR__ . '/tmp/' . getmypid());
 Tester\Helpers::purge(TEMP_DIR);
 
 
-function test(\Closure $function)
+function test(\Closure $function): void
 {
 	$function();
 }
@@ -32,13 +32,13 @@ class Notes
 	public static $notes = [];
 
 
-	public static function add($message)
+	public static function add($message): void
 	{
 		self::$notes[] = $message;
 	}
 
 
-	public static function fetch()
+	public static function fetch(): array
 	{
 		$res = self::$notes;
 		self::$notes = [];
