@@ -46,7 +46,9 @@ final class TracyBridge
 		});
 
 		$blueScreen->addPanel(function ($e) {
-			if ($e instanceof Nette\Neon\Exception && preg_match('#line (\d+)#', $e->getMessage(), $m)
+			if (
+				$e instanceof Nette\Neon\Exception
+				&& preg_match('#line (\d+)#', $e->getMessage(), $m)
 				&& ($trace = Helpers::findTrace($e->getTrace(), 'Nette\Neon\Decoder::decode'))
 			) {
 				return [
