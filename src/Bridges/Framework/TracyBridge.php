@@ -32,6 +32,11 @@ class TracyBridge
 			$blueScreen->info[] = "Nette Framework $version";
 		}
 
+		if (class_exists(Tracy\Bridges\Nette\Bridge::class)) {
+			Tracy\Bridges\Nette\Bridge::initialize();
+			return;
+		}
+
 		$blueScreen->addPanel(function ($e) {
 			if ($e instanceof Latte\CompileException) {
 				return [
