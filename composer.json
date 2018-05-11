@@ -35,7 +35,7 @@
 		"nette/security": "^2.3 || ^3.0",
 		"nette/tester": "^2.0",
 		"latte/latte": "^2.2",
-		"tracy/tracy": "^2.4.1"
+		"tracy/tracy": "^2.5"
 	},
 	"conflict": {
 		"nette/nette": "<2.2"

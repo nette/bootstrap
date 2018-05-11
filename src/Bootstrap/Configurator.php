@@ -170,7 +170,7 @@ class Configurator
 	{
 		Tracy\Debugger::$strictMode = true;
 		Tracy\Debugger::enable(!$this->parameters['debugMode'], $logDirectory, $email);
-		Nette\Bridges\Framework\TracyBridge::initialize();
+		Tracy\Bridges\Nette\Bridge::initialize();
 	}
 
 
