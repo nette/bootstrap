@@ -15,6 +15,8 @@ Setting environment and creating a Dependency Injection (DI) container is in Net
 
 Documentation can be found on the [website](https://doc.nette.org/bootstrap).
 
+If you like Nette, **[please make a donation now](https://nette.org/donate)**. Thank you!
+
 
 Installation
 ============
