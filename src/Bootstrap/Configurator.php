@@ -48,9 +48,7 @@ class Configurator
 	];
 
 	/** @var string[] of classes which shouldn't be autowired */
-	public $autowireExcludedClasses = [
-		'stdClass',
-	];
+	public $autowireExcludedClasses = ['ArrayAccess', 'Countable', 'IteratorAggregate', 'stdClass', 'Traversable'];
 
 	/** @var array */
 	protected $parameters;
