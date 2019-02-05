@@ -60,7 +60,7 @@ $configurator->addServices([
 	'addServiceTwice' => $addServiceTwice,
 ]);
 
-$container = $configurator->createContainer();
+$container = @$configurator->createContainer(); // @ triggers service should be defined as 'imported'
 
 Assert::same($existingService, $container->getService('existingService'));
 Assert::same($newService, $container->getService('newService'));
