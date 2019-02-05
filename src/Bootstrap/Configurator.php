@@ -43,6 +43,7 @@ class Configurator
 		'mail' => Nette\Bridges\MailDI\MailExtension::class,
 		'php' => Nette\DI\Extensions\PhpExtension::class,
 		'routing' => [Nette\Bridges\ApplicationDI\RoutingExtension::class, ['%debugMode%']],
+		'search' => [Nette\DI\Extensions\SearchExtension::class, ['%tempDir%/cache/nette.search']],
 		'security' => [Nette\Bridges\SecurityDI\SecurityExtension::class, ['%debugMode%']],
 		'session' => [Nette\Bridges\HttpDI\SessionExtension::class, ['%debugMode%', '%consoleMode%']],
 		'tracy' => [Tracy\Bridges\Nette\TracyExtension::class, ['%debugMode%', '%consoleMode%']],
