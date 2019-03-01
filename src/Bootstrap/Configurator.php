@@ -29,23 +29,23 @@ class Configurator
 
 	/** @var array */
 	public $defaultExtensions = [
-		'php' => Nette\DI\Extensions\PhpExtension::class,
-		'constants' => Nette\DI\Extensions\ConstantsExtension::class,
-		'extensions' => Nette\DI\Extensions\ExtensionsExtension::class,
 		'application' => [Nette\Bridges\ApplicationDI\ApplicationExtension::class, ['%debugMode%', ['%appDir%'], '%tempDir%/cache']],
-		'decorator' => Nette\DI\Extensions\DecoratorExtension::class,
 		'cache' => [Nette\Bridges\CacheDI\CacheExtension::class, ['%tempDir%']],
+		'constants' => Nette\DI\Extensions\ConstantsExtension::class,
 		'database' => [Nette\Bridges\DatabaseDI\DatabaseExtension::class, ['%debugMode%']],
+		'decorator' => Nette\DI\Extensions\DecoratorExtension::class,
 		'di' => [Nette\DI\Extensions\DIExtension::class, ['%debugMode%']],
+		'extensions' => Nette\DI\Extensions\ExtensionsExtension::class,
 		'forms' => Nette\Bridges\FormsDI\FormsExtension::class,
 		'http' => [Nette\Bridges\HttpDI\HttpExtension::class, ['%consoleMode%']],
+		'inject' => Nette\DI\Extensions\InjectExtension::class,
 		'latte' => [Nette\Bridges\ApplicationDI\LatteExtension::class, ['%tempDir%/cache/latte', '%debugMode%']],
 		'mail' => Nette\Bridges\MailDI\MailExtension::class,
+		'php' => Nette\DI\Extensions\PhpExtension::class,
 		'routing' => [Nette\Bridges\ApplicationDI\RoutingExtension::class, ['%debugMode%']],
 		'security' => [Nette\Bridges\SecurityDI\SecurityExtension::class, ['%debugMode%']],
 		'session' => [Nette\Bridges\HttpDI\SessionExtension::class, ['%debugMode%', '%consoleMode%']],
 		'tracy' => [Tracy\Bridges\Nette\TracyExtension::class, ['%debugMode%', '%consoleMode%']],
-		'inject' => Nette\DI\Extensions\InjectExtension::class,
 	];
 
 	/** @var string[] of classes which shouldn't be autowired */
