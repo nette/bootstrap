@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Nette;
 
+use Composer\Autoload\ClassLoader;
 use Nette;
 use Nette\DI;
 use Tracy;
@@ -154,9 +155,11 @@ class Configurator
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		$last = end($trace);
 		$debugMode = static::detectDebugMode();
+		$loaderRc = class_exists(ClassLoader::class) ? new \ReflectionClass(ClassLoader::class) : null;
 		return [
 			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : null,
 			'wwwDir' => isset($last['file']) ? dirname($last['file']) : null,
+			'vendorDir' => $loaderRc ? dirname(dirname($loaderRc->getFileName())) : null,
 			'debugMode' => $debugMode,
 			'productionMode' => !$debugMode,
 			'consoleMode' => PHP_SAPI === 'cli',
