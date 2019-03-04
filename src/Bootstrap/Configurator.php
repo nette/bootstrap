@@ -29,7 +29,7 @@ class Configurator
 
 	/** @var array */
 	public $defaultExtensions = [
-		'application' => [Nette\Bridges\ApplicationDI\ApplicationExtension::class, ['%debugMode%', ['%appDir%'], '%tempDir%/cache']],
+		'application' => [Nette\Bridges\ApplicationDI\ApplicationExtension::class, ['%debugMode%', ['%appDir%'], '%tempDir%/cache/nette.application']],
 		'cache' => [Nette\Bridges\CacheDI\CacheExtension::class, ['%tempDir%']],
 		'constants' => Nette\DI\Extensions\ConstantsExtension::class,
 		'database' => [Nette\Bridges\DatabaseDI\DatabaseExtension::class, ['%debugMode%']],
@@ -195,7 +195,7 @@ class Configurator
 		}
 
 		$loader = new Nette\Loaders\RobotLoader;
-		$loader->setTempDirectory($this->getCacheDirectory() . '/Nette.RobotLoader');
+		$loader->setTempDirectory($this->getCacheDirectory() . '/nette.robotLoader');
 		$loader->setAutoRefresh($this->parameters['debugMode']);
 		return $loader;
 	}
@@ -234,7 +234,7 @@ class Configurator
 	public function loadContainer(): string
 	{
 		$loader = new DI\ContainerLoader(
-			$this->getCacheDirectory() . '/Nette.Configurator',
+			$this->getCacheDirectory() . '/nette.configurator',
 			$this->parameters['debugMode']
 		);
 		$class = $loader->load(
