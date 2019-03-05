@@ -27,7 +27,7 @@ test(function () {
 	', 'neon'));
 
 	$container = $configurator->createContainer();
-	$services = array_keys($container->findByTag('nette.presenter'), 'Presenter1', true);
+	$services = $container->findByType('Presenter1');
 	Assert::count(1, $services);
 	$presenter = $container->createService($services[0]);
 	Assert::same('test', $presenter->getAttr());
