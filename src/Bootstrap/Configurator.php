@@ -250,9 +250,6 @@ class Configurator
 	 */
 	public function generateContainer(DI\Compiler $compiler): void
 	{
-		$compiler->addConfig(['parameters' => $this->parameters]);
-		$compiler->setDynamicParameterNames(array_keys($this->dynamicParameters));
-
 		$loader = $this->createLoader();
 		$loader->setParameters($this->parameters);
 
@@ -263,6 +260,9 @@ class Configurator
 				$compiler->addConfig($config);
 			}
 		}
+
+		$compiler->addConfig(['parameters' => $this->parameters]);
+		$compiler->setDynamicParameterNames(array_keys($this->dynamicParameters));
 
 		$builder = $compiler->getContainerBuilder();
 		$builder->addExcludedClasses($this->autowireExcludedClasses);
