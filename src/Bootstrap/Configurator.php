@@ -254,6 +254,8 @@ class Configurator
 		$compiler->setDynamicParameterNames(array_keys($this->dynamicParameters));
 
 		$loader = $this->createLoader();
+		$loader->setParameters($this->parameters);
+
 		foreach ($this->configs as $config) {
 			if (is_string($config)) {
 				$compiler->loadConfig($config, $loader);
