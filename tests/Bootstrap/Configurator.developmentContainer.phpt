@@ -36,7 +36,7 @@ Assert::type(Nette\DI\Container::class, $container);
 Assert::same([
 	'appDir' => __DIR__,
 	'wwwDir' => __DIR__,
-	'vendorDir' => dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'vendor',
+	'vendorDir' => dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'vendor',
 	'debugMode' => true,
 	'productionMode' => false,
 	'consoleMode' => PHP_SAPI === 'cli',

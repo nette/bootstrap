@@ -160,7 +160,7 @@ class Configurator
 		return [
 			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : null,
 			'wwwDir' => isset($last['file']) ? dirname($last['file']) : null,
-			'vendorDir' => $loaderRc ? dirname(dirname($loaderRc->getFileName())) : null,
+			'vendorDir' => $loaderRc ? dirname($loaderRc->getFileName(), 2) : null,
 			'debugMode' => $debugMode,
 			'productionMode' => !$debugMode,
 			'consoleMode' => PHP_SAPI === 'cli',
