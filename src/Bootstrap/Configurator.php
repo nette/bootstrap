@@ -163,7 +163,7 @@ class Configurator
 			'vendorDir' => $loaderRc ? dirname($loaderRc->getFileName(), 2) : null,
 			'debugMode' => $debugMode,
 			'productionMode' => !$debugMode,
-			'consoleMode' => PHP_SAPI === 'cli',
+			'consoleMode' => PHP_SAPI === 'cli' && php_sapi_name() !== 'cli-server',
 		];
 	}
 
