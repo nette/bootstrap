@@ -197,6 +197,11 @@ class Configurator
 		$loader = new Nette\Loaders\RobotLoader;
 		$loader->setTempDirectory($this->getCacheDirectory() . '/nette.robotLoader');
 		$loader->setAutoRefresh($this->parameters['debugMode']);
+
+		if (isset($this->defaultExtensions['application'])) {
+			$this->defaultExtensions['application'][1][1] = null;
+			$this->defaultExtensions['application'][1][3] = $loader;
+		}
 		return $loader;
 	}
 
