@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 $configurator = new Configurator;
 $configurator->setDebugMode(true);
-$configurator->setTempDirectory(TEMP_DIR);
+$configurator->setTempDirectory(getTempDir());
 $configurator->addConfig(Tester\FileMock::create('
 session:
 	debugger: yes
@@ -40,7 +40,7 @@ Assert::same([
 	'debugMode' => true,
 	'productionMode' => false,
 	'consoleMode' => PHP_SAPI === 'cli',
-	'tempDir' => TEMP_DIR,
+	'tempDir' => getTempDir(),
 ], $container->parameters);
 
 Assert::true($container->getService('nette.cacheJournal') instanceof Nette\Caching\Storages\FileJournal || $container->getService('nette.cacheJournal') instanceof Nette\Caching\Storages\SQLiteJournal);

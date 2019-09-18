@@ -20,7 +20,7 @@ Assert::exception(function () use ($configurator) {
 }, Nette\InvalidStateException::class, 'Set path to temporary directory using setTempDirectory().');
 
 
-$configurator->setTempDirectory(TEMP_DIR);
+$configurator->setTempDirectory(getTempDir());
 $loader = $configurator->createRobotLoader();
 
 Assert::type(Nette\Loaders\RobotLoader::class, $loader);

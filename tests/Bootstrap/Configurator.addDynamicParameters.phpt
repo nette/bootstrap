@@ -10,7 +10,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $configurator = new Configurator;
-$configurator->setTempDirectory(TEMP_DIR);
+$configurator->setTempDirectory(getTempDir());
 $configurator->addConfig(Tester\FileMock::create('
 parameters:
 	dynamic: default

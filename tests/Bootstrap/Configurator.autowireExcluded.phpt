@@ -19,7 +19,7 @@ class Foo extends stdClass
 
 
 $configurator = new Configurator;
-$configurator->setTempDirectory(TEMP_DIR);
+$configurator->setTempDirectory(getTempDir());
 
 $configurator->addConfig(Tester\FileMock::create('
 services:

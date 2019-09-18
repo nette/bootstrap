@@ -23,7 +23,7 @@ class FooExtension extends Nette\DI\CompilerExtension
 
 
 $configurator = new Configurator;
-$configurator->setTempDirectory(TEMP_DIR);
+$configurator->setTempDirectory(getTempDir());
 $configurator->onCompile[] = function (Configurator $configurator, Nette\DI\Compiler $compiler) {
 	$compiler->addExtension('foo', new FooExtension);
 };

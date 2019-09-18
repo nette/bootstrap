@@ -16,7 +16,7 @@ require __DIR__ . '/files/MyPresenter.php';
 test(function () {
 	$configurator = new Configurator;
 	$configurator->setDebugMode(false);
-	$configurator->setTempDirectory(TEMP_DIR);
+	$configurator->setTempDirectory(getTempDir());
 	$configurator->addConfig(Tester\FileMock::create('
 		parameters:
 			param: \'test\'
@@ -37,7 +37,7 @@ test(function () {
 test(function () {
 	$configurator = new Configurator;
 	$configurator->setDebugMode(false);
-	$configurator->setTempDirectory(TEMP_DIR);
+	$configurator->setTempDirectory(getTempDir());
 	$configurator->addConfig(Tester\FileMock::create('
 		decorator:
 			BasePresenter:

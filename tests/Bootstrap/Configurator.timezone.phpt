@@ -16,7 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 date_default_timezone_set('America/Los_Angeles');
 
 $configurator = new Configurator;
-$configurator->setTempDirectory(TEMP_DIR);
+$configurator->setTempDirectory(getTempDir());
 $configurator->setTimeZone('Europe/Prague');
 
 Assert::same('Europe/Prague', date_default_timezone_get());

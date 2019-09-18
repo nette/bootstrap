@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 $configurator = new Configurator;
 $configurator->setDebugMode(false);
-$configurator->setTempDirectory(TEMP_DIR);
+$configurator->setTempDirectory(getTempDir());
 $configurator->addConfig(Tester\FileMock::create('
 services:
 	application:

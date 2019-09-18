@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $configurator = new Configurator;
-$configurator->setTempDirectory(TEMP_DIR);
+$configurator->setTempDirectory(getTempDir());
 $configurator->addParameters([
 	'hello' => 'world',
 ]);
@@ -29,7 +29,7 @@ Assert::same([
 	'debugMode' => false,
 	'productionMode' => true,
 	'consoleMode' => PHP_SAPI === 'cli',
-	'tempDir' => TEMP_DIR,
+	'tempDir' => getTempDir(),
 	'hello' => 'world',
 ], $container->parameters);
 

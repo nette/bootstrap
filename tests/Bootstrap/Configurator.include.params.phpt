@@ -10,7 +10,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $configurator = new Configurator;
-$configurator->setTempDirectory(TEMP_DIR);
+$configurator->setTempDirectory(getTempDir());
 $configurator->addConfig(__DIR__ . '/files/includes.params.neon');
 $configurator->addParameters(['name' => 'includes.params.child']);
 $container = $configurator->createContainer();

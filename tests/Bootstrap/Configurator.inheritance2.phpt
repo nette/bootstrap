@@ -20,7 +20,7 @@ class MyApp extends Nette\Application\Application
 
 $configurator = new Configurator;
 $configurator->setDebugMode(false);
-$configurator->setTempDirectory(TEMP_DIR);
+$configurator->setTempDirectory(getTempDir());
 $configurator->addConfig(Tester\FileMock::create('
 services:
 	application!: # overwrites original application
