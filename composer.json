@@ -37,6 +37,9 @@
 		"latte/latte": "^2.2",
 		"tracy/tracy": "^2.6"
 	},
+	"conflict": {
+		"tracy/tracy": "<2.6"
+	},
 	"autoload": {
 		"classmap": ["src/"]
 	},
