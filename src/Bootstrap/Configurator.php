@@ -244,7 +244,13 @@ class Configurator
 		);
 		$class = $loader->load(
 			[$this, 'generateContainer'],
-			[$this->parameters, array_keys($this->dynamicParameters), $this->configs, PHP_VERSION_ID - PHP_RELEASE_VERSION]
+			[
+				$this->parameters,
+				array_keys($this->dynamicParameters),
+				$this->configs,
+				PHP_VERSION_ID - PHP_RELEASE_VERSION, // minor PHP version
+				class_exists(ClassLoader::class) ? filemtime((new \ReflectionClass(ClassLoader::class))->getFilename()) : null, // composer update
+			]
 		);
 		return $class;
 	}
