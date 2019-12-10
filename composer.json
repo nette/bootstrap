@@ -35,7 +35,8 @@
 		"nette/security": "^3.0",
 		"nette/tester": "^2.0",
 		"latte/latte": "^2.2",
-		"tracy/tracy": "^2.6"
+		"tracy/tracy": "^2.6",
+		"phpstan/phpstan-nette": "^0.12"
 	},
 	"conflict": {
 		"tracy/tracy": "<2.6"
@@ -44,6 +45,10 @@
 		"classmap": ["src/"]
 	},
 	"minimum-stability": "dev",
+	"scripts": {
+		"phpstan": "phpstan analyse --level 5 --configuration tests/phpstan.neon src",
+		"tester": "tester tests -s"
+	},
 	"extra": {
 		"branch-alias": {
 			"dev-master": "3.0-dev"
