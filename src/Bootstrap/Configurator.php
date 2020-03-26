@@ -253,7 +253,7 @@ class Configurator
 			$this->staticParameters['debugMode']
 		);
 		$class = $loader->load(
-			[$this, 'generateContainer'],
+			\Closure::fromCallable([$this, 'generateContainer']),
 			[
 				$this->staticParameters,
 				array_keys($this->dynamicParameters),
@@ -266,10 +266,7 @@ class Configurator
 	}
 
 
-	/**
-	 * @internal
-	 */
-	public function generateContainer(DI\Compiler $compiler): void
+	private function generateContainer(DI\Compiler $compiler): void
 	{
 		$loader = $this->createLoader();
 		$loader->setParameters($this->staticParameters);
