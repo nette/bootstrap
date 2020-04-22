@@ -168,7 +168,10 @@ class Configurator
 	}
 
 
-	public function enableTracy(string $logDirectory = null, string $email = null): void
+	/**
+	 * @param string|string[]|null $email administrator email; enables email sending in production mode
+	 */
+	public function enableTracy(?string $logDirectory = null, $email = null): void
 	{
 		Tracy\Debugger::$strictMode = true;
 		Tracy\Debugger::enable(!$this->parameters['debugMode'], $logDirectory, $email);
@@ -178,8 +181,9 @@ class Configurator
 
 	/**
 	 * Alias for enableTracy()
+	 * @param string|string[]|null $email administrator email; enables email sending in production mode
 	 */
-	public function enableDebugger(string $logDirectory = null, string $email = null): void
+	public function enableDebugger(?string $logDirectory = null, $email = null): void
 	{
 		$this->enableTracy($logDirectory, $email);
 	}
