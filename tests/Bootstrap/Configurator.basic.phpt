@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 date_default_timezone_set('America/Los_Angeles');
 
-$configurator = new Configurator;
+$configurator = new Configurator(__DIR__);
 $configurator->setTempDirectory(getTempDir());
 $configurator->addParameters([
 	'wwwDir' => 'overwritten', // overwrites default value

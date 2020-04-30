@@ -10,11 +10,11 @@ use Nette\Configurator;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
-require __DIR__ . '/files/MyPresenter.php';
+require __DIR__ . '/app/MyPresenter.php';
 
 
 test(function () {
-	$configurator = new Configurator;
+	$configurator = new Configurator(__DIR__);
 	$configurator->setDebugMode(false);
 	$configurator->setTempDirectory(getTempDir());
 	$configurator->addConfig(Tester\FileMock::create('
@@ -35,7 +35,7 @@ test(function () {
 
 
 test(function () {
-	$configurator = new Configurator;
+	$configurator = new Configurator(__DIR__);
 	$configurator->setDebugMode(false);
 	$configurator->setTempDirectory(getTempDir());
 	$configurator->addConfig(Tester\FileMock::create('

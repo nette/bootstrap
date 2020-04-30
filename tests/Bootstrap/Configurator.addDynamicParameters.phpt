@@ -9,7 +9,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-$configurator = new Configurator;
+$configurator = new Configurator(__DIR__);
 $configurator->setTempDirectory(getTempDir());
 $configurator->addConfig(Tester\FileMock::create('
 parameters:
