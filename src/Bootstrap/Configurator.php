@@ -157,10 +157,14 @@ class Configurator
 		$last = end($trace);
 		$debugMode = static::detectDebugMode();
 		$loaderRc = class_exists(ClassLoader::class) ? new \ReflectionClass(ClassLoader::class) : null;
+		$vendorDir = $loaderRc ? dirname($loaderRc->getFileName(), 2) : null;
+		if ($vendorDir !== null && PHP_SAPI === 'cli' && strncmp($vendorDir, 'phar://', 7) === 0) {
+			$vendorDir = (string) preg_replace('/^(.+?\/vendor)(.*)$/', '$1', $trace[0]['file']);
+		}
 		return [
 			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : null,
 			'wwwDir' => isset($last['file']) ? dirname($last['file']) : null,
-			'vendorDir' => $loaderRc ? dirname($loaderRc->getFileName(), 2) : null,
+			'vendorDir' => $vendorDir,
 			'debugMode' => $debugMode,
 			'productionMode' => !$debugMode,
 			'consoleMode' => PHP_SAPI === 'cli',
