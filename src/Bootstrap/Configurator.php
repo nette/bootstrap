@@ -316,7 +316,7 @@ class Configurator
 	 */
 	public static function detectDebugMode($list = null): bool
 	{
-		$addr = $_SERVER['REMOTE_ADDR'] ?? php_uname('n');
+		$addr = ($_SERVER['HTTP_CDN_LOOP'] ?? '') === 'cloudflare' ? $_SERVER['HTTP_CF_CONNECTING_IP'] : $_SERVER['REMOTE_ADDR'] ?? php_uname('n');
 		$secret = is_string($_COOKIE[self::COOKIE_SECRET] ?? null)
 			? $_COOKIE[self::COOKIE_SECRET]
 			: null;
