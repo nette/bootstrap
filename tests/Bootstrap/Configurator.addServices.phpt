@@ -32,7 +32,7 @@ class TestExistingService
 	}
 }
 
-$configurator = new Configurator;
+$configurator = new Configurator(__DIR__);
 $configurator->setTempDirectory(getTempDir());
 $configurator->addConfig(Tester\FileMock::create('
 services:

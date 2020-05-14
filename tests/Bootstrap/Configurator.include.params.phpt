@@ -9,7 +9,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-$configurator = new Configurator;
+$configurator = new Configurator(__DIR__);
 $configurator->setTempDirectory(getTempDir());
 $configurator->addConfig(__DIR__ . '/files/includes.params.neon');
 $configurator->addParameters(['name' => 'includes.params.child']);

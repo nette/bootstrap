@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-$configurator = new Configurator;
+$configurator = new Configurator(__DIR__);
 
 Assert::exception(function () use ($configurator) {
 	$configurator->createRobotLoader();

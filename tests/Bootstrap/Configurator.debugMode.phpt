@@ -33,7 +33,7 @@ test(function () {
 
 
 Assert::exception(function () {
-	$configurator = new Configurator;
+	$configurator = new Configurator(__DIR__);
 	$configurator->setDebugMode(1);
 }, Nette\InvalidArgumentException::class);
 

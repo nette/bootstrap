@@ -18,7 +18,7 @@ class MyApp extends Nette\Application\Application
 }
 
 
-$configurator = new Configurator;
+$configurator = new Configurator(__DIR__);
 $configurator->setDebugMode(false);
 $configurator->setTempDirectory(getTempDir());
 $configurator->addConfig(Tester\FileMock::create('

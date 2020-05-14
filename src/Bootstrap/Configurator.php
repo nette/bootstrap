@@ -52,6 +52,9 @@ class Configurator
 	/** @var string[] of classes which shouldn't be autowired */
 	public $autowireExcludedClasses = [\ArrayAccess::class, \Countable::class, \IteratorAggregate::class, \stdClass::class, \Traversable::class];
 
+	/** @var string */
+	protected $rootDir;
+
 	/** @var array */
 	protected $parameters;
 
@@ -65,8 +68,18 @@ class Configurator
 	protected $configs = [];
 
 
-	public function __construct()
+	public function __construct(?string $rootDir = null)
 	{
+		if (!$rootDir) {
+			$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			$rootDir = isset($trace[1]['file']) ? dirname($trace[1]['file'], 2) : null;
+		}
+
+		if (!$rootDir) {
+			throw new InvalidStateException('Set path to root directory using "new Configurator($rootDir)".');
+		}
+
+		$this->rootDir = $rootDir;
 		$this->parameters = $this->getDefaultParameters();
 	}
 
@@ -153,14 +166,12 @@ class Configurator
 
 	protected function getDefaultParameters(): array
 	{
-		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-		$last = end($trace);
 		$debugMode = static::detectDebugMode();
-		$loaderRc = class_exists(ClassLoader::class) ? new \ReflectionClass(ClassLoader::class) : null;
 		return [
-			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : null,
-			'wwwDir' => isset($last['file']) ? dirname($last['file']) : null,
-			'vendorDir' => $loaderRc ? dirname($loaderRc->getFileName(), 2) : null,
+			'rootDir' => $this->rootDir,
+			'appDir' => $this->rootDir . '/app',
+			'wwwDir' => $this->rootDir . '/www',
+			'vendorDir' => $this->rootDir . '/vendor',
 			'debugMode' => $debugMode,
 			'productionMode' => !$debugMode,
 			'consoleMode' => PHP_SAPI === 'cli',

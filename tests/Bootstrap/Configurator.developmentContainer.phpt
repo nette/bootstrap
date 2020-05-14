@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-$configurator = new Configurator;
+$configurator = new Configurator(__DIR__);
 $configurator->setDebugMode(true);
 $configurator->setTempDirectory(getTempDir());
 $configurator->addConfig(Tester\FileMock::create('
@@ -34,9 +34,10 @@ $container = $configurator->createContainer();
 Assert::type(Nette\DI\Container::class, $container);
 
 Assert::same([
-	'appDir' => __DIR__,
-	'wwwDir' => __DIR__,
-	'vendorDir' => dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'vendor',
+	'rootDir' => __DIR__,
+	'appDir' => __DIR__ . '/app',
+	'wwwDir' => __DIR__ . '/www',
+	'vendorDir' => __DIR__ . '/vendor',
 	'debugMode' => true,
 	'productionMode' => false,
 	'consoleMode' => PHP_SAPI === 'cli',
