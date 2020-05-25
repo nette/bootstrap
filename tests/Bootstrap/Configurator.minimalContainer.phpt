@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 $configurator = new Configurator;
 $configurator->setTempDirectory(getTempDir());
-$configurator->addParameters([
+$configurator->addStaticParameters([
 	'hello' => 'world',
 ]);
 $container = $configurator->createContainer();

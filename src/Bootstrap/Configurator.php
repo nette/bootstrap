@@ -125,10 +125,20 @@ class Configurator
 
 
 	/**
-	 * Adds new parameters.
+	 * Alias for addStaticParameters()
 	 * @return static
 	 */
 	public function addParameters(array $params)
+	{
+		return $this->addStaticParameters($params);
+	}
+
+
+	/**
+	 * Adds new static parameters.
+	 * @return static
+	 */
+	public function addStaticParameters(array $params)
 	{
 		$this->staticParameters = DI\Config\Helpers::merge($params, $this->staticParameters);
 		return $this;
