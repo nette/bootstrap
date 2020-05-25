@@ -12,7 +12,7 @@ require __DIR__ . '/../bootstrap.php';
 $configurator = new Configurator;
 $configurator->setTempDirectory(getTempDir());
 $configurator->addConfig(__DIR__ . '/files/includes.params.neon');
-$configurator->addParameters(['name' => 'includes.params.child']);
+$configurator->addStaticParameters(['name' => 'includes.params.child']);
 $container = $configurator->createContainer();
 
 Assert::same('bar', $container->parameters['foo']);
