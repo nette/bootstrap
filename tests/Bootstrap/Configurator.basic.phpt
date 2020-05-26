@@ -27,8 +27,8 @@ $container = $configurator->addConfig('files/configurator.basic.neon')
 
 Assert::same('overwritten', $container->parameters['wwwDir']);
 Assert::same('hello world', $container->parameters['foo']);
-Assert::same('hello world', $container->parameters['foo2']);
-Assert::same('hello world', $container->parameters['foo3']);
+Assert::same('%foo%', $container->parameters['foo2']);
+Assert::same('%foo%', $container->parameters['foo3']);
 Assert::same('hello', $container->parameters['bar']);
 Assert::same('hello world', constant('BAR'));
 Assert::same('Europe/Prague', date_default_timezone_get());
