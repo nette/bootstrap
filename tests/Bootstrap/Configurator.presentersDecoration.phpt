@@ -19,7 +19,7 @@ test(function () {
 	$configurator->setTempDirectory(getTempDir());
 	$configurator->addConfig(Tester\FileMock::create('
 		parameters:
-			param: \'test\'
+			param: "test"
 		decorator:
 			BasePresenter:
 				setup:
