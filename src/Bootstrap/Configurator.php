@@ -67,7 +67,7 @@ class Configurator
 
 	public function __construct()
 	{
-		$this->staticParameters = self::escape($this->getDefaultParameters());
+		$this->staticParameters = $this->getDefaultParameters();
 	}
 
 
@@ -101,7 +101,7 @@ class Configurator
 	 */
 	public function setTempDirectory(string $path)
 	{
-		$this->staticParameters['tempDir'] = self::escape($path);
+		$this->staticParameters['tempDir'] = $path;
 		return $this;
 	}
 
@@ -119,7 +119,7 @@ class Configurator
 
 
 	/**
-	 * Adds new parameters. The %params% will be expanded.
+	 * Adds new parameters.
 	 * @return static
 	 */
 	public function addParameters(array $params)
@@ -272,7 +272,7 @@ class Configurator
 			}
 		}
 
-		$compiler->addConfig(['parameters' => $this->staticParameters]);
+		$compiler->addConfig(['parameters' => self::escape($this->staticParameters)]);
 		$compiler->setDynamicParameterNames(array_keys($this->dynamicParameters));
 
 		$builder = $compiler->getContainerBuilder();
@@ -281,7 +281,7 @@ class Configurator
 		foreach ($this->defaultExtensions as $name => $extension) {
 			[$class, $args] = is_string($extension) ? [$extension, []] : $extension;
 			if (class_exists($class)) {
-				$args = DI\Helpers::expand($args, $this->staticParameters, true);
+				$args = DI\Helpers::expand($args, $this->staticParameters);
 				$compiler->addExtension($name, (new \ReflectionClass($class))->newInstanceArgs($args));
 			}
 		}
@@ -301,7 +301,7 @@ class Configurator
 		if (empty($this->staticParameters['tempDir'])) {
 			throw new Nette\InvalidStateException('Set path to temporary directory using setTempDirectory().');
 		}
-		$dir = DI\Helpers::expand('%tempDir%/cache', $this->staticParameters, true);
+		$dir = $this->staticParameters['tempDir'] . '/cache';
 		Nette\Utils\FileSystem::createDir($dir);
 		return $dir;
 	}
