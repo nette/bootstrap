@@ -59,7 +59,7 @@ class Configurator
 	];
 
 	/** @var array */
-	protected $parameters;
+	protected $staticParameters;
 
 	/** @var array */
 	protected $dynamicParameters = [];
@@ -73,7 +73,7 @@ class Configurator
 
 	public function __construct()
 	{
-		$this->parameters = self::escape($this->getDefaultParameters());
+		$this->staticParameters = self::escape($this->getDefaultParameters());
 	}
 
 
@@ -89,15 +89,15 @@ class Configurator
 		} elseif (!is_bool($value)) {
 			throw new Nette\InvalidArgumentException(sprintf('Value must be either a string, array, or boolean, %s given.', gettype($value)));
 		}
-		$this->parameters['debugMode'] = $value;
-		$this->parameters['productionMode'] = !$this->parameters['debugMode']; // compatibility
+		$this->staticParameters['debugMode'] = $value;
+		$this->staticParameters['productionMode'] = !$this->staticParameters['debugMode']; // compatibility
 		return $this;
 	}
 
 
 	public function isDebugMode(): bool
 	{
-		return $this->parameters['debugMode'];
+		return $this->staticParameters['debugMode'];
 	}
 
 
@@ -107,7 +107,7 @@ class Configurator
 	 */
 	public function setTempDirectory(string $path)
 	{
-		$this->parameters['tempDir'] = self::escape($path);
+		$this->staticParameters['tempDir'] = self::escape($path);
 		return $this;
 	}
 
@@ -130,7 +130,7 @@ class Configurator
 	 */
 	public function addParameters(array $params)
 	{
-		$this->parameters = DI\Config\Helpers::merge($params, $this->parameters);
+		$this->staticParameters = DI\Config\Helpers::merge($params, $this->staticParameters);
 		return $this;
 	}
 
@@ -183,7 +183,7 @@ class Configurator
 		}
 
 		Tracy\Debugger::$strictMode = true;
-		Tracy\Debugger::enable(!$this->parameters['debugMode'], $logDirectory, $email);
+		Tracy\Debugger::enable(!$this->staticParameters['debugMode'], $logDirectory, $email);
 		Tracy\Bridges\Nette\Bridge::initialize();
 	}
 
@@ -208,7 +208,7 @@ class Configurator
 
 		$loader = new Nette\Loaders\RobotLoader;
 		$loader->setTempDirectory($this->getCacheDirectory() . '/nette.robotLoader');
-		$loader->setAutoRefresh($this->parameters['debugMode']);
+		$loader->setAutoRefresh($this->staticParameters['debugMode']);
 
 		if (isset($this->defaultExtensions['application'])) {
 			$this->defaultExtensions['application'][1][1] = null;
@@ -252,12 +252,12 @@ class Configurator
 	{
 		$loader = new DI\ContainerLoader(
 			$this->getCacheDirectory() . '/nette.configurator',
-			$this->parameters['debugMode']
+			$this->staticParameters['debugMode']
 		);
 		return $loader->load(
 			[$this, 'generateContainer'],
 			[
-				$this->parameters,
+				$this->staticParameters,
 				array_keys($this->dynamicParameters),
 				$this->configs,
 				PHP_VERSION_ID - PHP_RELEASE_VERSION, // minor PHP version
@@ -273,7 +273,7 @@ class Configurator
 	public function generateContainer(DI\Compiler $compiler): void
 	{
 		$loader = $this->createLoader();
-		$loader->setParameters($this->parameters);
+		$loader->setParameters($this->staticParameters);
 
 		foreach ($this->configs as $config) {
 			if (is_string($config)) {
@@ -283,7 +283,7 @@ class Configurator
 			}
 		}
 
-		$compiler->addConfig(['parameters' => $this->parameters]);
+		$compiler->addConfig(['parameters' => $this->staticParameters]);
 		$compiler->setDynamicParameterNames(array_keys($this->dynamicParameters));
 
 		$builder = $compiler->getContainerBuilder();
@@ -294,7 +294,7 @@ class Configurator
 				? [$extension, []]
 				: $extension;
 			if (class_exists($class)) {
-				$args = DI\Helpers::expand($args, $this->parameters, true);
+				$args = DI\Helpers::expand($args, $this->staticParameters, true);
 				$compiler->addExtension($name, (new \ReflectionClass($class))->newInstanceArgs($args));
 			}
 		}
@@ -311,10 +311,10 @@ class Configurator
 
 	protected function getCacheDirectory(): string
 	{
-		if (empty($this->parameters['tempDir'])) {
+		if (empty($this->staticParameters['tempDir'])) {
 			throw new Nette\InvalidStateException('Set path to temporary directory using setTempDirectory().');
 		}
-		$dir = DI\Helpers::expand('%tempDir%/cache', $this->parameters, true);
+		$dir = DI\Helpers::expand('%tempDir%/cache', $this->staticParameters, true);
 		Nette\Utils\FileSystem::createDir($dir);
 		return $dir;
 	}
