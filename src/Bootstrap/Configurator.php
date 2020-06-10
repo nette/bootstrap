@@ -50,7 +50,13 @@ class Configurator
 	];
 
 	/** @var string[] of classes which shouldn't be autowired */
-	public $autowireExcludedClasses = [\ArrayAccess::class, \Countable::class, \IteratorAggregate::class, \stdClass::class, \Traversable::class];
+	public $autowireExcludedClasses = [
+		\ArrayAccess::class,
+		\Countable::class,
+		\IteratorAggregate::class,
+		\stdClass::class,
+		\Traversable::class,
+	];
 
 	/** @var array */
 	protected $staticParameters;
