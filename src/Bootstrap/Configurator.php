@@ -31,7 +31,7 @@ class Configurator
 	public $defaultExtensions = [
 		'application' => [Nette\Bridges\ApplicationDI\ApplicationExtension::class, ['%debugMode%', ['%appDir%'], '%tempDir%/cache/nette.application']],
 		'cache' => [Nette\Bridges\CacheDI\CacheExtension::class, ['%tempDir%']],
-		'constants' => Nette\DI\Extensions\ConstantsExtension::class,
+		'constants' => Extensions\ConstantsExtension::class,
 		'database' => [Nette\Bridges\DatabaseDI\DatabaseExtension::class, ['%debugMode%']],
 		'decorator' => Nette\DI\Extensions\DecoratorExtension::class,
 		'di' => [Nette\DI\Extensions\DIExtension::class, ['%debugMode%']],
@@ -41,7 +41,7 @@ class Configurator
 		'inject' => Nette\DI\Extensions\InjectExtension::class,
 		'latte' => [Nette\Bridges\ApplicationDI\LatteExtension::class, ['%tempDir%/cache/latte', '%debugMode%']],
 		'mail' => Nette\Bridges\MailDI\MailExtension::class,
-		'php' => Nette\DI\Extensions\PhpExtension::class,
+		'php' => Extensions\PhpExtension::class,
 		'routing' => [Nette\Bridges\ApplicationDI\RoutingExtension::class, ['%debugMode%']],
 		'search' => [Nette\DI\Extensions\SearchExtension::class, ['%tempDir%/cache/nette.search']],
 		'security' => [Nette\Bridges\SecurityDI\SecurityExtension::class, ['%debugMode%']],
