@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-use Nette\Configurator;
+use Nette\Bootstrap\Configurator;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';

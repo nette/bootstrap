@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace Nette;
+namespace Nette\Bootstrap;
 
 use Composer\Autoload\ClassLoader;
 use Nette;
@@ -20,7 +20,7 @@ use Tracy;
  */
 class Configurator
 {
-	use SmartObject;
+	use Nette\SmartObject;
 
 	public const COOKIE_SECRET = 'nette-debug';
 
@@ -368,3 +368,6 @@ class Configurator
 		return $value;
 	}
 }
+
+
+class_exists(Nette\Configurator::class);
