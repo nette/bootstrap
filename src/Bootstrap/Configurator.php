@@ -285,7 +285,7 @@ class Configurator
 			}
 		}
 
-		$compiler->addConfig(['parameters' => self::escape($this->staticParameters)]);
+		$compiler->addConfig(['parameters' => DI\Helpers::escape($this->staticParameters)]);
 		$compiler->setDynamicParameterNames(array_keys($this->dynamicParameters));
 
 		$builder = $compiler->getContainerBuilder();
@@ -342,20 +342,6 @@ class Configurator
 			$list[] = '[::1]'; // workaround for PHP < 7.3.4
 		}
 		return in_array($addr, $list, true) || in_array("$secret@$addr", $list, true);
-	}
-
-
-	/**
-	 * Expand counterpart.
-	 */
-	private static function escape($value)
-	{
-		if (is_array($value)) {
-			return array_map([self::class, 'escape'], $value);
-		} elseif (is_string($value)) {
-			return str_replace('%', '%%', $value);
-		}
-		return $value;
 	}
 }
 
