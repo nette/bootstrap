@@ -13,7 +13,7 @@ require __DIR__ . '/../bootstrap.php';
 require __DIR__ . '/files/MyPresenter.php';
 
 
-test(function () {
+test('', function () {
 	$configurator = new Configurator;
 	$configurator->setDebugMode(false);
 	$configurator->setTempDirectory(getTempDir());
@@ -34,7 +34,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$configurator = new Configurator;
 	$configurator->setDebugMode(false);
 	$configurator->setTempDirectory(getTempDir());
