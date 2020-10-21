@@ -84,6 +84,10 @@ class Configurator
 	 */
 	public function setDebugMode($value)
 	{
+		if (Tracy\Debugger::isEnabled()) {
+			throw new InvalidStateException("You cannot set debug mode after starting debugger. ");
+		}
+
 		if (is_string($value) || is_array($value)) {
 			$value = static::detectDebugMode($value);
 		} elseif (!is_bool($value)) {
