@@ -45,8 +45,8 @@ services:
 ', 'neon'));
 
 $existingService = new TestExistingService(false);
-$newService = new stdClass();
-$addServiceTwice = new stdClass();
+$newService = new stdClass;
+$addServiceTwice = new stdClass;
 
 $configurator->addServices([
 	'existingService' => $existingService,
@@ -54,7 +54,7 @@ $configurator->addServices([
 	'addServiceTwice' => $addServiceTwice,
 ]);
 
-$addServiceTwice = new stdClass();
+$addServiceTwice = new stdClass;
 
 $configurator->addServices([
 	'addServiceTwice' => $addServiceTwice,

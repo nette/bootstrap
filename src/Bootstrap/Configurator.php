@@ -50,7 +50,13 @@ class Configurator
 	];
 
 	/** @var string[] of classes which shouldn't be autowired */
-	public $autowireExcludedClasses = [\ArrayAccess::class, \Countable::class, \IteratorAggregate::class, \stdClass::class, \Traversable::class];
+	public $autowireExcludedClasses = [
+		\ArrayAccess::class,
+		\Countable::class,
+		\IteratorAggregate::class,
+		\stdClass::class,
+		\Traversable::class,
+	];
 
 	/** @var array */
 	protected $parameters;
@@ -156,7 +162,9 @@ class Configurator
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		$last = end($trace);
 		$debugMode = static::detectDebugMode();
-		$loaderRc = class_exists(ClassLoader::class) ? new \ReflectionClass(ClassLoader::class) : null;
+		$loaderRc = class_exists(ClassLoader::class)
+			? new \ReflectionClass(ClassLoader::class)
+			: null;
 		return [
 			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : null,
 			'wwwDir' => isset($last['file']) ? dirname($last['file']) : null,
@@ -242,7 +250,7 @@ class Configurator
 			$this->getCacheDirectory() . '/nette.configurator',
 			$this->parameters['debugMode']
 		);
-		$class = $loader->load(
+		return $loader->load(
 			[$this, 'generateContainer'],
 			[
 				$this->parameters,
@@ -252,7 +260,6 @@ class Configurator
 				class_exists(ClassLoader::class) ? filemtime((new \ReflectionClass(ClassLoader::class))->getFilename()) : null, // composer update
 			]
 		);
-		return $class;
 	}
 
 
@@ -279,7 +286,9 @@ class Configurator
 		$builder->addExcludedClasses($this->autowireExcludedClasses);
 
 		foreach ($this->defaultExtensions as $name => $extension) {
-			[$class, $args] = is_string($extension) ? [$extension, []] : $extension;
+			[$class, $args] = is_string($extension)
+				? [$extension, []]
+				: $extension;
 			if (class_exists($class)) {
 				$args = DI\Helpers::expand($args, $this->parameters, true);
 				$compiler->addExtension($name, (new \ReflectionClass($class))->newInstanceArgs($args));
