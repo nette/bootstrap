@@ -178,6 +178,10 @@ class Configurator
 
 	public function enableTracy(string $logDirectory = null, string $email = null): void
 	{
+		if (!class_exists(Tracy\Debugger::class)) {
+			throw new Nette\NotSupportedException('Tracy not found, do you have `tracy/tracy` package installed?');
+		}
+
 		Tracy\Debugger::$strictMode = true;
 		Tracy\Debugger::enable(!$this->parameters['debugMode'], $logDirectory, $email);
 		Tracy\Bridges\Nette\Bridge::initialize();
