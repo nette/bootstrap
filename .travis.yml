@@ -6,6 +6,7 @@ php:
     - 7.2
     - 7.3
     - 7.4
+    - 8.0snapshot
 
 env:
     - PHP_BIN=php
@@ -58,7 +59,7 @@ jobs:
         -   stage: Code Coverage
 
 
-sudo: false
+dist: xenial
 
 cache:
     directories:

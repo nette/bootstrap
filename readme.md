@@ -7,6 +7,8 @@ Nette Bootstrap
 [![Latest Stable Version](https://poser.pugx.org/nette/bootstrap/v/stable)](https://github.com/nette/bootstrap/releases)
 [![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/nette/bootstrap/blob/master/license.md)
 
+It requires PHP version 5.6 and supports PHP up to 8.0.
+
 File `bootstrap.php` loads Nette Framework and all libraries that we depend on:
 
 ```php
