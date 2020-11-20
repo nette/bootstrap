@@ -1,6 +1,6 @@
 {
 	"name": "nette/bootstrap",
-	"description": "🅱 Nette Bootstrap: the simple way to configure and bootstrap your Nette application.",
+	"description": "🅱  Nette Bootstrap: the simple way to configure and bootstrap your Nette application.",
 	"keywords": ["nette", "configurator", "bootstrapping"],
 	"homepage": "https://nette.org",
 	"license": ["BSD-3-Clause", "GPL-2.0-only", "GPL-3.0-only"],
