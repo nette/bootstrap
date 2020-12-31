@@ -18,6 +18,8 @@ test('', function () {
 	$configurator->setDebugMode(false);
 	$configurator->setTempDirectory(getTempDir());
 	$configurator->addConfig(Tester\FileMock::create('
+		application:
+			scanFilter: *Presenter*
 		parameters:
 			param: "test"
 		decorator:
@@ -39,6 +41,8 @@ test('', function () {
 	$configurator->setDebugMode(false);
 	$configurator->setTempDirectory(getTempDir());
 	$configurator->addConfig(Tester\FileMock::create('
+		application:
+			scanFilter: *Presenter*
 		decorator:
 			BasePresenter:
 				tags: [test.tag]

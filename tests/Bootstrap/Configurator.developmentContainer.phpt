@@ -51,14 +51,14 @@ Assert::type(Nette\Http\Session::class, $container->getService('session'));
 Assert::type(Nette\Security\User::class, $container->getService('user'));
 Assert::type(Nette\Http\UserStorage::class, $container->getService('nette.userStorage'));
 Assert::type(Nette\Application\Application::class, $container->getService('application'));
-Assert::type(Nette\Application\Routers\RouteList::class, $container->getService('router'));
+Assert::type(Nette\Routing\SimpleRouter::class, $container->getService('router'));
 Assert::type(Nette\Application\PresenterFactory::class, $container->getService('nette.presenterFactory'));
 Assert::type(Nette\Mail\SendmailMailer::class, $container->getService('nette.mailer'));
 Assert::type(Tracy\Logger::class, $container->getService('tracy.logger'));
 Assert::type(Tracy\BlueScreen::class, $container->getService('tracy.blueScreen'));
 Assert::type(Tracy\Bar::class, $container->getService('tracy.bar'));
 
-Assert::type(Nette\Bridges\ApplicationLatte\ILatteFactory::class, $container->createService('nette.latteFactory'));
+Assert::type(Nette\Bridges\ApplicationLatte\LatteFactory::class, $container->createService('nette.latteFactory'));
 Assert::type(Nette\Bridges\ApplicationLatte\TemplateFactory::class, $container->createService('nette.templateFactory'));
 
 if (PHP_SAPI !== 'cli') {
