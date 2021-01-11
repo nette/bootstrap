@@ -25,7 +25,7 @@ class Configurator
 	public const COOKIE_SECRET = 'nette-debug';
 
 	/** @var callable[]  function (Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
-	public $onCompile;
+	public $onCompile = [];
 
 	/** @var array */
 	public $defaultExtensions = [
@@ -309,7 +309,7 @@ class Configurator
 			}
 		}
 
-		$this->onCompile($this, $compiler);
+		Nette\Utils\Arrays::invoke($this->onCompile, $this, $compiler);
 	}
 
 
