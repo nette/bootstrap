@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Bootstrap;
 
 use Composer\Autoload\ClassLoader;
+use Latte;
 use Nette;
 use Nette\DI;
 use Tracy;
@@ -195,6 +196,9 @@ class Configurator
 		Tracy\Debugger::$strictMode = true;
 		Tracy\Debugger::enable(!$this->staticParameters['debugMode'], $logDirectory, $email);
 		Tracy\Bridges\Nette\Bridge::initialize();
+		if (class_exists(Latte\Bridges\Tracy\BlueScreenPanel::class)) {
+			Latte\Bridges\Tracy\BlueScreenPanel::initialize();
+		}
 	}
 
 
