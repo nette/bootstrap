@@ -30,10 +30,9 @@ class Configurator
 
 
 	/** @var callable[]  function (Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
-	public $onCompile = [];
+	public iterable $onCompile = [];
 
-	/** @var array */
-	public $defaultExtensions = [
+	public array $defaultExtensions = [
 		'application' => [Nette\Bridges\ApplicationDI\ApplicationExtension::class, ['%debugMode%', ['%appDir%'], '%tempDir%/cache/nette.application']],
 		'cache' => [Nette\Bridges\CacheDI\CacheExtension::class, ['%tempDir%']],
 		'constants' => Extensions\ConstantsExtension::class,
@@ -55,7 +54,7 @@ class Configurator
 	];
 
 	/** @var string[] of classes which shouldn't be autowired */
-	public $autowireExcludedClasses = [
+	public array $autowireExcludedClasses = [
 		\ArrayAccess::class,
 		\Countable::class,
 		\IteratorAggregate::class,
@@ -63,17 +62,12 @@ class Configurator
 		\Traversable::class,
 	];
 
-	/** @var array */
-	protected $staticParameters;
+	protected array $staticParameters;
+	protected array $dynamicParameters = [];
+	protected array $services = [];
 
-	/** @var array */
-	protected $dynamicParameters = [];
-
-	/** @var array */
-	protected $services = [];
-
-	/** @var array of string|array */
-	protected $configs = [];
+	/** @var array<string|array> */
+	protected array $configs = [];
 
 
 	public function __construct()
