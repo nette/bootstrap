@@ -16,27 +16,27 @@
 	],
 	"require": {
 		"php": ">=8.0 <8.2",
-		"nette/di": "^3.0.5",
-		"nette/utils": "^3.2.1"
+		"nette/di": "^4.0",
+		"nette/utils": "^3.2.1 || ^4.0"
 	},
 	"suggest": {
 		"nette/robot-loader": "to use Configurator::createRobotLoader()",
 		"tracy/tracy": "to use Configurator::enableTracy()"
 	},
 	"require-dev": {
-		"nette/application": "^3.1",
-		"nette/caching": "^3.0",
-		"nette/database": "^3.0",
-		"nette/forms": "^3.0",
-		"nette/http": "^3.0",
-		"nette/mail": "^3.0",
-		"nette/robot-loader": "^3.0",
-		"nette/safe-stream": "^2.2",
-		"nette/security": "^3.0",
-		"nette/tester": "^2.0",
-		"latte/latte": "^2.8",
-		"tracy/tracy": "^2.6",
-		"phpstan/phpstan-nette": "^0.12"
+		"nette/application": "^4.0",
+		"nette/caching": "^4.0",
+		"nette/database": "^4.0",
+		"nette/forms": "^4.0",
+		"nette/http": "^4.0",
+		"nette/mail": "^4.0",
+		"nette/robot-loader": "^4.0",
+		"nette/safe-stream": "^3.0",
+		"nette/security": "^4.0",
+		"nette/tester": "^2.4",
+		"latte/latte": "^2.10",
+		"tracy/tracy": "^2.8",
+		"phpstan/phpstan-nette": "^1.0"
 	},
 	"conflict": {
 		"tracy/tracy": "<2.6"
