@@ -266,7 +266,7 @@ class Configurator
 	{
 		$loader = new DI\ContainerLoader(
 			$this->getCacheDirectory() . '/nette.configurator',
-			$this->staticParameters['debugMode']
+			$this->staticParameters['debugMode'],
 		);
 		return $loader->load(
 			[$this, 'generateContainer'],
@@ -276,7 +276,7 @@ class Configurator
 				$this->configs,
 				PHP_VERSION_ID - PHP_RELEASE_VERSION, // minor PHP version
 				class_exists(ClassLoader::class) ? filemtime((new \ReflectionClass(ClassLoader::class))->getFilename()) : null, // composer update
-			]
+			],
 		);
 	}
 
