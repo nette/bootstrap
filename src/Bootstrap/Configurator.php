@@ -276,11 +276,11 @@ class Configurator
 	{
 		$loader = new DI\ContainerLoader(
 			$this->getCacheDirectory() . '/nette.configurator',
-			$this->staticParameters['debugMode']
+			$this->staticParameters['debugMode'],
 		);
 		return $loader->load(
 			[$this, 'generateContainer'],
-			$this->generateContainerKey()
+			$this->generateContainerKey(),
 		);
 	}
 
