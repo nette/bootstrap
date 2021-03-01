@@ -32,12 +32,6 @@ test('', function () {
 });
 
 
-Assert::exception(function () {
-	$configurator = new Configurator;
-	$configurator->setDebugMode(1);
-}, Nette\InvalidArgumentException::class);
-
-
 test('localhost', function () {
 	unset($_SERVER['HTTP_X_FORWARDED_FOR']);
 

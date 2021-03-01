@@ -76,15 +76,11 @@ class Configurator
 
 	/**
 	 * Set parameter %debugMode%.
-	 * @param  bool|string|array  $value
-	 * @return static
 	 */
-	public function setDebugMode($value)
+	public function setDebugMode(bool|string|array $value): static
 	{
 		if (is_string($value) || is_array($value)) {
 			$value = static::detectDebugMode($value);
-		} elseif (!is_bool($value)) {
-			throw new Nette\InvalidArgumentException(sprintf('Value must be either a string, array, or boolean, %s given.', gettype($value)));
 		}
 		$this->staticParameters['debugMode'] = $value;
 		$this->staticParameters['productionMode'] = !$this->staticParameters['debugMode']; // compatibility
@@ -100,9 +96,8 @@ class Configurator
 
 	/**
 	 * Sets path to temporary directory.
-	 * @return static
 	 */
-	public function setTempDirectory(string $path)
+	public function setTempDirectory(string $path): static
 	{
 		$this->staticParameters['tempDir'] = $path;
 		return $this;
@@ -111,9 +106,8 @@ class Configurator
 
 	/**
 	 * Sets the default timezone.
-	 * @return static
 	 */
-	public function setTimeZone(string $timezone)
+	public function setTimeZone(string $timezone): static
 	{
 		date_default_timezone_set($timezone);
 		@ini_set('date.timezone', $timezone); // @ - function may be disabled
@@ -123,9 +117,8 @@ class Configurator
 
 	/**
 	 * Alias for addStaticParameters()
-	 * @return static
 	 */
-	public function addParameters(array $params)
+	public function addParameters(array $params): static
 	{
 		return $this->addStaticParameters($params);
 	}
@@ -133,9 +126,8 @@ class Configurator
 
 	/**
 	 * Adds new static parameters.
-	 * @return static
 	 */
-	public function addStaticParameters(array $params)
+	public function addStaticParameters(array $params): static
 	{
 		$this->staticParameters = DI\Config\Helpers::merge($params, $this->staticParameters);
 		return $this;
@@ -144,9 +136,8 @@ class Configurator
 
 	/**
 	 * Adds new dynamic parameters.
-	 * @return static
 	 */
-	public function addDynamicParameters(array $params)
+	public function addDynamicParameters(array $params): static
 	{
 		$this->dynamicParameters = $params + $this->dynamicParameters;
 		return $this;
@@ -155,9 +146,8 @@ class Configurator
 
 	/**
 	 * Add instances of services.
-	 * @return static
 	 */
-	public function addServices(array $services)
+	public function addServices(array $services): static
 	{
 		$this->services = $services + $this->services;
 		return $this;
@@ -230,10 +220,8 @@ class Configurator
 
 	/**
 	 * Adds configuration file.
-	 * @param  string|array  $config
-	 * @return static
 	 */
-	public function addConfig($config)
+	public function addConfig(string|array $config): static
 	{
 		$this->configs[] = $config;
 		return $this;
@@ -335,9 +323,8 @@ class Configurator
 
 	/**
 	 * Detects debug mode by IP addresses or computer names whitelist detection.
-	 * @param  string|array  $list
 	 */
-	public static function detectDebugMode($list = null): bool
+	public static function detectDebugMode(string|array $list = null): bool
 	{
 		$addr = $_SERVER['REMOTE_ADDR'] ?? php_uname('n');
 		$secret = is_string($_COOKIE[self::COOKIE_SECRET] ?? null)
