@@ -28,8 +28,7 @@ services:
 		setup:
 			- $errorPresenter(Error)
 ', 'neon'));
-$container = @$configurator->createContainer(); // @ triggers notice in nette/di < 2.4.6
+$container = $configurator->createContainer();
 
 Assert::type(MyApp::class, $container->getService('application'));
-Assert::null($container->getService('application')->catchExceptions);
 Assert::same('Error', $container->getService('application')->errorPresenter);
