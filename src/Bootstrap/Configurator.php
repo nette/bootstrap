@@ -173,7 +173,10 @@ class Configurator
 	}
 
 
-	public function enableTracy(string $logDirectory = null, string $email = null): void
+	/**
+	 * @param string|string[]|null $email administrator email; enables email sending in production mode
+	 */
+	public function enableTracy(?string $logDirectory = null, $email = null): void
 	{
 		if (!class_exists(Tracy\Debugger::class)) {
 			throw new Nette\NotSupportedException('Tracy not found, do you have `tracy/tracy` package installed?');
@@ -190,8 +193,9 @@ class Configurator
 
 	/**
 	 * Alias for enableTracy()
+	 * @param string|string[]|null $email administrator email; enables email sending in production mode
 	 */
-	public function enableDebugger(string $logDirectory = null, string $email = null): void
+	public function enableDebugger(?string $logDirectory = null, $email = null): void
 	{
 		$this->enableTracy($logDirectory, $email);
 	}
