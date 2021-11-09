@@ -6,20 +6,22 @@
 
 declare(strict_types=1);
 
-use Nette\Configurator;
+use Nette\Bootstrap\Configurator;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 require __DIR__ . '/app/MyPresenter.php';
 
 
-test(function () {
+test('', function () {
 	$configurator = new Configurator(__DIR__);
 	$configurator->setDebugMode(false);
 	$configurator->setTempDirectory(getTempDir());
 	$configurator->addConfig(Tester\FileMock::create('
+		application:
+			scanFilter: *Presenter*
 		parameters:
-			param: \'test\'
+			param: "test"
 		decorator:
 			BasePresenter:
 				setup:
@@ -34,11 +36,13 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$configurator = new Configurator(__DIR__);
 	$configurator->setDebugMode(false);
 	$configurator->setTempDirectory(getTempDir());
 	$configurator->addConfig(Tester\FileMock::create('
+		application:
+			scanFilter: *Presenter*
 		decorator:
 			BasePresenter:
 				tags: [test.tag]

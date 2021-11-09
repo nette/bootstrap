@@ -1,6 +1,6 @@
 {
 	"name": "nette/bootstrap",
-	"description": "🅱 Nette Bootstrap: the simple way to configure and bootstrap your Nette application.",
+	"description": "🅱  Nette Bootstrap: the simple way to configure and bootstrap your Nette application.",
 	"keywords": ["nette", "configurator", "bootstrapping"],
 	"homepage": "https://nette.org",
 	"license": ["BSD-3-Clause", "GPL-2.0-only", "GPL-3.0-only"],
@@ -15,27 +15,27 @@
 		}
 	],
 	"require": {
-		"php": ">=7.1",
-		"nette/di": "^3.0",
-		"nette/utils": "^3.0"
+		"php": ">=8.0 <8.2",
+		"nette/di": "^4.0",
+		"nette/utils": "^3.2.1 || ^4.0"
 	},
 	"suggest": {
 		"nette/robot-loader": "to use Configurator::createRobotLoader()",
 		"tracy/tracy": "to use Configurator::enableTracy()"
 	},
 	"require-dev": {
-		"nette/application": "^3.0",
-		"nette/caching": "^3.0",
-		"nette/database": "^3.0",
-		"nette/forms": "^3.0",
-		"nette/http": "^3.0",
-		"nette/mail": "^3.0",
-		"nette/robot-loader": "^3.0",
-		"nette/safe-stream": "^2.2",
-		"nette/security": "^3.0",
-		"nette/tester": "^2.0",
-		"latte/latte": "^2.2",
-		"tracy/tracy": "^2.6",
+		"nette/application": "^4.0",
+		"nette/caching": "^4.0",
+		"nette/database": "^4.0",
+		"nette/forms": "^4.0",
+		"nette/http": "^4.0",
+		"nette/mail": "^4.0",
+		"nette/robot-loader": "^4.0",
+		"nette/safe-stream": "^3.0",
+		"nette/security": "^4.0",
+		"nette/tester": "^2.4",
+		"latte/latte": "^2.10",
+		"tracy/tracy": "^2.8",
 		"phpstan/phpstan-nette": "^0.12"
 	},
 	"conflict": {
@@ -46,12 +46,12 @@
 	},
 	"minimum-stability": "dev",
 	"scripts": {
-		"phpstan": "phpstan analyse --level 5 --configuration tests/phpstan.neon src",
+		"phpstan": "phpstan analyse",
 		"tester": "tester tests -s"
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "3.0-dev"
+			"dev-master": "4.0-dev"
 		}
 	}
 }

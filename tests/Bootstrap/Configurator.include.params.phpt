@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Nette\Configurator;
+use Nette\Bootstrap\Configurator;
 use Tester\Assert;
 
 
@@ -12,7 +12,7 @@ require __DIR__ . '/../bootstrap.php';
 $configurator = new Configurator(__DIR__);
 $configurator->setTempDirectory(getTempDir());
 $configurator->addConfig(__DIR__ . '/files/includes.params.neon');
-$configurator->addParameters(['name' => 'includes.params.child']);
+$configurator->addStaticParameters(['name' => 'includes.params.child']);
 $container = $configurator->createContainer();
 
 Assert::same('bar', $container->parameters['foo']);
