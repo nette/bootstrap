@@ -34,7 +34,7 @@
 		"nette/safe-stream": "^2.2",
 		"nette/security": "^3.0",
 		"nette/tester": "^2.0",
-		"latte/latte": "^2.2",
+		"latte/latte": "^2.8",
 		"tracy/tracy": "^2.6",
 		"phpstan/phpstan-nette": "^0.12"
 	},
