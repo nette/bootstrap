@@ -90,6 +90,7 @@ class Configurator
 		} elseif (!is_bool($value)) {
 			throw new Nette\InvalidArgumentException(sprintf('Value must be either a string, array, or boolean, %s given.', gettype($value)));
 		}
+
 		$this->staticParameters['debugMode'] = $value;
 		$this->staticParameters['productionMode'] = !$this->staticParameters['debugMode']; // compatibility
 		return $this;
@@ -187,7 +188,7 @@ class Configurator
 	}
 
 
-	public function enableTracy(string $logDirectory = null, string $email = null): void
+	public function enableTracy(?string $logDirectory = null, ?string $email = null): void
 	{
 		if (!class_exists(Tracy\Debugger::class)) {
 			throw new Nette\NotSupportedException('Tracy not found, do you have `tracy/tracy` package installed?');
@@ -205,7 +206,7 @@ class Configurator
 	/**
 	 * Alias for enableTracy()
 	 */
-	public function enableDebugger(string $logDirectory = null, string $email = null): void
+	public function enableDebugger(?string $logDirectory = null, ?string $email = null): void
 	{
 		$this->enableTracy($logDirectory, $email);
 	}
@@ -228,6 +229,7 @@ class Configurator
 			$this->defaultExtensions['application'][1][1] = null;
 			$this->defaultExtensions['application'][1][3] = $loader;
 		}
+
 		return $loader;
 	}
 
@@ -254,6 +256,7 @@ class Configurator
 		foreach ($this->services as $name => $service) {
 			$container->addService($name, $service);
 		}
+
 		$container->initialize();
 		return $container;
 	}
@@ -328,6 +331,7 @@ class Configurator
 		if (empty($this->staticParameters['tempDir'])) {
 			throw new Nette\InvalidStateException('Set path to temporary directory using setTempDirectory().');
 		}
+
 		$dir = $this->staticParameters['tempDir'] . '/cache';
 		Nette\Utils\FileSystem::createDir($dir);
 		return $dir;
@@ -355,6 +359,7 @@ class Configurator
 			$list[] = '::1';
 			$list[] = '[::1]'; // workaround for PHP < 7.3.4
 		}
+
 		return in_array($addr, $list, true) || in_array("$secret@$addr", $list, true);
 	}
 }

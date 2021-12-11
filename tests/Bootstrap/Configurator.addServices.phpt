@@ -27,7 +27,7 @@ class TestExistingService
 	public function run()
 	{
 		if ($this->scream) {
-			throw new \Exception('This is an instance created by container and should not be called');
+			throw new Exception('This is an instance created by container and should not be called');
 		}
 	}
 }
