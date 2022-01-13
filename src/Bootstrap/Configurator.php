@@ -257,13 +257,7 @@ class Configurator
 		);
 		return $loader->load(
 			[$this, 'generateContainer'],
-			[
-				$this->staticParameters,
-				array_keys($this->dynamicParameters),
-				$this->configs,
-				PHP_VERSION_ID - PHP_RELEASE_VERSION, // minor PHP version
-				class_exists(ClassLoader::class) ? filemtime((new \ReflectionClass(ClassLoader::class))->getFilename()) : null, // composer update
-			],
+			$this->getContainerKey(),
 		);
 	}
 
@@ -307,6 +301,20 @@ class Configurator
 	protected function createLoader(): DI\Config\Loader
 	{
 		return new DI\Config\Loader;
+	}
+
+
+	protected function getContainerKey(): array
+	{
+		return [
+			$this->staticParameters,
+			array_keys($this->dynamicParameters),
+			$this->configs,
+			PHP_VERSION_ID - PHP_RELEASE_VERSION, // minor PHP version
+			class_exists(ClassLoader::class) // composer update
+				? filemtime((new \ReflectionClass(ClassLoader::class))->getFilename())
+				: null,
+		];
 	}
 
 
