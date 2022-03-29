@@ -1,0 +1,13 @@
+# Stub file for IDE neon support
+parameters:
+
+	# Configurator parameters
+	# for real values, see Tracy bar or Nette\Bootstrap\Configurator
+
+	appDir: # codebase – typically app/
+	wwwDir:  # public entrypoint – typically www/
+	vendorDir: # dependencies – typically vendor/
+	tempDir: # cache – typically temp/
+	debugMode: # auto resolved from IP address (if not set manually)
+	productionMode: # opposite of debugMode
+	consoleMode: # run from CLI?
