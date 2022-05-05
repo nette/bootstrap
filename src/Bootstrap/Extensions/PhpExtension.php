@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Bootstrap\Extensions;
 
 use Nette;
+use Nette\Schema\Expect;
 
 
 /**
@@ -19,7 +20,7 @@ final class PhpExtension extends Nette\DI\CompilerExtension
 {
 	public function getConfigSchema(): Nette\Schema\Schema
 	{
-		return Nette\Schema\Expect::arrayOf('scalar');
+		return Expect::arrayOf(Expect::scalar()->dynamic());
 	}
 
 
@@ -42,7 +43,7 @@ final class PhpExtension extends Nette\DI\CompilerExtension
 				$this->initialization->addBody('date_default_timezone_set(?);', [$value]);
 
 			} elseif (function_exists('ini_set')) {
-				$this->initialization->addBody('ini_set(?, ?);', [$name, $value === false ? '0' : (string) $value]);
+				$this->initialization->addBody('ini_set(?, (string) (?));', [$name, $value]);
 
 			} elseif (ini_get($name) !== (string) $value) {
 				throw new Nette\NotSupportedException('Required function ini_set() is disabled.');
