@@ -27,4 +27,4 @@ The recommended way to install is via Composer:
 composer require nette/bootstrap
 ```
 
-It requires PHP version 7.2 and supports PHP up to 8.1.
+It requires PHP version 7.2 and supports PHP up to 8.2.
