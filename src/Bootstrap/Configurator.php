@@ -23,7 +23,11 @@ class Configurator
 {
 	use Nette\SmartObject;
 
-	public const COOKIE_SECRET = 'nette-debug';
+	public const CookieSecret = 'nette-debug';
+
+	/** @deprecated  use Configurator::CookieSecret */
+	public const COOKIE_SECRET = self::CookieSecret;
+
 
 	/** @var callable[]  function (Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
 	public $onCompile = [];
@@ -348,8 +352,8 @@ class Configurator
 	public static function detectDebugMode($list = null): bool
 	{
 		$addr = $_SERVER['REMOTE_ADDR'] ?? php_uname('n');
-		$secret = is_string($_COOKIE[self::COOKIE_SECRET] ?? null)
-			? $_COOKIE[self::COOKIE_SECRET]
+		$secret = is_string($_COOKIE[self::CookieSecret] ?? null)
+			? $_COOKIE[self::CookieSecret]
 			: null;
 		$list = is_string($list)
 			? preg_split('#[,\s]+#', $list)

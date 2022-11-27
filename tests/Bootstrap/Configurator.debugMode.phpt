@@ -89,13 +89,13 @@ test('missing $_SERVER[REMOTE_ADDR]', function () {
 test('secret', function () {
 	unset($_SERVER['HTTP_X_FORWARDED_FOR']);
 	$_SERVER['REMOTE_ADDR'] = '192.168.1.1';
-	$_COOKIE[Configurator::COOKIE_SECRET] = '*secret*';
+	$_COOKIE[Configurator::CookieSecret] = '*secret*';
 
 	Assert::false(Configurator::detectDebugMode());
 	Assert::true(Configurator::detectDebugMode('192.168.1.1'));
 	Assert::false(Configurator::detectDebugMode('abc@192.168.1.1'));
 	Assert::true(Configurator::detectDebugMode('*secret*@192.168.1.1'));
 
-	$_COOKIE[Configurator::COOKIE_SECRET] = ['*secret*'];
+	$_COOKIE[Configurator::CookieSecret] = ['*secret*'];
 	Assert::false(Configurator::detectDebugMode('*secret*@192.168.1.1'));
 });
