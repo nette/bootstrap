@@ -17,7 +17,7 @@
 	"require": {
 		"php": ">=7.2 <8.3",
 		"nette/di": "^3.0.5",
-		"nette/utils": "^3.2.1"
+		"nette/utils": "^3.2.1 || ^4.0"
 	},
 	"suggest": {
 		"nette/robot-loader": "to use Configurator::createRobotLoader()",
