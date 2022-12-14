@@ -253,7 +253,7 @@ class Configurator
 	/**
 	 * Returns system DI container.
 	 */
-	public function createContainer(): DI\Container
+	public function createContainer(bool $initialize = true): DI\Container
 	{
 		$class = $this->loadContainer();
 		$container = new $class($this->dynamicParameters);
@@ -261,7 +261,10 @@ class Configurator
 			$container->addService($name, $service);
 		}
 
-		$container->initialize();
+		if ($initialize) {
+			$container->initialize();
+		}
+
 		return $container;
 	}
 
