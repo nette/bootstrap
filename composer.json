@@ -16,7 +16,7 @@
 	],
 	"require": {
 		"php": ">=8.0 <8.3",
-		"nette/di": "^3.0.5",
+		"nette/di": "^3.1",
 		"nette/utils": "^3.2.1 || ^4.0"
 	},
 	"suggest": {
@@ -33,10 +33,10 @@
 		"nette/robot-loader": "^3.0",
 		"nette/safe-stream": "^2.2",
 		"nette/security": "^3.0",
-		"nette/tester": "^2.0",
+		"nette/tester": "^2.4",
 		"latte/latte": "^2.8",
-		"tracy/tracy": "^2.6",
-		"phpstan/phpstan-nette": "^0.12"
+		"tracy/tracy": "^2.9",
+		"phpstan/phpstan-nette": "^1.0"
 	},
 	"conflict": {
 		"tracy/tracy": "<2.6"
