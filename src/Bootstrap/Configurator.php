@@ -118,9 +118,7 @@ class Configurator
 	}
 
 
-	/**
-	 * Alias for addStaticParameters()
-	 */
+	/** @deprecated use addStaticParameters() */
 	public function addParameters(array $params): static
 	{
 		return $this->addStaticParameters($params);
@@ -191,9 +189,7 @@ class Configurator
 	}
 
 
-	/**
-	 * Alias for enableTracy()
-	 */
+	/** @deprecated use enableTracy() */
 	public function enableDebugger(?string $logDirectory = null, ?string $email = null): void
 	{
 		$this->enableTracy($logDirectory, $email);
