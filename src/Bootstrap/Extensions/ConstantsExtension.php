@@ -10,13 +10,22 @@ declare(strict_types=1);
 namespace Nette\Bootstrap\Extensions;
 
 use Nette;
-
+use Nette\Schema\Expect;
 
 /**
  * Constant definitions.
  */
 final class ConstantsExtension extends Nette\DI\CompilerExtension
 {
+	public function getConfigSchema(): Nette\Schema\Schema
+	{
+		return Expect::arrayOf(
+			Expect::anyOf(Expect::scalar(), Expect::null(), Expect::array()),
+			Expect::string(),
+		);
+	}
+
+
 	public function loadConfiguration()
 	{
 		foreach ($this->getConfig() as $name => $value) {
