@@ -15,6 +15,7 @@ $compiler->addExtension('php', new Nette\Bootstrap\Extensions\PhpExtension());
 $compiler->addConfig([
 	'php' => [
 		'date.timezone' => 'Europe/Rome',
+		'exit_on_timeout' => null,
 	],
 ]);
 eval($compiler->compile());
