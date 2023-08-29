@@ -21,8 +21,6 @@ use Tracy;
  */
 class Configurator
 {
-	use Nette\SmartObject;
-
 	public const CookieSecret = 'nette-debug';
 
 	/** @deprecated  use Configurator::CookieSecret */
