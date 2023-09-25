@@ -329,9 +329,6 @@ class Configurator
 	}
 
 
-	/********************* tools ****************d*g**/
-
-
 	/**
 	 * Detects debug mode by IP addresses or computer names whitelist detection.
 	 */
@@ -347,10 +344,9 @@ class Configurator
 		if (!isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !isset($_SERVER['HTTP_FORWARDED'])) {
 			$list[] = '127.0.0.1';
 			$list[] = '::1';
-			$list[] = '[::1]'; // workaround for PHP < 7.3.4
 		}
 
-		return in_array($addr, $list, true) || in_array("$secret@$addr", $list, true);
+		return in_array($addr, $list, strict: true) || in_array("$secret@$addr", $list, strict: true);
 	}
 }
 

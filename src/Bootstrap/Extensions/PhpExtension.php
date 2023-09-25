@@ -27,7 +27,7 @@ final class PhpExtension extends Nette\DI\CompilerExtension
 	}
 
 
-	public function loadConfiguration()
+	public function loadConfiguration(): void
 	{
 		foreach ($this->getConfig() as $name => $value) {
 			if (!function_exists('ini_set')) {
