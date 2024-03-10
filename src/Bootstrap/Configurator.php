@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Bootstrap;
 
 use Composer\Autoload\ClassLoader;
+use Composer\InstalledVersions;
 use Latte;
 use Nette;
 use Nette\DI;
@@ -32,7 +33,7 @@ class Configurator
 
 	public array $defaultExtensions = [
 		'application' => [Nette\Bridges\ApplicationDI\ApplicationExtension::class, ['%debugMode%', ['%appDir%'], '%tempDir%/cache/nette.application']],
-		'cache' => [Nette\Bridges\CacheDI\CacheExtension::class, ['%tempDir%']],
+		'cache' => [Nette\Bridges\CacheDI\CacheExtension::class, ['%tempDir%/cache']],
 		'constants' => Extensions\ConstantsExtension::class,
 		'database' => [Nette\Bridges\DatabaseDI\DatabaseExtension::class, ['%debugMode%']],
 		'decorator' => Nette\DI\Extensions\DecoratorExtension::class,
@@ -71,6 +72,13 @@ class Configurator
 	public function __construct()
 	{
 		$this->staticParameters = $this->getDefaultParameters();
+
+		if (class_exists(InstalledVersions::class) // back compatibility
+			&& InstalledVersions::isInstalled('nette/caching')
+			&& version_compare(InstalledVersions::getVersion('nette/caching'), '3.3.0', '<')
+		) {
+			$this->defaultExtensions['cache'][1][0] = '%tempDir%';
+		}
 	}
 
 
