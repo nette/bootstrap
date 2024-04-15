@@ -173,6 +173,9 @@ class Configurator
 			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : null,
 			'wwwDir' => isset($last['file']) ? dirname($last['file']) : null,
 			'vendorDir' => $loaderRc ? dirname($loaderRc->getFileName(), 2) : null,
+			'rootDir' => class_exists(InstalledVersions::class)
+				? rtrim(Nette\Utils\FileSystem::normalizePath(InstalledVersions::getRootPackage()['install_path']), '\\/')
+				: null,
 			'debugMode' => $debugMode,
 			'productionMode' => !$debugMode,
 			'consoleMode' => PHP_SAPI === 'cli',

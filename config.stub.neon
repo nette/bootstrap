@@ -4,6 +4,7 @@ parameters:
 	wwwDir: absolute path to the directory containing the index.php entry file
 	tempDir: absolute path to the directory for temporary files
 	vendorDir: absolute path to the directory where Composer installs libraries
+	rootDir: absolute path to the root project directory
 	debugMode: indicates whether the application is in debug mode
 	productionMode: opposite of debugMode
 	consoleMode: indicates whether the request came through the command line (CLI)
