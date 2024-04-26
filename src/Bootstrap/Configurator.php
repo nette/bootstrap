@@ -28,7 +28,7 @@ class Configurator
 	public const COOKIE_SECRET = self::CookieSecret;
 
 
-	/** @var callable[]  function (Configurator $sender, DI\Compiler $compiler); Occurs after the compiler is created */
+	/** @var array<callable(self, DI\Compiler): void>  Occurs after the compiler is created */
 	public array $onCompile = [];
 
 	public array $defaultExtensions = [
