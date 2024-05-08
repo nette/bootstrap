@@ -169,13 +169,14 @@ class Configurator
 		$loaderRc = class_exists(ClassLoader::class)
 			? new \ReflectionClass(ClassLoader::class)
 			: null;
+		$rootDir = class_exists(InstalledVersions::class) && ($tmp = InstalledVersions::getRootPackage()['install_path'] ?? null)
+			? rtrim(Nette\Utils\FileSystem::normalizePath($tmp), '\\/')
+			: null;
 		return [
 			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : null,
 			'wwwDir' => isset($last['file']) ? dirname($last['file']) : null,
 			'vendorDir' => $loaderRc ? dirname($loaderRc->getFileName(), 2) : null,
-			'rootDir' => class_exists(InstalledVersions::class)
-				? rtrim(Nette\Utils\FileSystem::normalizePath(InstalledVersions::getRootPackage()['install_path']), '\\/')
-				: null,
+			'rootDir' => $rootDir,
 			'debugMode' => $debugMode,
 			'productionMode' => !$debugMode,
 			'consoleMode' => PHP_SAPI === 'cli',
