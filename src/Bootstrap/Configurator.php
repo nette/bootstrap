@@ -344,7 +344,7 @@ class Configurator
 	/**
 	 * Detects debug mode by IP addresses or computer names whitelist detection.
 	 */
-	public static function detectDebugMode(string|array $list = null): bool
+	public static function detectDebugMode(string|array|null $list = null): bool
 	{
 		$addr = $_SERVER['REMOTE_ADDR'] ?? php_uname('n');
 		$secret = is_string($_COOKIE[self::CookieSecret] ?? null)
