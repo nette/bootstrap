@@ -346,7 +346,7 @@ class Configurator
 	 */
 	public static function detectDebugMode(string|array|null $list = null): bool
 	{
-		$addr = $_SERVER['REMOTE_ADDR'] ?? php_uname('n');
+		$addr = ($_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR']) ?? php_uname('n');
 		$secret = is_string($_COOKIE[self::CookieSecret] ?? null)
 			? $_COOKIE[self::CookieSecret]
 			: null;
