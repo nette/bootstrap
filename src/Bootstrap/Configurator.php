@@ -25,7 +25,7 @@ class Configurator
 {
 	public const CookieSecret = 'nette-debug';
 
-	/** @deprecated  use Configurator::CookieSecret */
+	#[\Deprecated('use Configurator::CookieSecret')]
 	public const COOKIE_SECRET = self::CookieSecret;
 
 
@@ -217,7 +217,7 @@ class Configurator
 	}
 
 
-	/** @deprecated use enableTracy() */
+	#[\Deprecated('use enableTracy()')]
 	public function enableDebugger(?string $logDirectory = null, ?string $email = null): void
 	{
 		$this->enableTracy($logDirectory, $email);
