@@ -171,7 +171,7 @@ class Configurator
 			? new \ReflectionClass(ClassLoader::class)
 			: null;
 		$rootDir = class_exists(InstalledVersions::class) && ($tmp = InstalledVersions::getRootPackage()['install_path'] ?? null)
-			? rtrim(Nette\Utils\FileSystem::normalizePath($tmp), '\\/')
+			? rtrim(Nette\Utils\FileSystem::normalizePath($tmp), '\/')
 			: null;
 		return [
 			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : null,
