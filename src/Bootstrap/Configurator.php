@@ -34,7 +34,7 @@ class Configurator
 
 	public array $defaultExtensions = [
 		'application' => [Nette\Bridges\ApplicationDI\ApplicationExtension::class, ['%debugMode%', ['%appDir%'], '%tempDir%/cache/nette.application']],
-		'assets' => Nette\Bridges\Assets\DIExtension::class,
+		'assets' => [Nette\Bridges\AssetsDI\DIExtension::class, ['%baseUrl%', '%wwwDir%', '%debugMode%']],
 		'cache' => [Nette\Bridges\CacheDI\CacheExtension::class, ['%tempDir%/cache']],
 		'constants' => Extensions\ConstantsExtension::class,
 		'database' => [Nette\Bridges\DatabaseDI\DatabaseExtension::class, ['%debugMode%']],
