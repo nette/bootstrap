@@ -42,7 +42,10 @@
 		"tracy/tracy": "<2.6"
 	},
 	"autoload": {
-		"classmap": ["src/"]
+		"classmap": ["src/"],
+		"psr-4": {
+			"Nette\\": "src"
+		}
 	},
 	"minimum-stability": "dev",
 	"scripts": {
