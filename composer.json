@@ -36,7 +36,7 @@
 		"nette/tester": "^2.4",
 		"latte/latte": "^2.8 || ^3.0",
 		"tracy/tracy": "^2.9",
-		"phpstan/phpstan-nette": "^1.0"
+		"phpstan/phpstan-nette": "^2.0@stable"
 	},
 	"conflict": {
 		"tracy/tracy": "<2.6"
