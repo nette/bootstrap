@@ -16,6 +16,8 @@ use Nette;
 use Nette\DI;
 use Nette\DI\Definitions\Statement;
 use Tracy;
+use function in_array, is_array, is_string;
+use const PHP_RELEASE_VERSION, PHP_SAPI, PHP_VERSION_ID;
 
 
 /**
