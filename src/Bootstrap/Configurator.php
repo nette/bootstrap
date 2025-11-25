@@ -176,9 +176,7 @@ class Configurator
 		$rootDir = class_exists(InstalledVersions::class) && ($tmp = InstalledVersions::getRootPackage()['install_path'] ?? null)
 			? rtrim(Nette\Utils\FileSystem::normalizePath($tmp), '\/')
 			: null;
-		$baseUrl = class_exists(Nette\Http\Request::class)
-			? new Statement(['', 'rtrim'], [new Statement([new Statement('@Nette\Http\IRequest::getUrl'), 'getBaseUrl']), '/'])
-			: null;
+		$baseUrl = new Statement('trim($this->getByType(?)->getUrl()->getBaseUrl(), "/")', [Nette\Http\IRequest::class]);
 		return [
 			'appDir' => isset($trace[1]['file']) ? dirname($trace[1]['file']) : null,
 			'wwwDir' => isset($last['file']) ? dirname($last['file']) : null,
