@@ -16,7 +16,7 @@
 	],
 	"require": {
 		"php": "8.2 - 8.5",
-		"nette/di": "^3.1",
+		"nette/di": "^3.3",
 		"nette/utils": "^3.2.1 || ^4.0"
 	},
 	"suggest": {
