@@ -33,7 +33,7 @@
 		"nette/robot-loader": "^3.0 || ^4.0",
 		"nette/safe-stream": "^2.2",
 		"nette/security": "^3.0",
-		"nette/tester": "^2.4",
+		"nette/tester": "^2.5",
 		"latte/latte": "^2.8 || ^3.0",
 		"tracy/tracy": "^2.9",
 		"phpstan/phpstan-nette": "^2.0@stable"
