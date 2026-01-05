@@ -47,7 +47,7 @@ class Configurator
 		'inject' => Nette\DI\Extensions\InjectExtension::class,
 		'latte' => [Nette\Bridges\ApplicationDI\LatteExtension::class, ['%tempDir%/cache/latte', '%debugMode%']],
 		'mail' => [Nette\Bridges\MailDI\MailExtension::class, ['%debugMode%']],
-		'php' => Extensions\PhpExtension::class,
+		'php' => Extensions\PhpIniExtension::class,
 		'routing' => [Nette\Bridges\ApplicationDI\RoutingExtension::class, ['%debugMode%']],
 		'search' => [Nette\DI\Extensions\SearchExtension::class, ['%tempDir%/cache/nette.search']],
 		'security' => [Nette\Bridges\SecurityDI\SecurityExtension::class, ['%debugMode%']],
