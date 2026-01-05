@@ -78,6 +78,10 @@ class Configurator
 	/** @var list<string|array<string, mixed>> */
 	protected array $configs = [];
 
+	/** @var string[] extension names to exclude from auto-discovery */
+	private array $excludeExtensions = [];
+	private bool $autoDiscovery = true;
+
 
 	public function __construct()
 	{
@@ -175,6 +179,21 @@ class Configurator
 	}
 
 
+	/**
+	 * Disables auto-discovery of extensions from installed packages.
+	 * Without arguments disables completely, with arguments disables only specified extensions.
+	 */
+	public function excludeExtension(string ...$extensions): static
+	{
+		if (count($extensions) === 0) {
+			$this->autoDiscovery = false;
+		} else {
+			$this->excludeExtensions = array_merge($this->excludeExtensions, $extensions);
+		}
+		return $this;
+	}
+
+
 	protected function getDefaultParameters(): array
 	{
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -256,6 +275,30 @@ class Configurator
 
 
 	/**
+	 * Discovers extensions from installed Composer packages.
+	 * Reads extra.nette.di-extensions from vendor/composer/installed.json
+	 * @return array<string, string|array{class: class-string, args: array}>
+	 */
+	protected function discoverExtensions(): array
+	{
+		$vendorDir = $this->staticParameters['vendorDir'] ?? null;
+		if (!$vendorDir || !is_file($installedJson = $vendorDir . '/composer/installed.json')) {
+			return [];
+		}
+
+		$installed = json_decode(Nette\Utils\FileSystem::read($installedJson), true);
+		$extensions = [];
+		foreach ($installed['packages'] ?? [] as $package) {
+			foreach ($package['extra']['nette']['di-extensions'] ?? [] as $name => $def) {
+				$extensions[$name] = is_string($def) ? $def : [$def['class'], $def['args'] ?? []];
+			}
+		}
+
+		return $extensions;
+	}
+
+
+	/**
 	 * Returns system DI container.
 	 */
 	public function createContainer(bool $initialize = true): DI\Container
@@ -312,7 +355,10 @@ class Configurator
 		$builder = $compiler->getContainerBuilder();
 		$builder->addExcludedClasses($this->autowireExcludedClasses);
 
-		foreach ($this->defaultExtensions as $name => $extension) {
+		$extensions = $this->autoDiscovery ? $this->discoverExtensions() : [];
+		$extensions = array_merge($extensions, $this->defaultExtensions);
+		$extensions = array_diff_key($extensions, $this->excludeExtensions);
+		foreach ($extensions as $name => $extension) {
 			[$class, $args] = is_string($extension)
 				? [$extension, []]
 				: $extension;
@@ -342,6 +388,7 @@ class Configurator
 			class_exists(ClassLoader::class) // composer update
 				? filemtime((new \ReflectionClass(ClassLoader::class))->getFilename())
 				: null,
+			$this->autoDiscovery ? $this->excludeExtensions : null,
 		];
 	}
 

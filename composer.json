@@ -55,6 +55,12 @@
 	"extra": {
 		"branch-alias": {
 			"dev-master": "3.3-dev"
+		},
+		"nette": {
+			"di-extensions": {
+				"constants": "Nette\\Bootstrap\\Extensions\\ConstantsExtension",
+				"php": "Nette\\Bootstrap\\Extensions\\PhpIniExtension"
+			}
 		}
 	}
 }
