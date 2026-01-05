@@ -284,7 +284,7 @@ class Configurator
 			$this->staticParameters['debugMode'],
 		);
 		return $loader->load(
-			[$this, 'generateContainer'],
+			$this->generateContainer(...),
 			$this->generateContainerKey(),
 		);
 	}
