@@ -125,5 +125,5 @@ extensions, then fire `onCompile`.
 | Extension registration | `defaultExtensions`, `generateContainer` (extension loop) |
 | Debug detection | `detectDebugMode` |
 | Boot / compile flow | `createContainer`, `loadContainer`, `generateContainer` |
-| Bundled extensions (`constants`, `php` config sections) | `src/Bootstrap/Extensions/` — `ConstantsExtension`, `PhpExtension` |
+| Bundled extensions (`constants`, `php` config sections) | `src/Bootstrap/Extensions/` — `ConstantsExtension`, `PhpIniExtension` |
 | Deprecated alias `Nette\Configurator` | `src/Configurator.php` (`class_alias`) |
