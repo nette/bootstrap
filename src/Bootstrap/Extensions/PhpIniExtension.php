@@ -16,7 +16,7 @@ use Nette\Schema\Expect;
 /**
  * PHP directives definition.
  */
-final class PhpExtension extends Nette\DI\CompilerExtension
+final class PhpIniExtension extends Nette\DI\CompilerExtension
 {
 	public function getConfigSchema(): Nette\Schema\Schema
 	{

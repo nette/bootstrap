@@ -10,7 +10,7 @@ require __DIR__ . '/../bootstrap.php';
 
 $compiler = new DI\Compiler;
 $compiler->setClassName('Container');
-$compiler->addExtension('php', new Nette\Bootstrap\Extensions\PhpExtension);
+$compiler->addExtension('php', new Nette\Bootstrap\Extensions\PhpIniExtension);
 $compiler->addConfig([
 	'php' => [
 		'date.timezone' => 'Europe/Rome',
