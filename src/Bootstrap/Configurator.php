@@ -32,6 +32,7 @@ class Configurator
 	/** @var array<callable(self, DI\Compiler): void>  Occurs after the compiler is created */
 	public array $onCompile = [];
 
+	/** @var array<string, class-string<DI\CompilerExtension>|array{class-string<DI\CompilerExtension>, list<mixed>}> */
 	public array $defaultExtensions = [
 		'application' => [Nette\Bridges\ApplicationDI\ApplicationExtension::class, ['%debugMode%', ['%appDir%'], '%tempDir%/cache/nette.application']],
 		'assets' => [Nette\Bridges\AssetsDI\DIExtension::class, ['%baseUrl%', '%wwwDir%', '%debugMode%']],
@@ -54,7 +55,7 @@ class Configurator
 		'tracy' => [Tracy\Bridges\Nette\TracyExtension::class, ['%debugMode%', '%consoleMode%']],
 	];
 
-	/** @var string[] of classes which shouldn't be autowired */
+	/** @var list<class-string>  classes which shouldn't be autowired */
 	public array $autowireExcludedClasses = [
 		\ArrayAccess::class,
 		\Countable::class,
@@ -63,11 +64,16 @@ class Configurator
 		\Traversable::class,
 	];
 
+	/** @var array<string, mixed> */
 	protected array $staticParameters;
+
+	/** @var array<string, mixed> */
 	protected array $dynamicParameters = [];
+
+	/** @var array<string, object> */
 	protected array $services = [];
 
-	/** @var array<string|array> */
+	/** @var list<string|array<string, mixed>> */
 	protected array $configs = [];
 
 
@@ -85,7 +91,8 @@ class Configurator
 
 
 	/**
-	 * Set parameter %debugMode%.
+	 * Sets parameter %debugMode%.
+	 * @param  bool|string|list<string>  $value  true/false or IP addresses/computer names whitelist
 	 */
 	public function setDebugMode(bool|string|array $value): static
 	{
@@ -126,7 +133,10 @@ class Configurator
 	}
 
 
-	/** @deprecated use addStaticParameters() */
+	/**
+	 * @deprecated use addStaticParameters()
+	 * @param  array<string, mixed>  $params
+	 */
 	public function addParameters(array $params): static
 	{
 		return $this->addStaticParameters($params);
@@ -135,6 +145,7 @@ class Configurator
 
 	/**
 	 * Adds new static parameters.
+	 * @param  array<string, mixed>  $params
 	 */
 	public function addStaticParameters(array $params): static
 	{
@@ -145,6 +156,7 @@ class Configurator
 
 	/**
 	 * Adds new dynamic parameters.
+	 * @param  array<string, mixed>  $params
 	 */
 	public function addDynamicParameters(array $params): static
 	{
@@ -154,7 +166,8 @@ class Configurator
 
 
 	/**
-	 * Add instances of services.
+	 * Adds instances of services.
+	 * @param  array<string, object>  $services
 	 */
 	public function addServices(array $services): static
 	{
@@ -163,6 +176,7 @@ class Configurator
 	}
 
 
+	/** @return array<string, mixed> */
 	protected function getDefaultParameters(): array
 	{
 		$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -236,6 +250,7 @@ class Configurator
 
 	/**
 	 * Adds configuration file.
+	 * @param  string|array<string, mixed>  $config  file path or configuration array
 	 */
 	public function addConfig(string|array $config): static
 	{
@@ -265,6 +280,7 @@ class Configurator
 
 	/**
 	 * Loads system DI container class and returns its name.
+	 * @return class-string<DI\Container>
 	 */
 	public function loadContainer(): string
 	{
@@ -321,6 +337,7 @@ class Configurator
 	}
 
 
+	/** @return list<mixed> */
 	protected function generateContainerKey(): array
 	{
 		return [
@@ -349,6 +366,7 @@ class Configurator
 
 	/**
 	 * Detects debug mode by IP addresses or computer names whitelist detection.
+	 * @param  string|list<string>|null  $list  IP addresses or computer names whitelist
 	 */
 	public static function detectDebugMode(string|array|null $list = null): bool
 	{
