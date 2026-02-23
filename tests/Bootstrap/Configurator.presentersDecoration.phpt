@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Configurator presenters decoration
  */
-
-declare(strict_types=1);
 
 use Nette\Bootstrap\Configurator;
 use Tester\Assert;

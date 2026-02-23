@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Configurator and services inheritance and overwriting.
  */
-
-declare(strict_types=1);
 
 use Nette\Bootstrap\Configurator;
 use Tester\Assert;
