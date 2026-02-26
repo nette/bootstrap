@@ -38,7 +38,7 @@
 		"nette/tester": "^2.6",
 		"latte/latte": "^3.0",
 		"tracy/tracy": "^2.12",
-		"phpstan/phpstan": "^2.1@stable",
+		"phpstan/phpstan": "^2.2@stable",
 		"phpstan/extension-installer": "^1.4@stable",
 		"nette/phpstan-rules": "^1.0"
 	},

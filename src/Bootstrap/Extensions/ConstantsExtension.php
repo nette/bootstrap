@@ -27,7 +27,7 @@ final class ConstantsExtension extends Nette\DI\CompilerExtension
 
 	public function loadConfiguration(): void
 	{
-		foreach ($this->getConfig() as $name => $value) {
+		foreach ((array) $this->config as $name => $value) {
 			$this->initialization->addBody('define(?, ?);', [$name, $value]);
 		}
 	}

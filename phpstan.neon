@@ -1,8 +1,19 @@
 parameters:
-	level: 5
+	level: 8
 
 	paths:
 		- src
 
-includes:
-	- vendor/phpstan/phpstan-nette/extension.neon
+	excludePaths:
+		- src/Configurator.php  # backward compatibility shim
+
+	ignoreErrors:
+		-   # false positives guaranteed at runtime:
+			#   - InstalledVersions::getVersion() is non-null after isInstalled() check
+			#   - ClassLoader is always a user-land class with a file (2x)
+			identifier: argument.type
+			path: src/Bootstrap/Configurator.php
+			count: 3
+		-   # ClassLoader is always a user-land class with a file
+			identifier: method.nameCase
+			path: src/Bootstrap/Configurator.php

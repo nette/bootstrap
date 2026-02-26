@@ -182,8 +182,8 @@ class Configurator
 		$loaderRc = class_exists(ClassLoader::class)
 			? new \ReflectionClass(ClassLoader::class)
 			: null;
-		$rootDir = class_exists(InstalledVersions::class) && ($tmp = InstalledVersions::getRootPackage()['install_path'] ?? null)
-			? rtrim(Nette\Utils\FileSystem::normalizePath($tmp), '\/')
+		$rootDir = class_exists(InstalledVersions::class)
+			? rtrim(Nette\Utils\FileSystem::normalizePath(InstalledVersions::getRootPackage()['install_path']), '\/')
 			: null;
 		$baseUrl = new Statement('trim($this->getByType(?)->getUrl()->getBaseUrl(), "/")', [Nette\Http\IRequest::class]);
 		return [
