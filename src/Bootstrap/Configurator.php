@@ -91,8 +91,8 @@ class Configurator
 
 
 	/**
-	 * Sets parameter %debugMode%.
-	 * @param  bool|string|list<string>  $value  true/false or IP addresses/computer names whitelist
+	 * Sets the %debugMode% parameter.
+	 * @param  bool|string|list<string>  $value  IP addresses or computer names whitelist, or true/false
 	 */
 	public function setDebugMode(bool|string|array $value): static
 	{
@@ -144,7 +144,7 @@ class Configurator
 
 
 	/**
-	 * Adds new static parameters.
+	 * Adds static parameters.
 	 * @param  array<string, mixed>  $params
 	 */
 	public function addStaticParameters(array $params): static
@@ -155,7 +155,7 @@ class Configurator
 
 
 	/**
-	 * Adds new dynamic parameters.
+	 * Adds dynamic parameters.
 	 * @param  array<string, mixed>  $params
 	 */
 	public function addDynamicParameters(array $params): static
@@ -166,7 +166,7 @@ class Configurator
 
 
 	/**
-	 * Adds instances of services.
+	 * Adds service instances.
 	 * @param  array<string, object>  $services
 	 */
 	public function addServices(array $services): static
@@ -204,6 +204,9 @@ class Configurator
 	}
 
 
+	/**
+	 * Enables Tracy debugger and configures it for the current mode.
+	 */
 	public function enableTracy(?string $logDirectory = null, ?string $email = null): void
 	{
 		if (!class_exists(Tracy\Debugger::class)) {
@@ -227,6 +230,7 @@ class Configurator
 
 
 	/**
+	 * Creates RobotLoader for automatic class discovery and caching.
 	 * @throws Nette\NotSupportedException if RobotLoader is not available
 	 */
 	public function createRobotLoader(): Nette\Loaders\RobotLoader
@@ -249,8 +253,8 @@ class Configurator
 
 
 	/**
-	 * Adds configuration file.
-	 * @param  string|array<string, mixed>  $config  file path or configuration array
+	 * Adds a configuration file path or configuration array.
+	 * @param  string|array<string, mixed>  $config
 	 */
 	public function addConfig(string|array $config): static
 	{
@@ -365,7 +369,7 @@ class Configurator
 
 
 	/**
-	 * Detects debug mode by IP addresses or computer names whitelist detection.
+	 * Detects debug mode based on IP address or computer name matching.
 	 * @param  string|list<string>|null  $list  IP addresses or computer names whitelist
 	 */
 	public static function detectDebugMode(string|array|null $list = null): bool

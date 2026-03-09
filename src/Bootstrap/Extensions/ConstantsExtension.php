@@ -12,7 +12,7 @@ use Nette\Schema\Expect;
 
 
 /**
- * Constant definitions.
+ * Defines PHP constants from configuration.
  */
 final class ConstantsExtension extends Nette\DI\CompilerExtension
 {

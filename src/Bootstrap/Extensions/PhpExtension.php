@@ -12,7 +12,7 @@ use Nette\Schema\Expect;
 
 
 /**
- * PHP directives definition.
+ * Sets PHP ini directives from configuration.
  */
 final class PhpExtension extends Nette\DI\CompilerExtension
 {
