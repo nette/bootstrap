@@ -83,19 +83,6 @@ class Configurator
 	public function __construct()
 	{
 		$this->defaultParameters = $this->staticParameters = $this->getDefaultParameters();
-
-		if (class_exists(InstalledVersions::class) // back compatibility
-			&& InstalledVersions::isInstalled('nette/caching')
-			&& version_compare(InstalledVersions::getVersion('nette/caching'), '3.3.0', '<')
-		) {
-			$this->defaultExtensions['cache'][1][0] = '%tempDir%';
-		}
-		if (class_exists(Nette\Bridges\MailDI\MailExtension::class) // back compatibility
-			&& InstalledVersions::isInstalled('nette/mail')
-			&& version_compare(InstalledVersions::getVersion('nette/mail'), '4.1.2', '<')
-		) {
-			unset($this->defaultExtensions['mail'][1][0]);
-		}
 	}
 
 
