@@ -36,9 +36,9 @@ Assert::same([
 	'wwwDir' => __DIR__,
 	'vendorDir' => dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'vendor',
 	'rootDir' => dirname(__DIR__, 2),
+	'consoleMode' => PHP_SAPI === 'cli',
 	'debugMode' => true,
 	'productionMode' => false,
-	'consoleMode' => PHP_SAPI === 'cli',
 	'tempDir' => getTempDir(),
 ], $container->parameters);
 

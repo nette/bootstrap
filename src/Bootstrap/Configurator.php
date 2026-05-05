@@ -76,10 +76,13 @@ class Configurator
 	/** @var list<string|array<string, mixed>> */
 	protected array $configs = [];
 
+	/** @var array<string, mixed> */
+	private array $defaultParameters;
+
 
 	public function __construct()
 	{
-		$this->staticParameters = $this->getDefaultParameters();
+		$this->defaultParameters = $this->staticParameters = $this->getDefaultParameters();
 
 		if (class_exists(InstalledVersions::class) // back compatibility
 			&& InstalledVersions::isInstalled('nette/caching')
@@ -100,9 +103,10 @@ class Configurator
 			$value = static::detectDebugMode($value);
 		}
 
-		$this->staticParameters['debugMode'] = $value;
-		$this->staticParameters['productionMode'] = !$this->staticParameters['debugMode']; // compatibility
-		return $this;
+		return $this->addStaticParameters([
+			'debugMode' => $value,
+			'productionMode' => !$value, // compatibility
+		]);
 	}
 
 
@@ -117,8 +121,7 @@ class Configurator
 	 */
 	public function setTempDirectory(string $path): static
 	{
-		$this->staticParameters['tempDir'] = $path;
-		return $this;
+		return $this->addStaticParameters(['tempDir' => $path]);
 	}
 
 
@@ -150,6 +153,7 @@ class Configurator
 	public function addStaticParameters(array $params): static
 	{
 		$this->staticParameters = DI\Config\Helpers::merge($params, $this->staticParameters);
+		$this->defaultParameters = array_diff_key($this->defaultParameters, $params);
 		return $this;
 	}
 
@@ -305,6 +309,8 @@ class Configurator
 		$loader = $this->createLoader();
 		$loader->setParameters($this->staticParameters);
 
+		$compiler->addConfig(['parameters' => DI\Helpers::escape($this->defaultParameters)]);
+
 		foreach ($this->configs as $config) {
 			if (is_string($config)) {
 				$compiler->loadConfig($config, $loader);
@@ -313,7 +319,8 @@ class Configurator
 			}
 		}
 
-		$compiler->addConfig(['parameters' => DI\Helpers::escape($this->staticParameters)]);
+		$explicit = array_diff_key($this->staticParameters, $this->defaultParameters);
+		$compiler->addConfig(['parameters' => DI\Helpers::escape($explicit)]);
 		$compiler->setDynamicParameterNames(array_merge(array_keys($this->dynamicParameters), ['baseUrl']));
 
 		$builder = $compiler->getContainerBuilder();
@@ -344,6 +351,7 @@ class Configurator
 	{
 		return [
 			$this->staticParameters,
+			array_diff_key($this->staticParameters, $this->defaultParameters),
 			array_keys($this->dynamicParameters),
 			$this->configs,
 			PHP_VERSION_ID - PHP_RELEASE_VERSION, // minor PHP version
