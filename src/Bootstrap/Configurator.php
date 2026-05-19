@@ -46,7 +46,7 @@ class Configurator
 		'http' => [Nette\Bridges\HttpDI\HttpExtension::class, ['%consoleMode%']],
 		'inject' => Nette\DI\Extensions\InjectExtension::class,
 		'latte' => [Nette\Bridges\ApplicationDI\LatteExtension::class, ['%tempDir%/cache/latte', '%debugMode%']],
-		'mail' => Nette\Bridges\MailDI\MailExtension::class,
+		'mail' => [Nette\Bridges\MailDI\MailExtension::class, ['%debugMode%']],
 		'php' => Extensions\PhpExtension::class,
 		'routing' => [Nette\Bridges\ApplicationDI\RoutingExtension::class, ['%debugMode%']],
 		'search' => [Nette\DI\Extensions\SearchExtension::class, ['%tempDir%/cache/nette.search']],
@@ -89,6 +89,12 @@ class Configurator
 			&& version_compare(InstalledVersions::getVersion('nette/caching'), '3.3.0', '<')
 		) {
 			$this->defaultExtensions['cache'][1][0] = '%tempDir%';
+		}
+		if (class_exists(Nette\Bridges\MailDI\MailExtension::class) // back compatibility
+			&& InstalledVersions::isInstalled('nette/mail')
+			&& version_compare(InstalledVersions::getVersion('nette/mail'), '4.1.2', '<')
+		) {
+			unset($this->defaultExtensions['mail'][1][0]);
 		}
 	}
 
