@@ -29,7 +29,7 @@ class Configurator
 	public const COOKIE_SECRET = self::CookieSecret;
 
 
-	/** @var array<callable(self, DI\Compiler): void>  Occurs after the compiler is created */
+	/** @var array<callable(static, DI\Compiler): void>  Occurs after the compiler is created */
 	public array $onCompile = [];
 
 	/** @var array<string, class-string<DI\CompilerExtension>|array{class-string<DI\CompilerExtension>, list<mixed>}> */
