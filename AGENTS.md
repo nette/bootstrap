@@ -14,6 +14,12 @@ its value is in a few non-local invariants - the static/dynamic parameter split,
 parameter-override ordering, extension registration, and debug detection. Read
 `docs/internals.md` before touching them.
 
+`docs/upgrading.md` records, per released version, every change visible to
+users of the package (renames, removals, deprecations, signatures, behavior,
+configuration), each with its commit hash; internal changes are not in it. It
+is the place to look up the history of a public symbol. Do not write to it; it
+is extended at release time from the git history.
+
 ## Project Overview
 
 **Nette Bootstrap** initializes a Nette application and generates its DI container:
