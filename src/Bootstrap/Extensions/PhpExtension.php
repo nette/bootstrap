@@ -9,6 +9,7 @@ namespace Nette\Bootstrap\Extensions;
 
 use Nette;
 use Nette\Schema\Expect;
+use function function_exists;
 
 
 /**

@@ -7,7 +7,6 @@
 use Nette\Bootstrap\Configurator;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -32,14 +31,19 @@ Assert::same([
 	'hello' => 'world',
 ], $container->parameters);
 
-Assert::true($container->getService('nette.cacheJournal') instanceof Nette\Caching\Storages\FileJournal || $container->getService('nette.cacheJournal') instanceof Nette\Caching\Storages\SQLiteJournal);
+Assert::true(
+	$container->getService('nette.cacheJournal') instanceof Nette\Caching\Storages\FileJournal
+	|| $container->getService('nette.cacheJournal') instanceof Nette\Caching\Storages\SQLiteJournal,
+);
 Assert::type(Nette\Caching\Storages\FileStorage::class, $container->getService('cacheStorage'));
 Assert::type(Nette\Http\Request::class, $container->getService('httpRequest'));
 Assert::type(Nette\Http\Response::class, $container->getService('httpResponse'));
 Assert::type(Nette\Http\Session::class, $container->getService('session'));
 Assert::type(Nette\Security\User::class, $container->getService('user'));
 Assert::type(
-	class_exists(Nette\Bridges\SecurityHttp\SessionStorage::class) ? Nette\Bridges\SecurityHttp\SessionStorage::class : Nette\Http\UserStorage::class,
+	class_exists(Nette\Bridges\SecurityHttp\SessionStorage::class)
+		? Nette\Bridges\SecurityHttp\SessionStorage::class
+		: Nette\Http\UserStorage::class,
 	$container->getService('nette.userStorage'),
 );
 Assert::type(Nette\Application\Application::class, $container->getService('application'));

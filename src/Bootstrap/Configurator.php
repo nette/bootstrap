@@ -14,7 +14,7 @@ use Nette;
 use Nette\DI;
 use Nette\DI\Definitions\Statement;
 use Tracy;
-use function in_array, is_array, is_string;
+use function is_array, is_string;
 use const PHP_RELEASE_VERSION, PHP_SAPI, PHP_VERSION_ID;
 
 
@@ -28,13 +28,15 @@ class Configurator
 	/** @deprecated  use Configurator::CookieSecret */
 	public const COOKIE_SECRET = self::CookieSecret;
 
-
 	/** @var array<callable(static, DI\Compiler): void>  Occurs after the compiler is created */
 	public array $onCompile = [];
 
 	/** @var array<string, class-string<DI\CompilerExtension>|array{class-string<DI\CompilerExtension>, list<mixed>}> */
 	public array $defaultExtensions = [
-		'application' => [Nette\Bridges\ApplicationDI\ApplicationExtension::class, ['%debugMode%', ['%appDir%'], '%tempDir%/cache/nette.application']],
+		'application' => [
+			Nette\Bridges\ApplicationDI\ApplicationExtension::class,
+			['%debugMode%', ['%appDir%'], '%tempDir%/cache/nette.application'],
+		],
 		'assets' => [Nette\Bridges\AssetsDI\DIExtension::class, ['%baseUrl%', '%wwwDir%', '%debugMode%']],
 		'cache' => [Nette\Bridges\CacheDI\CacheExtension::class, ['%tempDir%/cache']],
 		'constants' => Extensions\ConstantsExtension::class,
@@ -314,7 +316,7 @@ class Configurator
 
 		$explicit = array_diff_key($this->staticParameters, $this->defaultParameters);
 		$compiler->addConfig(['parameters' => DI\Helpers::escape($explicit)]);
-		$compiler->setDynamicParameterNames(array_merge(array_keys($this->dynamicParameters), ['baseUrl']));
+		$compiler->setDynamicParameterNames([...array_keys($this->dynamicParameters), 'baseUrl']);
 
 		$builder = $compiler->getContainerBuilder();
 		$builder->addExcludedClasses($this->autowireExcludedClasses);
@@ -349,7 +351,7 @@ class Configurator
 			$this->configs,
 			PHP_VERSION_ID - PHP_RELEASE_VERSION, // minor PHP version
 			class_exists(ClassLoader::class) // composer update
-				? filemtime((new \ReflectionClass(ClassLoader::class))->getFilename())
+				? filemtime((new \ReflectionClass(ClassLoader::class))->getFileName())
 				: null,
 		];
 	}
@@ -385,7 +387,7 @@ class Configurator
 			$list[] = '::1';
 		}
 
-		return in_array($addr, $list, strict: true) || in_array("$secret@$addr", $list, strict: true);
+		return in_array($addr, $list, true) || in_array("$secret@$addr", $list, true);
 	}
 }
 
