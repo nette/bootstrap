@@ -7,18 +7,14 @@
 use Nette\Bootstrap\Configurator;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
 class TestExistingService
 {
-	private $scream;
-
-
-	public function __construct($scream = true)
-	{
-		$this->scream = $scream;
+	public function __construct(
+		private $scream = true,
+	) {
 	}
 
 
