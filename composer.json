@@ -1,17 +1,13 @@
 {
 	"name": "nette/bootstrap",
-	"description": "🅱  Nette Bootstrap: the simple way to configure and bootstrap your Nette application.",
-	"keywords": ["nette", "configurator", "bootstrapping"],
-	"homepage": "https://nette.org",
+	"description": "🅱  Nette Bootstrap: starts a Nette application in a few lines. Loads the NEON configuration, detects debug mode, turns on Tracy and builds the DI container.",
+	"keywords": ["nette", "bootstrap", "bootstrapping", "configurator", "configuration", "debug mode", "environment"],
+	"homepage": "https://doc.nette.org/bootstrap",
 	"license": ["BSD-3-Clause", "GPL-2.0-only", "GPL-3.0-only"],
 	"authors": [
 		{
 			"name": "David Grudl",
 			"homepage": "https://davidgrudl.com"
-		},
-		{
-			"name": "Nette Community",
-			"homepage": "https://nette.org/contributors"
 		}
 	],
 	"require": {
