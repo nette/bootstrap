@@ -30,7 +30,7 @@ function getTempDir(): string
 			Tester\Helpers::purge(dirname($dir));
 		}
 
-		@mkdir($dir); // @ directory may already exist
+		Tester\Helpers::purge($dir); // PID may be reused, the leftover cache belongs to another test
 	}
 
 	return $dir;
