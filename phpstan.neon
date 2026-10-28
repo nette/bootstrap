@@ -8,12 +8,8 @@ parameters:
 		- src/Configurator.php  # backward compatibility shim
 
 	ignoreErrors:
-		-   # false positives guaranteed at runtime:
-			#   - InstalledVersions::getVersion() is non-null after isInstalled() check
-			#   - ClassLoader is always a user-land class with a file (2x)
+		-   # ClassLoader is always a user-land class with a file, so getFileName() never returns false
 			identifier: argument.type
+			message: '#^Parameter \#1 \$\w+ of function (dirname|filemtime) expects string, string\|false given\.$#'
 			path: src/Bootstrap/Configurator.php
-			count: 3
-		-   # ClassLoader is always a user-land class with a file
-			identifier: method.nameCase
-			path: src/Bootstrap/Configurator.php
+			count: 2
