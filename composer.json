@@ -27,7 +27,7 @@
 		"nette/forms": "^3.2",
 		"nette/http": "^3.2",
 		"nette/mail": "^4.1",
-		"nette/neon": "^3.4",
+		"nette/neon": "^3.4 || ^4.0",
 		"nette/robot-loader": "^4.0",
 		"nette/safe-stream": "^2.2",
 		"nette/security": "^3.2",
