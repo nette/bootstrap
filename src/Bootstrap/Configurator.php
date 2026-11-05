@@ -365,6 +365,8 @@ class Configurator
 			array_diff_key($this->staticParameters, $this->defaultParameters),
 			array_keys($this->dynamicParameters),
 			$this->configs,
+			array_map(fn($extension) => is_string($extension) ? $extension : $extension[0], $this->defaultExtensions), // arguments may hold objects
+			$this->autowireExcludedClasses,
 			PHP_VERSION_ID - PHP_RELEASE_VERSION, // minor PHP version
 			class_exists(ClassLoader::class) // composer update
 				? filemtime((new \ReflectionClass(ClassLoader::class))->getFileName())
