@@ -30,6 +30,7 @@ Assert::same([
 	'tempDir' => getTempDir(),
 	'hello' => 'world',
 ], $container->parameters);
+Assert::type('string', $container->getParameter('baseUrl'));
 
 Assert::true(
 	$container->getService('nette.cacheJournal') instanceof Nette\Caching\Storages\FileJournal
