@@ -23,7 +23,7 @@ This is the package's defining distinction and its sharpest trap:
 once, inject per request), but it burns anyone who expects a value change to
 regenerate. Adding or removing a dynamic-parameter *name*, however, does
 recompile. Note `baseUrl` is **always** a dynamic parameter (a `Statement`
-resolved from the HTTP request), injected implicitly.
+resolved from the HTTP request, empty without that service), injected implicitly.
 
 ## Parameter override order: defaults < config files < explicit static
 
