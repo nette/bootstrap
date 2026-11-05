@@ -57,20 +57,22 @@ precedence breaks.
 
 `generateContainerKey` invalidates the compiled container on any of: static
 parameters, explicit static params, **dynamic parameter names** (not values),
-the config list, the **minor** PHP version (`PHP_VERSION_ID - PHP_RELEASE_VERSION`
-— patch releases do *not* invalidate), the Composer `ClassLoader` file mtime (so
-`composer install/update` regenerates). The dynamic-value omission is the same
-trap as above, seen from the key side.
+the config list, the **names and classes** in `defaultExtensions` (not their
+arguments, which may hold objects), `autowireExcludedClasses`, the **minor** PHP
+version (`PHP_VERSION_ID - PHP_RELEASE_VERSION` — patch releases do *not*
+invalidate), the Composer `ClassLoader` file mtime (so `composer install/update`
+regenerates). The dynamic-value omission is the same trap as above, seen from the
+key side.
 
 Equally important is what the key does **not** contain: the *contents* of config
-files (only their paths / inline arrays are in the key) and none of the
-code-level customizations — `defaultExtensions`, `onCompile`,
-`autowireExcludedClasses`, `addServices`. Editing a NEON file or adding an
-extension to the map never changes the key. Such changes are picked up only in
-debug mode: `loadContainer` passes `debugMode` as `ContainerLoader`'s
-`autoRebuild` flag, and the loader then re-checks tracked dependencies (nette/di's
-`DependencyChecker`). In production a container with an existing key is **never
-re-checked** — deploying changed configs requires purging the cache.
+files (only their paths / inline arrays are in the key), the arguments in
+`defaultExtensions`, `onCompile` and `addServices`. Editing a NEON file never
+changes the key; that is picked up only in debug mode: `loadContainer` passes
+`debugMode` as `ContainerLoader`'s `autoRebuild` flag, and the loader then
+re-checks tracked dependencies (nette/di's `DependencyChecker`). These are files
+and classes, so a changed extension argument or `onCompile` handler goes unnoticed
+even there and needs purging the cache. In production a container with an existing
+key is **never re-checked** — deploying changed configs requires purging the cache.
 
 ## Extension registration: the hand-tuned defaults map is the only source
 
